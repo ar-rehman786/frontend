@@ -1,4 +1,4 @@
-import { Dashboard } from '@/src/pages/Dashboard'
+import { Dashboard } from '@/src/dashboard/Dashboard'
 import React from 'react'
 
 const page = () => {
