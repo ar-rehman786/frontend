@@ -1,6 +1,5 @@
-"use client";
-import React, { useState, type FormEvent } from "react";
-
+'use client'
+import React, { useState } from 'react';
 import { Globe, Lock, Mail, Eye, EyeOff, Shield } from 'lucide-react';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -8,7 +7,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     console.log('Login submitted:', { email, password, rememberMe });
     // Handle login logic

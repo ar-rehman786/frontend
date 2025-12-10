@@ -67,7 +67,7 @@ export default function Header() {
       {/* Right Buttons */}
       <div className="flex items-center gap-8">
         <a
-          href="/auth/login"
+          href="/login"
           className="text-gray-400 hover:text-white transition-colors duration-300"
         >
           Log In

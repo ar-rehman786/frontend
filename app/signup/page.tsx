@@ -1,7 +1,6 @@
-"use client";
-import React, { useState, type FormEvent } from "react";
-import { Globe, Database, Shield, Zap, CheckCircle, Download, Lock } from "lucide-react";
-
+'use client'
+import React, { useState } from 'react';
+import { Globe, Database, Shield, Zap, CheckCircle, Download, Lock } from 'lucide-react';
 export default function AccessPage() {
   const [showAccessForm, setShowAccessForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ export default function AccessPage() {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     console.log('Access request submitted:', formData);
     // Handle form submission
