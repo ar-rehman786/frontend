@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Globe, Lock, Mail, Eye, EyeOff, Shield } from 'lucide-react';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,12 +19,22 @@ export default function LoginPage() {
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-6">
           <div className="relative">
-            <div className="absolute inset-0 bg-[#00D4D4]/20 blur-3xl rounded-full"></div>
-            <div className="relative w-20 h-20 bg-gradient-to-br from-[#00D4D4]/20 to-[#00D4D4]/5 rounded-full flex items-center justify-center border border-[#00D4D4]/30">
-              <Globe className="w-10 h-10 text-[#00D4D4]" />
-            </div>
+            <div className="absolute inset-0 bg-[#00D4D4]/20 blur-3xl text-center rounded-full"></div>
+           <Image
+              src="/axis-trade-market.jpeg"
+              alt="Axis Trade Market Logo"
+              width={80}
+              height={80}
+              className="relative rounded-full border border-gray-400/20"
+            />  
+           
+ <h1 className="font-bold tracking-tight">
+                    <span className="text-white">AXIS</span>
+                    <span className="text-[#00D4D4]">TRADE</span>
+                </h1>
+            
           </div>
         </div>
 

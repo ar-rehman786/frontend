@@ -141,29 +141,34 @@ const Settings = () => {
   );
 
   return (
-    <div className="p-6 bg-black min-h-screen">
+    <div className="p-6 bg-black min-h-screen w-[800px] overflow-hidden">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white mb-1">Settings</h1>
         <p className="text-gray-400 text-sm">Manage your system configuration and preferences</p>
       </div>
 
-      <div className="flex gap-1 mb-6 border-b border-gray-800 overflow-x-auto">
-        {tabs.map((tab: Tab) => {
-          const Icon = tab.icon;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all whitespace-nowrap ${
-                activeTab === tab.id ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
+
+<div className="relative">
+  <div className="flex gap-1 mb-6 border-b border-gray-800 overflow-x-auto 
+      [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0
+      [scrollbar-width:none] [-ms-overflow-style:none]">
+    {tabs.map((tab: Tab) => {
+      const Icon = tab.icon;
+      return (
+        <button
+          key={tab.id}
+          onClick={() => setActiveTab(tab.id)}
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
+            activeTab === tab.id ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <Icon className="w-4 h-4" />
+          {tab.label}
+        </button>
+      );
+    })}
+  </div>
+</div>
 
       {activeTab === 'users' && (
         <div className="space-y-4">

@@ -1,7 +1,9 @@
-import { Building2, ChevronRight, FileText, Grid3x3, MapPin, ShoppingCart, TrendingUp, LucideIcon } from 'lucide-react';
+// Sidebar1.tsx
+import { Building2, ChevronRight, FileText, Grid3x3, MapPin, ShoppingCart, TrendingUp, BarChart3, LucideIcon } from 'lucide-react';
 import React from 'react';
 
-type DashboardId = 'lender' | 'institutional' | 'sales' | 'marketplace' | 'reports' | 'geo';
+// Update this type to match the main file
+type DashboardId = 'lender' | 'institutional' | 'sales' | 'marketplace' | 'reports' | 'geo' | 'Realtor';
 
 type DashboardInfo = {
     id: string;
@@ -16,7 +18,15 @@ type Sidebar1Props = {
     onDashboardChange: (dashboardId: DashboardId) => void;
 };
 
+// Update DASHBOARDS to include axis-dashboard
 const DASHBOARDS: DashboardInfo[] = [
+    {
+        id: 'Realtor',
+        title: 'Realtor',
+        description: 'Dashboard, Feeds, Reports & Settings',
+        icon: BarChart3,
+        iconBg: 'bg-gradient-to-br from-[#00D4D4] to-[#00B8B8]'
+    },
     {
         id: 'lender',
         title: 'Lender Intelligence',
@@ -85,7 +95,7 @@ export default function Sidebar1({ activeDashboard, onDashboardChange }: Sidebar
                 <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-[#00D4D4] text-sm font-bold tracking-wider">DASHBOARDS</h2>
-                        <div className="w-7 h-7 bg-[#00D4D4] rounded-full flex items-center justify-center text-black text-xs font-bold">
+                        <div className="w-7 h-7 bg-[#00D4D4] rounded-full cursor-pointer flex items-center justify-center text-black text-xs font-bold">
                             {DASHBOARDS.length}
                         </div>
                     </div>

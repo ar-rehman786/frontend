@@ -1,12 +1,16 @@
+// Dashboard1.tsx
+'use client'
 import React, { useState, useEffect } from 'react';
-import { Grid3x3, Building2, TrendingUp, ShoppingCart, FileText, MapPin, LucideIcon } from 'lucide-react';
+import { Grid3x3, Building2, TrendingUp, ShoppingCart, FileText, MapPin, BarChart3, LucideIcon } from 'lucide-react';
+import Sidebar1 from '../Sidebar1';
+import Topbar1 from './Topbar1';
+
+// Import components from first dashboard system
 import RefinanceCyclePrediction from './Lender/tabs/RefinanceCyclePrediction';
 import LoanLifecycleRisk from './Lender/tabs/LoanLifecycleRisk';
 import SpendingBehaviorShift from './Lender/tabs/SpendingBehaviorShift';
 import SilentCreditPanel from './Lender/tabs/SilentCreditPanel';
 import MultiAssetWidget from './Lender/tabs/MultiAssetWidget';
-import Sidebar1 from '../Sidebar1';
-import Topbar1 from './Topbar1';
 import GlobalRiskMesh from './Institutional/Tabs/GlobalRiskMesh';
 import CrossBankMovement from './Institutional/Tabs/CrossBankMovement';
 import MultiAssetExposureTable from './Institutional/Tabs/MultiAssetExposureTable';
@@ -23,6 +27,14 @@ import MarketSelector from './GEO-intelligence/MarketSelector';
 import ZIPHeatmap from './GEO-intelligence/ZIPHeatmap';
 import InsightCards from './GEO-intelligence/InsightCards';
 
+// Import components from second dashboard system
+import Dashboard from '@/components/dashboard/Dashboard';
+import Feeds from './Feeds/Feeds';
+import Reports from './Reports/Reports';
+import Uploads from './Upload/Upload';
+import QAIntegrity from './QA/Qa';
+import Settings from './Settings/Settings';
+
 export type DashboardTab = {
     id: string;
     label: string;
@@ -37,9 +49,9 @@ export type DashboardInfo = {
     iconBg: string;
 };
 
-export type DashboardId = 'lender' | 'institutional' | 'sales' | 'marketplace' | 'reports' | 'geo';
+export type DashboardId = 'lender' | 'institutional' | 'sales' | 'marketplace' | 'reports' | 'geo' | 'Realtor';
 
-// Tab Definitions
+// Tab Definitions - Axis Dashboard now has all the pages as tabs
 export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
     lender: [
         { id: 'refi-prediction', label: 'Refi Prediction', component: RefinanceCyclePrediction },
@@ -49,37 +61,50 @@ export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
         { id: 'multi-asset', label: 'Multi-Asset', component: MultiAssetWidget }
     ],
     institutional: [
-        // { id: 'overview', label: 'Overview', },
         { id: 'risk-mesh', label: 'Global Risk Mesh', component: GlobalRiskMesh },
-        { id: 'cross-bank', label: 'Cross-Bank Movement',component: CrossBankMovement},
+        { id: 'cross-bank', label: 'Cross-Bank Movement', component: CrossBankMovement },
         { id: 'multi-asset', label: 'Multi-Asset Exposure', component: MultiAssetExposureTable },
-        // { id: 'exports', label: 'Data Exports' }
     ],
     sales: [
-        // { id: 'overview', label: 'Overview' },
-        { id: 'tier-comparison', label: 'Tier Comparison', component:TierComparisonCards},
-        { id: 'client-upgrades', label: 'Client Upgrades', component: ClientUpgradePanel},
-        { id: 'add-ons', label: 'Add-On Features', component:AddOnFeaturePreviews }
+        { id: 'tier-comparison', label: 'Tier Comparison', component: TierComparisonCards },
+        { id: 'client-upgrades', label: 'Client Upgrades', component: ClientUpgradePanel },
+        { id: 'add-ons', label: 'Add-On Features', component: AddOnFeaturePreviews }
     ],
     marketplace: [
-        { id: 'browse', label: 'Browse Packs',component: MarketFeedCard },
-        { id: 'cart', label: 'Cart', component:CartTray },
+        { id: 'browse', label: 'Browse Packs', component: MarketFeedCard },
+        { id: 'cart', label: 'Cart', component: CartTray },
         { id: 'orders', label: 'My Orders', component: PackDetailModal }
     ],
     reports: [
-        { id: 'viewer', label: 'PDF Viewer',component: PDFViewer},
-        { id: 'my-reports', label: 'My Reports' ,component: PDFListPanel},
-        { id: 'action-bar', label: 'Action Bar', component:ActionBar  }
+        { id: 'viewer', label: 'PDF Viewer', component: PDFViewer },
+        { id: 'my-reports', label: 'My Reports', component: PDFListPanel },
+        { id: 'action-bar', label: 'Action Bar', component: ActionBar }
     ],
     geo: [
-        { id: 'market-selector', label: 'Market Selector', component:MarketSelector },
-        { id: 'heatmap', label: 'Heat Map', component:ZIPHeatmap },
-        { id: 'insight', label: 'Insight', component:InsightCards }
+        { id: 'market-selector', label: 'Market Selector', component: MarketSelector },
+        { id: 'heatmap', label: 'Heat Map', component: ZIPHeatmap },
+        { id: 'insight', label: 'Insight', component: InsightCards }
+    ],
+    // Axis Dashboard has all pages as tabs
+    'Realtor': [
+        { id: 'dashboard', label: 'Dashboard', component: Dashboard },
+        { id: 'feeds', label: 'Feeds', component: Feeds },
+        { id: 'reports', label: 'Reports', component: Reports },
+        { id: 'uploads', label: 'Uploads', component: Uploads },
+        { id: 'qa', label: 'QA & Integrity', component: QAIntegrity },
+        { id: 'settings', label: 'Settings', component: Settings }
     ]
 };
 
-// Dashboard Definitions
+// Dashboard Definitions - This should match what's in Sidebar1.tsx
 export const DASHBOARDS: DashboardInfo[] = [
+    {
+        id: 'Realtor',
+        title: 'Realtor',
+        description: 'Dashboard, Feeds, Reports & Settings',
+        icon: BarChart3,
+        iconBg: 'bg-gradient-to-br from-[#00D4D4] to-[#00B8B8]'
+    },
     {
         id: 'lender',
         title: 'Lender Intelligence',
@@ -125,8 +150,8 @@ export const DASHBOARDS: DashboardInfo[] = [
 ];
 
 export default function AxisTradeMarket() {
-    const [activeDashboard, setActiveDashboard] = useState<DashboardId>('lender');
-    const [activeTab, setActiveTab] = useState<string>('refi-prediction');
+    const [activeDashboard, setActiveDashboard] = useState<DashboardId>('Realtor');
+    const [activeTab, setActiveTab] = useState<string>('dashboard');
 
     useEffect(() => {
         const tabs = DASHBOARD_TABS[activeDashboard] || [];
@@ -172,34 +197,6 @@ export default function AxisTradeMarket() {
                         {ActiveTabComponent ? (
                             <ActiveTabComponent />
                         ) : (
-                            // <div className="bg-gradient-to-br from-gray-900/50 to-gray-900/20 border border-gray-800 rounded-2xl p-12">
-                            //     <div className="max-w-3xl mx-auto text-center">
-                            //         <div className="w-24 h-24 bg-gradient-to-br from-[#00D4D4]/20 to-[#00D4D4]/5 rounded-2xl mx-auto mb-6 flex items-center justify-center border border-[#00D4D4]/20">
-                            //             {currentDashboardInfo && React.createElement(currentDashboardInfo.icon, {
-                            //                 className: "w-12 h-12 text-[#00D4D4]"
-                            //             })}
-                            //         </div>
-
-                            //         <h2 className="text-3xl font-bold mb-3 text-white">
-                            //             {currentDashboardInfo?.title}
-                            //         </h2>
-
-                            //         <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#00D4D4]/10 border border-[#00D4D4]/30 rounded-lg mb-6">
-                            //             <div className="w-2 h-2 bg-[#00D4D4] rounded-full animate-pulse"></div>
-                            //             <span className="text-sm font-medium text-[#00D4D4]">
-                            //                 Active Tab: {currentTabs.find(t => t.id === activeTab)?.label || 'Overview'}
-                            //             </span>
-                            //         </div>
-
-                            //         <p className="text-gray-400 text-lg mb-8">
-                            //             This tab is coming soon. Please check back later.
-                            //         </p>
-
-                            //         <div className="text-sm text-yellow-400">
-                            //             Component not yet implemented
-                            //         </div>
-                            //     </div>
-                            // </div>
                             <></>
                         )}
                     </div>
