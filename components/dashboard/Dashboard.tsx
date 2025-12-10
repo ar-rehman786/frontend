@@ -126,7 +126,11 @@ const Dashboard = () => {
                                             cx="50%"
                                             cy="50%"
                                             labelLine={false}
-                                            label={({ name, percent }) => `${name.split(' ')[0]} ${percent}%`}
+                                            label={({ name, percent }: { name?: string; percent?: number }) => {
+                                                const safeName = typeof name === 'string' ? name.split(' ')[0] : '';
+                                                const safePercent = percent ?? 0;
+                                                return `${safeName} ${safePercent}%`;
+                                            }}
                                             outerRadius={100}
                                             fill="#8884d8"
                                             dataKey="percent"

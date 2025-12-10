@@ -5,7 +5,7 @@ export default function PDFViewer() {
   const [currentPage, setCurrentPage] = useState(1);
   const [zoom, setZoom] = useState(100);
   const [rotation, setRotation] = useState(0);
-  const [viewMode, setViewMode] = useState('single'); // single | double
+  const [viewMode, setViewMode] = useState<'single' | 'double'>('single');
 
   // Sample PDF Document
   const document = {
@@ -39,7 +39,7 @@ export default function PDFViewer() {
     setCurrentPage(prev => Math.min(prev + 1, document.totalPages));
   };
 
-  const handlePageInput = (e) => {
+  const handlePageInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const page = parseInt(e.target.value);
     if (page >= 1 && page <= document.totalPages) {
       setCurrentPage(page);

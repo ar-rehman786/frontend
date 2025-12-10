@@ -1,15 +1,94 @@
 import React, { useState } from 'react';
 import { Users, Bell, Lock, Palette, Link, Mail, MessageSquare, Zap, Database, CreditCard, Trash2, Plus, Check, Shield, Key, Download } from 'lucide-react';
 
+interface Tab {
+  id: 'users' | 'notifications' | 'security' | 'branding' | 'integrations' | 'automation' | 'billing';
+  label: string;
+  icon: React.ElementType;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  status: 'active' | 'inactive';
+  lastLogin: string;
+}
+
+interface Integration {
+  name: string;
+  type: string;
+  status: 'connected' | 'disconnected';
+  icon: string;
+  description: string;
+}
+
+interface BillingHistory {
+  id: number;
+  date: string;
+  amount: string;
+  status: string;
+  invoice: string;
+}
+
+interface Role {
+  icon: React.ElementType;
+  name: string;
+  desc: string;
+  perms: string[];
+}
+
+interface NotificationItem {
+  key: string;
+  icon: React.ElementType;
+  title: string;
+  desc: string;
+}
+
+interface Session {
+  device: string;
+  location: string;
+  time: string;
+  current: boolean;
+}
+
+interface Campaign {
+  name: string;
+  trigger: string;
+  emails: number;
+  status: 'active' | 'paused';
+  sent: number;
+}
+
+interface Workflow {
+  trigger: string;
+  action: string;
+  active: boolean;
+}
+
+interface Plan {
+  name: string;
+  price: number;
+  users: string;
+  features: string[];
+  current?: boolean;
+}
+
 const Settings = () => {
-  const [activeTab, setActiveTab] = useState('users');
-  const [notifications, setNotifications] = useState({
+  const [activeTab, setActiveTab] = useState<'users' | 'notifications' | 'security' | 'branding' | 'integrations' | 'automation' | 'billing'>('users');
+  const [notifications, setNotifications] = useState<{
+    email: boolean;
+    sms: boolean;
+    push: boolean;
+    desktop: boolean;
+  }>({
     email: true,
     sms: false,
     push: true,
     desktop: true
   });
-  const [eventNotifications, setEventNotifications] = useState({
+  const [eventNotifications, setEventNotifications] = useState<Record<string, boolean>>({
     'New lead assigned': true,
     'Lead responded': true,
     'Document uploaded': true,
@@ -18,7 +97,7 @@ const Settings = () => {
     'Rate lock expiring': true
   });
 
-  const tabs = [
+  const tabs: Tab[] = [
     { id: 'users', label: 'User Management', icon: Users },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'security', label: 'Security', icon: Lock },
@@ -28,14 +107,14 @@ const Settings = () => {
     { id: 'billing', label: 'Billing', icon: CreditCard }
   ];
 
-  const users = [
+  const users: User[] = [
     { id: 1, name: 'John Smith', email: 'john.smith@company.com', role: 'Admin', status: 'active', lastLogin: '2 hours ago' },
     { id: 2, name: 'Lisa Wang', email: 'lisa.wang@company.com', role: 'Manager', status: 'active', lastLogin: '5 hours ago' },
     { id: 3, name: 'Mike Johnson', email: 'mike.j@company.com', role: 'Loan Officer', status: 'active', lastLogin: '1 day ago' },
     { id: 4, name: 'Sarah Chen', email: 'sarah.c@company.com', role: 'Loan Officer', status: 'inactive', lastLogin: '1 week ago' }
   ];
 
-  const integrations = [
+  const integrations: Integration[] = [
     { name: 'Encompass LOS', type: 'LOS', status: 'connected', icon: '🏢', description: 'Loan origination system' },
     { name: 'Gmail', type: 'Email', status: 'connected', icon: '📧', description: 'Email provider' },
     { name: 'Twilio', type: 'SMS/Calls', status: 'connected', icon: '📱', description: 'Communication platform' },
@@ -44,14 +123,17 @@ const Settings = () => {
     { name: 'Google Calendar', type: 'Calendar', status: 'connected', icon: '📅', description: 'Schedule sync' }
   ];
 
-  const billingHistory = [
+  const billingHistory: BillingHistory[] = [
     { id: 1, date: 'Nov 22, 2025', amount: '$299.00', status: 'Paid', invoice: 'INV-2025-011' },
     { id: 2, date: 'Oct 22, 2025', amount: '$299.00', status: 'Paid', invoice: 'INV-2025-010' },
     { id: 3, date: 'Sep 22, 2025', amount: '$299.00', status: 'Paid', invoice: 'INV-2025-009' },
     { id: 4, date: 'Aug 22, 2025', amount: '$299.00', status: 'Paid', invoice: 'INV-2025-008' }
   ];
 
-  const Toggle = ({ checked, onChange }) => (
+  const Toggle = ({ checked, onChange }: {
+    checked: boolean;
+    onChange: () => void;
+  }) => (
     <label className="relative inline-flex items-center cursor-pointer">
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only peer" />
       <div className="w-11 h-6 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
@@ -66,7 +148,7 @@ const Settings = () => {
       </div>
 
       <div className="flex gap-1 mb-6 border-b border-gray-800 overflow-x-auto">
-        {tabs.map((tab) => {
+        {tabs.map((tab: Tab) => {
           const Icon = tab.icon;
           return (
             <button
@@ -105,7 +187,7 @@ const Settings = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {users.map((user: User) => (
                   <tr key={user.id} className="border-b border-gray-800 hover:bg-neutral-800">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
@@ -144,7 +226,7 @@ const Settings = () => {
                 { icon: Shield, name: 'Admin', desc: 'Full system access', perms: ['All features', 'User management', 'System settings'] },
                 { icon: Key, name: 'Manager', desc: 'Team oversight', perms: ['View all leads', 'Reports access', 'Team performance'] },
                 { icon: Users, name: 'Loan Officer', desc: 'Standard access', perms: ['Assigned leads', 'Contact clients', 'Upload docs'] }
-              ].map((role, idx) => (
+              ].map((role: Role, idx: number) => (
                 <div key={idx} className="p-3 bg-neutral-800 rounded-lg border border-gray-700">
                   <div className="flex items-center gap-2 mb-2">
                     <role.icon className="w-4 h-4 text-cyan-400" />
@@ -175,7 +257,7 @@ const Settings = () => {
                 { key: 'sms', icon: MessageSquare, title: 'SMS Notifications', desc: 'Get text alerts for urgent items' },
                 { key: 'push', icon: Bell, title: 'Push Notifications', desc: 'Browser and mobile push alerts' },
                 { key: 'desktop', icon: Database, title: 'Desktop Notifications', desc: 'System tray notifications' }
-              ].map((item) => (
+              ].map((item: NotificationItem) => (
                 <div key={item.key} className="flex items-center justify-between p-3 bg-neutral-800 rounded-lg">
                   <div className="flex items-center gap-3">
                     <item.icon className="w-5 h-5 text-cyan-400" />
@@ -184,7 +266,7 @@ const Settings = () => {
                       <p className="text-gray-400 text-xs">{item.desc}</p>
                     </div>
                   </div>
-                  <Toggle checked={notifications[item.key]} onChange={() => setNotifications({...notifications, [item.key]: !notifications[item.key]})} />
+                  <Toggle checked={notifications[item.key as keyof typeof notifications]} onChange={() => setNotifications({...notifications, [item.key]: !notifications[item.key as keyof typeof notifications]})} />
                 </div>
               ))}
             </div>
@@ -193,7 +275,7 @@ const Settings = () => {
           <div className="bg-neutral-900 border border-gray-800 rounded-xl p-4">
             <h3 className="text-white font-semibold mb-3">Event Notifications</h3>
             <div className="space-y-2">
-              {Object.entries(eventNotifications).map(([event, checked]) => (
+              {Object.entries(eventNotifications).map(([event, checked]: [string, boolean]) => (
                 <div key={event} className="flex items-center justify-between p-2 bg-neutral-800 rounded-lg">
                   <span className="text-white text-sm">{event}</span>
                   <input type="checkbox" checked={checked} onChange={() => setEventNotifications({...eventNotifications, [event]: !checked})} className="w-4 h-4 accent-cyan-500 cursor-pointer" />
@@ -238,7 +320,7 @@ const Settings = () => {
 
               <div>
                 <label className="text-white text-sm font-medium mb-1 block">IP Whitelist</label>
-                <textarea className="w-full px-3 py-2 bg-neutral-800 text-white rounded-lg border border-gray-700 focus:border-cyan-500 outline-none text-sm" rows="2" placeholder="Enter IP addresses (one per line)" />
+                <textarea className="w-full px-3 py-2 bg-neutral-800 text-white rounded-lg border border-gray-700 focus:border-cyan-500 outline-none text-sm" rows={2} placeholder="Enter IP addresses (one per line)" />
               </div>
             </div>
 
@@ -254,7 +336,7 @@ const Settings = () => {
               {[
                 { device: 'Chrome on Windows', location: 'Karachi, PK', time: 'Current session', current: true },
                 { device: 'Safari on iPhone', location: 'Karachi, PK', time: '2 hours ago', current: false }
-              ].map((session, idx) => (
+              ].map((session: Session, idx: number) => (
                 <div key={idx} className="flex items-center justify-between p-3 bg-neutral-800 rounded-lg">
                   <div>
                     <p className="text-white font-medium text-sm">{session.device}</p>
@@ -296,7 +378,7 @@ const Settings = () => {
           </div>
           <div className="mt-4">
             <label className="text-white text-sm font-medium mb-1 block">Email Signature</label>
-            <textarea className="w-full px-3 py-2 bg-neutral-800 text-white rounded-lg border border-gray-700 focus:border-cyan-500 outline-none text-sm" rows="3" defaultValue={"Best regards,\n[Your Name]\nAxis Trade Market"} />
+            <textarea className="w-full px-3 py-2 bg-neutral-800 text-white rounded-lg border border-gray-700 focus:border-cyan-500 outline-none text-sm" rows={3} defaultValue={"Best regards,\n[Your Name]\nAxis Trade Market"} />
           </div>
           <div className="mt-4 flex justify-end gap-2">
             <button className="px-4 py-2 bg-neutral-800 text-white rounded-lg hover:bg-gray-700 text-sm">Reset</button>
@@ -307,7 +389,7 @@ const Settings = () => {
 
       {activeTab === 'integrations' && (
         <div className="grid grid-cols-2 gap-4">
-          {integrations.map((integration, idx) => (
+          {integrations.map((integration: Integration, idx: number) => (
             <div key={idx} className="bg-neutral-900 border border-gray-800 rounded-xl p-4 hover:border-cyan-500/30 transition-all">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -341,10 +423,10 @@ const Settings = () => {
             </div>
             <div className="space-y-3">
               {[
-                { name: 'Welcome Sequence', trigger: 'New lead', emails: 3, status: 'active', sent: 1250 },
-                { name: 'Nurture Campaign', trigger: 'Lead not contacted 7 days', emails: 5, status: 'active', sent: 890 },
-                { name: 'Re-engagement', trigger: 'No response 30 days', emails: 2, status: 'paused', sent: 450 }
-              ].map((campaign, idx) => (
+                { name: 'Welcome Sequence', trigger: 'New lead', emails: 3, status: 'active' as const, sent: 1250 },
+                { name: 'Nurture Campaign', trigger: 'Lead not contacted 7 days', emails: 5, status: 'active' as const, sent: 890 },
+                { name: 'Re-engagement', trigger: 'No response 30 days', emails: 2, status: 'paused' as const, sent: 450 }
+              ].map((campaign: Campaign, idx: number) => (
                 <div key={idx} className="flex items-center justify-between p-3 bg-neutral-800 rounded-lg">
                   <div>
                     <h4 className="text-white font-medium text-sm">{campaign.name}</h4>
@@ -370,7 +452,7 @@ const Settings = () => {
                 { trigger: 'Document uploaded', action: 'Send confirmation email', active: true },
                 { trigger: 'Application submitted', action: 'Create task for review', active: false },
                 { trigger: 'Rate lock expiring', action: 'Send reminder to client', active: true }
-              ].map((workflow, idx) => (
+              ].map((workflow: Workflow, idx: number) => (
                 <div key={idx} className="p-3 bg-neutral-800 rounded-lg flex items-center justify-between">
                   <div>
                     <p className="text-white font-medium text-xs">{workflow.trigger}</p>
@@ -421,7 +503,7 @@ const Settings = () => {
           <div className="bg-neutral-900 border border-gray-800 rounded-xl p-4">
             <h3 className="text-white font-semibold mb-3">Billing History</h3>
             <div className="space-y-2">
-              {billingHistory.map((item) => (
+              {billingHistory.map((item: BillingHistory) => (
                 <div key={item.id} className="flex items-center justify-between p-3 bg-neutral-800 rounded-lg">
                   <div className="flex items-center gap-4">
                     <span className="text-white text-sm">{item.date}</span>
@@ -444,7 +526,7 @@ const Settings = () => {
                 { name: 'Starter', price: 99, users: '3 users', features: ['Basic CRM', 'Email support', '1 integration'] },
                 { name: 'Pro', price: 299, users: '10 users', features: ['Advanced CRM', 'Priority support', '5 integrations', 'Automation'], current: true },
                 { name: 'Enterprise', price: 599, users: 'Unlimited', features: ['Full suite', '24/7 support', 'Unlimited integrations'] }
-              ].map((plan, idx) => (
+              ].map((plan: Plan, idx: number) => (
                 <div key={idx} className={`p-4 rounded-lg border ${plan.current ? 'bg-cyan-500/10 border-cyan-500' : 'bg-neutral-800 border-gray-700'}`}>
                   <h4 className="text-white font-semibold">{plan.name}</h4>
                   <p className="text-2xl font-bold text-white my-2">${plan.price}<span className="text-sm text-gray-400">/mo</span></p>

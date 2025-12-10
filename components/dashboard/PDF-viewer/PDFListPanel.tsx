@@ -2,15 +2,41 @@ import React, { useState } from 'react';
 import { FileText, Search, Filter, Calendar, Download, Eye, Star, Trash2, FolderOpen } from 'lucide-react';
 
 export default function PDFListPanel() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | string>('all');
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'completed' | 'processing' | 'archived'>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('date');
-  const [favorites, setFavorites] = useState([1, 3]);
-  const [selectedPDF, setSelectedPDF] = useState(null);
+  const [sortBy, setSortBy] = useState<'date' | 'title' | 'downloads' | 'views'>('date');
+  const [favorites, setFavorites] = useState<number[]>([1, 3]);
+  const [selectedPDF, setSelectedPDF] = useState<{
+    id: number;
+    title: string;
+    category: string;
+    uploadDate: string;
+    fileSize: string;
+    pages: number;
+    status: 'completed' | 'processing' | 'archived';
+    downloads: number;
+    views: number;
+    description: string;
+    tags: string[];
+    thumbnail: string;
+  } | null>(null);
 
   // PDF Documents
-  const pdfDocuments = [
+  const pdfDocuments: Array<{
+    id: number;
+    title: string;
+    category: string;
+    uploadDate: string;
+    fileSize: string;
+    pages: number;
+    status: 'completed' | 'processing' | 'archived';
+    downloads: number;
+    views: number;
+    description: string;
+    tags: string[];
+    thumbnail: string;
+  }> = [
     {
       id: 1,
       title: 'Q4 2025 Market Analysis Report',
@@ -125,7 +151,7 @@ export default function PDFListPanel() {
     }
   ];
 
-  const toggleFavorite = (id) => {
+  const toggleFavorite = (id: number): void => {
     setFavorites(prev => 
       prev.includes(id) 
         ? prev.filter(fav => fav !== id)
@@ -133,15 +159,33 @@ export default function PDFListPanel() {
     );
   };
 
-  const openPDF = (pdf) => {
+  const openPDF = (pdf: {
+    id: number;
+    title: string;
+    category: string;
+    uploadDate: string;
+    fileSize: string;
+    pages: number;
+    status: 'completed' | 'processing' | 'archived';
+    downloads: number;
+    views: number;
+    description: string;
+    tags: string[];
+    thumbnail: string;
+  }): void => {
     setSelectedPDF(pdf);
   };
 
-  const closePDF = () => {
+  const closePDF = (): void => {
     setSelectedPDF(null);
   };
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: 'completed' | 'processing' | 'archived'): {
+    bg: string;
+    text: string;
+    border: string;
+    label: string;
+  } => {
     const badges = {
       completed: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', label: 'Ready' },
       processing: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30', label: 'Processing' },
@@ -150,7 +194,7 @@ export default function PDFListPanel() {
     return badges[status];
   };
 
-  const filteredPDFs = pdfDocuments.filter(pdf => {
+  const filteredPDFs = pdfDocuments.filter((pdf) => {
     const matchesCategory = selectedCategory === 'all' || pdf.category === selectedCategory;
     const matchesStatus = selectedStatus === 'all' || pdf.status === selectedStatus;
     const matchesSearch = searchQuery === '' || 
@@ -160,8 +204,8 @@ export default function PDFListPanel() {
     return matchesCategory && matchesStatus && matchesSearch;
   });
 
-  const sortedPDFs = [...filteredPDFs].sort((a, b) => {
-    if (sortBy === 'date') return new Date(b.uploadDate) - new Date(a.uploadDate);
+  const sortedPDFs = [...filteredPDFs].sort((a: any, b: any): number => {
+    if (sortBy === 'date') return new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime();
     if (sortBy === 'title') return a.title.localeCompare(b.title);
     if (sortBy === 'downloads') return b.downloads - a.downloads;
     if (sortBy === 'views') return b.views - a.views;
@@ -242,7 +286,7 @@ export default function PDFListPanel() {
 
               <select
                 value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
+                onChange={(e) => setSelectedStatus(e.target.value as 'all' | 'completed' | 'processing' | 'archived')}
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="all">All Status</option>
@@ -253,7 +297,7 @@ export default function PDFListPanel() {
 
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) => setSortBy(e.target.value as 'date' | 'title' | 'downloads' | 'views')}
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="date">Sort by Date</option>
@@ -271,7 +315,7 @@ export default function PDFListPanel() {
 
         {/* PDF List */}
         <div className="space-y-4">
-          {sortedPDFs.map((pdf) => {
+          {sortedPDFs.map((pdf, idx: number) => {
             const statusBadge = getStatusBadge(pdf.status);
             const isFavorite = favorites.includes(pdf.id);
             
@@ -298,7 +342,7 @@ export default function PDFListPanel() {
                         </div>
                         <p className="text-sm text-gray-400 mb-2">{pdf.description}</p>
                         <div className="flex flex-wrap gap-2">
-                          {pdf.tags.map((tag, idx) => (
+                          {pdf.tags.map((tag: string, idx: number) => (
                             <span key={idx} className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-300">
                               {tag}
                             </span>

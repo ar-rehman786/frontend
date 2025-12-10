@@ -2,14 +2,47 @@ import React, { useState } from 'react';
 import { Bell, Phone, Mail, FileText, DollarSign, TrendingUp, User, Calendar, AlertCircle, CheckCircle, Clock, MessageSquare } from 'lucide-react';
 
 // Mock Data for Feeds
-const leadFeedData = [
+type LeadType = 'hot' | 'warm' | 'cold';
+
+type Lead = {
+  id: number;
+  name: string;
+  source: string;
+  score: number;
+  type: LeadType;
+  time: string;
+  status: string;
+  phone: string;
+  equity: string;
+};
+
+const leadFeedData: Lead[] = [
   { id: 1, name: 'Sarah Johnson', source: 'Website Form', score: 85, type: 'hot', time: '2 mins ago', status: 'new', phone: '(555) 123-4567', equity: '$425k' },
   { id: 2, name: 'Michael Chen', source: 'Realtor Referral', score: 72, type: 'warm', time: '15 mins ago', status: 'contacted', phone: '(555) 234-5678', equity: '$380k' },
   { id: 3, name: 'Emily Rodriguez', source: 'Facebook Ad', score: 65, type: 'warm', time: '1 hour ago', status: 'qualified', phone: '(555) 345-6789', equity: '$295k' },
   { id: 4, name: 'David Thompson', source: 'Google Ads', score: 45, type: 'cold', time: '2 hours ago', status: 'nurturing', phone: '(555) 456-7890', equity: '$185k' }
 ];
 
-const activityFeedData = [
+type ActivityType = 'call' | 'email' | 'document' | 'meeting' | 'sms' | 'note';
+
+type Activity = {
+  id: number;
+  type: ActivityType;
+  user: string;
+  action: string;
+  target: string;
+  time: string;
+  duration?: string;
+  outcome?: string;
+  subject?: string;
+  status?: string;
+  size?: string;
+  date?: string;
+  message?: string;
+  note?: string;
+};
+
+const activityFeedData: Activity[] = [
   { id: 1, type: 'call', user: 'John Smith', action: 'called', target: 'Sarah Johnson', time: '10 mins ago', duration: '12:34', outcome: 'Interested' },
   { id: 2, type: 'email', user: 'Lisa Wang', action: 'sent email to', target: 'Michael Chen', time: '25 mins ago', subject: 'Refinance Options', status: 'opened' },
   { id: 3, type: 'document', user: 'Sarah Johnson', action: 'uploaded', target: 'Income Statement', time: '1 hour ago', size: '2.4 MB' },
@@ -18,21 +51,57 @@ const activityFeedData = [
   { id: 6, type: 'note', user: 'John Smith', action: 'added note for', target: 'Sarah Johnson', time: '4 hours ago', note: 'Very interested in cash-out refi' }
 ];
 
-const marketFeedData = [
+type MarketImpact = 'positive' | 'negative' | 'neutral' | 'warning';
+
+type Market = {
+  id: number;
+  type: string;
+  title: string;
+  description: string;
+  time: string;
+  impact: MarketImpact;
+  source: string;
+};
+
+const marketFeedData: Market[] = [
   { id: 1, type: 'rate', title: 'Fed Rate Decision', description: 'Federal Reserve holds rates steady at 5.25-5.50%', time: '1 hour ago', impact: 'neutral', source: 'Fed Reserve' },
   { id: 2, type: 'housing', title: 'Housing Inventory Up', description: 'Raleigh-Durham inventory increased 8.5% month-over-month', time: '3 hours ago', impact: 'positive', source: 'MLS Data' },
   { id: 3, type: 'economic', title: 'Job Market Strong', description: 'Unemployment drops to 3.7%, boosting homebuyer confidence', time: '5 hours ago', impact: 'positive', source: 'BLS' },
   { id: 4, type: 'regulation', title: 'New Disclosure Rule', description: 'CFPB announces updated TRID requirements effective Q1 2026', time: '1 day ago', impact: 'warning', source: 'CFPB' }
 ];
 
-const refiOpportunityData = [
+type RefiPriority = 'high' | 'medium';
+
+type RefiOpportunity = {
+  id: number;
+  name: string;
+  reason: string;
+  equity: string;
+  ltv: string;
+  rate: string;
+  time: string;
+  priority: RefiPriority;
+};
+
+const refiOpportunityData: RefiOpportunity[] = [
   { id: 1, name: 'Robert Williams', reason: 'Equity Threshold', equity: '$425k', ltv: '52%', rate: '6.5%', time: 'Today', priority: 'high' },
   { id: 2, name: 'Jennifer Martinez', reason: 'Loan Age Milestone', equity: '$380k', ltv: '58%', rate: '7.2%', time: 'Today', priority: 'high' },
   { id: 3, name: 'Thomas Anderson', reason: 'Credit Score Improved', equity: '$295k', ltv: '65%', rate: '6.8%', time: 'Yesterday', priority: 'medium' },
   { id: 4, name: 'Patricia Garcia', reason: 'Rate Drop Opportunity', equity: '$340k', ltv: '60%', rate: '7.5%', time: '2 days ago', priority: 'medium' }
 ];
 
-const automatedTriggersData = [
+type TriggerStatus = 'completed' | 'pending' | 'alert';
+
+type AutomatedTrigger = {
+  id: number;
+  type: string;
+  client: string;
+  message: string;
+  time: string;
+  status: TriggerStatus;
+};
+
+const automatedTriggersData: AutomatedTrigger[] = [
   { id: 1, type: 'birthday', client: 'James Wilson', message: 'Birthday message sent', time: '8:00 AM', status: 'completed' },
   { id: 2, type: 'anniversary', client: 'Mary Brown', message: 'Loan anniversary - 2 years', time: '9:30 AM', status: 'completed' },
   { id: 3, type: 'followup', client: 'John Davis', message: 'Follow-up reminder triggered', time: '11:00 AM', status: 'pending' },
@@ -168,7 +237,7 @@ const Feeds = () => {
           </div>
 
           {activityFeedData.map((activity) => {
-            const icons = {
+            const icons: Record<ActivityType, React.ReactNode> = {
               call: <Phone className="w-5 h-5" />,
               email: <Mail className="w-5 h-5" />,
               document: <FileText className="w-5 h-5" />,
@@ -344,7 +413,11 @@ const Feeds = () => {
           </div>
 
           {automatedTriggersData.map((trigger) => {
-            const statusConfig = {
+            const statusConfig: Record<TriggerStatus, {
+              bg: string;
+              text: string;
+              icon: React.ComponentType<{ className?: string }>;
+            }> = {
               completed: { bg: 'bg-green-500/20', text: 'text-green-400', icon: CheckCircle },
               pending: { bg: 'bg-yellow-500/20', text: 'text-yellow-400', icon: Clock },
               alert: { bg: 'bg-red-500/20', text: 'text-red-400', icon: AlertCircle }

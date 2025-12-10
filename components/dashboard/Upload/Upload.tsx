@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { Upload, FileText, CheckCircle, XCircle, Clock, AlertCircle, Download, Trash2, File, Table } from 'lucide-react';
 
 // Mock Data
-const uploadHistory = [
+const uploadHistory: Array<{
+  id: number;
+  fileName: string;
+  uploadDate: string;
+  status: 'completed' | 'processing' | 'failed';
+  records: number;
+  errors: number;
+  user: string;
+  size: string;
+}> = [
   { 
     id: 1, 
     fileName: 'Q4_Leads_November.csv', 
@@ -45,7 +54,11 @@ const uploadHistory = [
   }
 ];
 
-const documentTypes = [
+const documentTypes: Array<{
+  type: string;
+  count: number;
+  icon: string;
+}> = [
   { type: '1003 Application', count: 234, icon: '📋' },
   { type: 'Income Verification', count: 189, icon: '💰' },
   { type: 'Credit Reports', count: 312, icon: '📊' },
@@ -54,17 +67,25 @@ const documentTypes = [
   { type: 'Other', count: 67, icon: '📎' }
 ];
 
-const Uploads = () => {
-  const [activeTab, setActiveTab] = useState('bulk-import');
+interface UploadsProps {
+  // Add any props that the Uploads component might receive
+}
+
+const Uploads: React.FC<UploadsProps> = () => {
+  const [activeTab, setActiveTab] = useState<'bulk-import' | 'documents' | 'history'>('bulk-import');
   const [dragActive, setDragActive] = useState(false);
 
-  const tabs = [
+  const tabs: Array<{
+    id: 'bulk-import' | 'documents' | 'history';
+    label: string;
+    icon: any;
+  }> = [
     { id: 'bulk-import', label: 'Bulk Import', icon: Table },
     { id: 'documents', label: 'Documents', icon: FileText },
     { id: 'history', label: 'Upload History', icon: Clock }
   ];
 
-  const handleDrag = (e) => {
+  const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
@@ -74,7 +95,7 @@ const Uploads = () => {
     }
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -91,7 +112,11 @@ const Uploads = () => {
 
       {/* Tab Navigation */}
       <div className="flex gap-2 mb-8 border-b border-gray-800">
-        {tabs.map((tab) => {
+        {tabs.map((tab: {
+      id: 'bulk-import' | 'documents' | 'history';
+      label: string;
+      icon: any;
+    }) => {
           const Icon = tab.icon;
           return (
             <button
@@ -294,7 +319,11 @@ const Uploads = () => {
 
           {/* Document Types Grid */}
           <div className="grid grid-cols-3 gap-6">
-            {documentTypes.map((doc) => (
+            {documentTypes.map((doc: {
+        type: string;
+        count: number;
+        icon: string;
+      }) => (
               <div key={doc.type} className="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6 hover:border-[#00D1D1]/30 transition-all">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-4xl">{doc.icon}</span>
@@ -315,7 +344,12 @@ const Uploads = () => {
                 { name: 'Income_Verification_Chen.pdf', type: 'Income', date: '5 hours ago', size: '890 KB' },
                 { name: 'Credit_Report_Williams.pdf', type: 'Credit', date: '1 day ago', size: '2.4 MB' },
                 { name: 'Appraisal_Martinez.pdf', type: 'Appraisal', date: '2 days ago', size: '3.1 MB' }
-              ].map((doc, idx) => (
+              ].map((doc: {
+        name: string;
+        type: string;
+        date: string;
+        size: string;
+      }, idx: number) => (
                 <div key={idx} className="flex items-center justify-between p-4 bg-[#2A2A2A] rounded-lg hover:bg-gray-700 transition-colors">
                   <div className="flex items-center gap-4">
                     <File className="w-10 h-10 text-[#00D1D1]" />
@@ -368,7 +402,16 @@ const Uploads = () => {
                 </tr>
               </thead>
               <tbody>
-                {uploadHistory.map((upload) => (
+                {uploadHistory.map((upload: {
+        id: number;
+        fileName: string;
+        uploadDate: string;
+        status: 'completed' | 'processing' | 'failed';
+        records: number;
+        errors: number;
+        user: string;
+        size: string;
+      }) => (
                   <tr key={upload.id} className="border-b border-gray-800 hover:bg-[#2A2A2A] transition-colors">
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Package, CheckCircle, Clock, XCircle, Download, FileText, Eye, TrendingUp } from 'lucide-react';
 
 export default function PackDetailModal() {
-  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'delivered' | 'processing' | 'cancelled'>('all');
 
   // Order History
   const orders = [
@@ -53,7 +53,7 @@ export default function PackDetailModal() {
     }
   ];
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: 'delivered' | 'processing' | 'cancelled'): { icon: any, bg: string, text: string, border: string, label: string } => {
     const badges = {
       delivered: { icon: CheckCircle, bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', label: 'Delivered' },
       processing: { icon: Clock, bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30', label: 'Processing' },
@@ -129,7 +129,7 @@ export default function PackDetailModal() {
               ].map(filter => (
                 <button
                   key={filter.id}
-                  onClick={() => setSelectedStatus(filter.id)}
+                  onClick={() => setSelectedStatus(filter.id as 'all' | 'delivered' | 'processing' | 'cancelled')}
                   className={`px-4 py-2 rounded-lg font-medium transition-all ${
                     selectedStatus === filter.id
                       ? 'bg-[#19F6FF] text-black'
@@ -155,7 +155,7 @@ export default function PackDetailModal() {
             </div>
           ) : (
             filteredOrders.map((order) => {
-              const statusBadge = getStatusBadge(order.status);
+              const statusBadge = getStatusBadge(order.status as 'delivered' | 'processing' | 'cancelled');
               const StatusIcon = statusBadge.icon;
               
               return (

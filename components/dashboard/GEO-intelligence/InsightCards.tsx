@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
+
 import { Lightbulb, TrendingUp, AlertTriangle, Target, Award, Users, Calendar, Filter } from 'lucide-react';
 
+type InsightCategory = 'opportunity' | 'trend' | 'risk' | 'demographic';
+type InsightPriority = 'high' | 'medium' | 'low';
+
+type InsightMetrics = Record<string, string | number>;
+
+type Insight = {
+  id: number;
+  category: InsightCategory;
+  priority: InsightPriority;
+  title: string;
+  description: string;
+  impact: string;
+  actionItems: string[];
+  metrics: InsightMetrics;
+  date: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
 export default function InsightCards() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedPriority, setSelectedPriority] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | InsightCategory>('all');
+  const [selectedPriority, setSelectedPriority] = useState<'all' | InsightPriority>('all');
 
   // Insights Data
-  const insights = [
+  const insights: Insight[] = [
     {
       id: 1,
       category: 'opportunity',
@@ -135,21 +154,21 @@ export default function InsightCards() {
     }
   ];
 
-  const getCategoryBadge = (category) => {
-    const badges = {
+  const getCategoryBadge = (category: InsightCategory) => {
+    const badges: Record<InsightCategory, { bg: string; text: string; border: string; label: string }> = {
       opportunity: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', label: 'Opportunity' },
       trend: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30', label: 'Trend' },
       risk: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30', label: 'Risk Alert' },
-      demographic: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/30', label: 'Demographic' }
+      demographic: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/30', label: 'Demographic' },
     };
     return badges[category];
   };
 
-  const getPriorityBadge = (priority) => {
-    const badges = {
+  const getPriorityBadge = (priority: InsightPriority) => {
+    const badges: Record<InsightPriority, { bg: string; text: string; border: string }> = {
       high: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30' },
       medium: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30' },
-      low: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30' }
+      low: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30' },
     };
     return badges[priority];
   };
@@ -219,7 +238,10 @@ export default function InsightCards() {
               <span className="text-sm font-semibold text-white">Category:</span>
               <select
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e) =>
+                  setSelectedCategory(e.target.value as 'all' | InsightCategory)
+                }
+
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="all">All Categories</option>
@@ -234,7 +256,10 @@ export default function InsightCards() {
               <span className="text-sm font-semibold text-white">Priority:</span>
               <select
                 value={selectedPriority}
-                onChange={(e) => setSelectedPriority(e.target.value)}
+                onChange={(e) =>
+                  setSelectedPriority(e.target.value as 'all' | InsightPriority)
+                }
+
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="all">All Priorities</option>

@@ -136,16 +136,16 @@ export default function SilentCreditPanel() {
   ];
 
   // Animate scores
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const scores = {};
-      creditEvents.forEach(event => {
-        scores[event.id] = event.currentScore;
-      });
-      setAnimatedScores(scores);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
+useEffect(() => {
+  const timer = setTimeout(() => {
+    const scores: Record<string, number> = {};
+    creditEvents.forEach((event) => {
+      scores[event.id] = event.currentScore;
+    });
+    setAnimatedScores(scores);
+  }, 100);
+  return () => clearTimeout(timer);
+}, []);
 
 //   const getSeverityBadge = (severity) => {
 //     const badges = {

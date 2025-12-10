@@ -2,11 +2,28 @@ import React, { useState } from 'react';
 import { Sparkles, Zap, Lock, Check, Shield, Layers, TrendingUp, Database, ChevronRight } from 'lucide-react';
 
 export default function AddOnFeaturePreviews() {
-//   const [selectedAddOns, setSelectedAddOns] = useState([]);
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'available' | 'coming-soon'>('all');
 
   // Add-On Features
-  const addOns = [
+  const addOns: Array<{
+    id: number;
+    name: string;
+    icon: any;
+    status: 'available' | 'coming-soon';
+    price: number | null;
+    priceUnit: string;
+    description: string;
+    features: string[];
+    compatibility: string[];
+    stats: {
+      users: number;
+      avgRevenue: number;
+      adoption: number;
+    };
+    color: string;
+    comingSoon: boolean;
+    releaseDate: string | null;
+  }> = [
     {
       id: 1,
       name: 'Crypto Correlation Module',
@@ -159,25 +176,22 @@ export default function AddOnFeaturePreviews() {
     }
   ];
 
-//   const toggleAddOn = (id) => {
-//     setSelectedAddOns(prev => 
-//       prev.includes(id) 
-//         ? prev.filter(addOnId => addOnId !== id)
-//         : [...prev, id]
-//     );
-//   };
-const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
+  const [selectedAddOns, setSelectedAddOns] = useState<number[]>([]);
 
-const toggleAddOn = (id: string) => {
-  setSelectedAddOns((prev: string[]) => 
-    prev.includes(id)
-      ? prev.filter((addOnId: string) => addOnId !== id)
-      : [...prev, id]
-  );
-};
+  const toggleAddOn = (id: number): void => {
+    setSelectedAddOns((prev: number[]) => 
+      prev.includes(id)
+        ? prev.filter((addOnId: number) => addOnId !== id)
+        : [...prev, id]
+    );
+  };
 
-
-  const getStatusBadge = (status:any) => {
+  const getStatusBadge = (status: 'available' | 'coming-soon'): {
+    bg: string;
+    text: string;
+    border: string;
+    label: string;
+  } => {
     if (status === 'available') {
       return { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', label: 'Available Now' };
     }
@@ -189,7 +203,7 @@ const toggleAddOn = (id: string) => {
     : addOns.filter(addon => addon.status === filterStatus);
 
   const selectedCount = selectedAddOns.length;
-  const totalPrice = selectedAddOns.reduce((sum, id) => {
+  const totalPrice = selectedAddOns.reduce((sum: number, id: number) => {
     const addon = addOns.find(a => a.id === id);
     return sum + (addon?.price || 0);
   }, 0);
@@ -236,9 +250,9 @@ const toggleAddOn = (id: string) => {
             <span className="text-sm font-semibold text-white">Filter by Status:</span>
             <div className="flex gap-2">
               {[
-                { id: 'all', label: 'All Features' },
-                { id: 'available', label: 'Available' },
-                { id: 'coming-soon', label: 'Coming Soon' }
+                { id: 'all' as const, label: 'All Features' },
+                { id: 'available' as const, label: 'Available' },
+                { id: 'coming-soon' as const, label: 'Coming Soon' }
               ].map(filter => (
                 <button
                   key={filter.id}
@@ -261,7 +275,25 @@ const toggleAddOn = (id: string) => {
           <h3 className="text-lg font-bold text-white">Available Add-Ons ({filteredAddOns.length})</h3>
 
           <div className="grid grid-cols-2 gap-6">
-            {filteredAddOns.map((addon) => {
+            {filteredAddOns.map((addon: {
+      id: number;
+      name: string;
+      icon: any;
+      status: 'available' | 'coming-soon';
+      price: number | null;
+      priceUnit: string;
+      description: string;
+      features: string[];
+      compatibility: string[];
+      stats: {
+        users: number;
+        avgRevenue: number;
+        adoption: number;
+      };
+      color: string;
+      comingSoon: boolean;
+      releaseDate: string | null;
+    }) => {
               const Icon = addon.icon;
               const statusBadge = getStatusBadge(addon.status);
               const isSelected = selectedAddOns.includes(addon.id);
@@ -314,7 +346,7 @@ const toggleAddOn = (id: string) => {
                   <div className="mb-4">
                     <div className="text-xs text-gray-400 mb-2">Features:</div>
                     <div className="space-y-2">
-                      {addon.features.map((feature, idx) => (
+                      {addon.features.map((feature: string, idx: number) => (
                         <div key={idx} className="flex items-start gap-2">
                           <Check className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
                           <span className="text-xs text-gray-300">{feature}</span>
@@ -356,7 +388,7 @@ const toggleAddOn = (id: string) => {
                   <div className="mb-4">
                     <div className="text-xs text-gray-400 mb-2">Compatible with:</div>
                     <div className="flex flex-wrap gap-2">
-                      {addon.compatibility.map((tier, idx) => (
+                      {addon.compatibility.map((tier: string, idx: number) => (
                         <span key={idx} className="px-2 py-1 bg-gray-700 rounded text-xs text-white">
                           {tier}
                         </span>
@@ -402,7 +434,7 @@ const toggleAddOn = (id: string) => {
                   {selectedCount} add-on{selectedCount > 1 ? 's' : ''} selected • ${totalPrice}/month total
                 </p>
                 <div className="flex gap-2 mt-3">
-                  {selectedAddOns.map(id => {
+                  {selectedAddOns.map((id: number) => {
                     const addon = addOns.find(a => a.id === id);
                     return (
                       <span key={id} className="px-3 py-1 bg-[#19F6FF]/20 text-[#19F6FF] rounded-full text-xs font-medium">

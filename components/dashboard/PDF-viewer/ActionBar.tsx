@@ -4,12 +4,25 @@ import { Download, Share2, Printer, Mail, Copy, Bookmark, MessageSquare, FileTex
 export default function ActionBar() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(false);
-  const [annotations, setAnnotations] = useState([
+  const [annotations, setAnnotations] = useState<Array<{
+    id: number;
+    page: number;
+    type: string;
+    text: string;
+    color: string;
+    author: string;
+    date: string;
+  }>>([
     { id: 1, page: 5, type: 'note', text: 'Important data point', color: 'yellow', author: 'John Doe', date: '2024-12-08' },
     { id: 2, page: 12, type: 'highlight', text: 'Key finding', color: 'green', author: 'Jane Smith', date: '2024-12-07' },
     { id: 3, page: 18, type: 'comment', text: 'Review this section', color: 'blue', author: 'Mike Johnson', date: '2024-12-06' }
   ]);
-  const [bookmarks, setBookmarks] = useState([
+  const [bookmarks, setBookmarks] = useState<Array<{
+    id: number;
+    page: number;
+    title: string;
+    date: string;
+  }>>([
     { id: 1, page: 3, title: 'Executive Summary', date: '2024-12-08' },
     { id: 2, page: 15, title: 'Market Analysis', date: '2024-12-07' },
     { id: 3, page: 28, title: 'Regional Breakdown', date: '2024-12-06' }
@@ -19,28 +32,28 @@ export default function ActionBar() {
   const [shareMessage, setShareMessage] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
 
-  const handleDownload = (format) => {
+  const handleDownload = (format: string): void => {
     console.log(`Downloading as ${format}`);
   };
 
-  const handleShare = () => {
+  const handleShare = (): void => {
     console.log('Sharing with:', shareEmail);
     setShowShareModal(false);
     setShareEmail('');
     setShareMessage('');
   };
 
-  const handleCopyLink = () => {
+  const handleCopyLink = (): void => {
     navigator.clipboard.writeText('https://axis-trademarket.ai/pdf/q4-2025-report');
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
-  const handlePrint = () => {
+  const handlePrint = (): void => {
     window.print();
   };
 
-  const addBookmark = () => {
+  const addBookmark = (): void => {
     const newBookmark = {
       id: bookmarks.length + 1,
       page: Math.floor(Math.random() * 42) + 1,
@@ -50,7 +63,7 @@ export default function ActionBar() {
     setBookmarks([...bookmarks, newBookmark]);
   };
 
-  const removeBookmark = (id) => {
+  const removeBookmark = (id: number): void => {
     setBookmarks(bookmarks.filter(b => b.id !== id));
   };
 

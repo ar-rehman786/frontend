@@ -12,7 +12,7 @@ const mockData = {
       medianDOM: 38,
       priceReductions: 18,
       medianPrice: 425000,
-      trend: 'Hot Market'
+      trend: 'Hot Market',
     },
     {
       zip: '27613',
@@ -20,7 +20,7 @@ const mockData = {
       medianDOM: 42,
       priceReductions: 15,
       medianPrice: 398000,
-      trend: 'Stable'
+      trend: 'Stable',
     },
     {
       zip: '27601',
@@ -28,7 +28,7 @@ const mockData = {
       medianDOM: 45,
       priceReductions: 22,
       medianPrice: 365000,
-      trend: 'Cooling'
+      trend: 'Cooling',
     },
     {
       zip: '27617',
@@ -36,7 +36,7 @@ const mockData = {
       medianDOM: 32,
       priceReductions: 12,
       medianPrice: 442000,
-      trend: 'Very Hot'
+      trend: 'Very Hot',
     },
     {
       zip: '27615',
@@ -44,8 +44,8 @@ const mockData = {
       medianDOM: 51,
       priceReductions: 28,
       medianPrice: 312000,
-      trend: "Buyer's Market"
-    }
+      trend: "Buyer's Market",
+    },
   ],
 
   // Property Value Trend (6 Months)
@@ -55,7 +55,7 @@ const mockData = {
     { month: 'Aug 2024', avgValue: 378000 },
     { month: 'Sep 2024', avgValue: 381000 },
     { month: 'Oct 2024', avgValue: 385000 },
-    { month: 'Nov 2024', avgValue: 385000 }
+    { month: 'Nov 2024', avgValue: 385000 },
   ],
 
   // Key Market Indicators
@@ -63,7 +63,7 @@ const mockData = {
     totalListings: { value: 457, change: 8.2, trend: 'up' },
     avgDOM: { value: 42, change: -5, trend: 'down' },
     priceReductions: { value: 95, change: 12, trend: 'up' },
-    monthsSupply: { value: 3.2, status: 'Balanced Market' }
+    monthsSupply: { value: 3.2, status: 'Balanced Market' },
   },
 
   // Recent Market Activity
@@ -74,7 +74,7 @@ const mockData = {
       address: '123 Oak Street, 27609',
       time: '2 hours ago',
       value: 425000,
-      color: 'green'
+      color: 'green',
     },
     {
       id: 2,
@@ -82,7 +82,7 @@ const mockData = {
       address: '456 Elm Avenue, 27613',
       time: '5 hours ago',
       value: -15000,
-      color: 'yellow'
+      color: 'yellow',
     },
     {
       id: 3,
@@ -90,7 +90,7 @@ const mockData = {
       address: '789 Pine Boulevard, 27601',
       time: '1 day ago',
       value: 395000,
-      color: 'red'
+      color: 'red',
     },
     {
       id: 4,
@@ -98,7 +98,7 @@ const mockData = {
       address: '234 Maple Court, 27617',
       time: '1 day ago',
       value: 512000,
-      color: 'green'
+      color: 'green',
     },
     {
       id: 5,
@@ -106,7 +106,7 @@ const mockData = {
       address: '567 Cedar Lane, 27609',
       time: '2 days ago',
       value: -22000,
-      color: 'yellow'
+      color: 'yellow',
     },
     {
       id: 6,
@@ -114,7 +114,7 @@ const mockData = {
       address: '890 Birch Drive, 27613',
       time: '2 days ago',
       value: 372000,
-      color: 'red'
+      color: 'red',
     },
     {
       id: 7,
@@ -122,9 +122,9 @@ const mockData = {
       address: '123 Willow Way, 27615',
       time: '3 days ago',
       value: 298000,
-      color: 'green'
-    }
-  ]
+      color: 'green',
+    },
+  ],
 };
 
 // ==================== INTERFACES ====================
@@ -145,19 +145,25 @@ interface RecentActivity {
   address: string;
   time: string;
   value: number;
-  color: string;
+  color: 'green' | 'yellow' | 'red';
 }
 
 // ==================== COMPONENTS ====================
 const MarketCard: React.FC<MarketCardProps> = ({ data }) => {
   const getTrendColor = (trend: string) => {
     switch (trend) {
-      case 'Very Hot': return 'text-red-400 bg-red-500/20';
-      case 'Hot Market': return 'text-orange-400 bg-orange-500/20';
-      case 'Stable': return 'text-teal-400 bg-teal-500/20';
-      case 'Cooling': return 'text-blue-400 bg-blue-500/20';
-      case "Buyer's Market": return 'text-purple-400 bg-purple-500/20';
-      default: return 'text-gray-400 bg-gray-500/20';
+      case 'Very Hot':
+        return 'text-red-400 bg-red-500/20';
+      case 'Hot Market':
+        return 'text-orange-400 bg-orange-500/20';
+      case 'Stable':
+        return 'text-teal-400 bg-teal-500/20';
+      case 'Cooling':
+        return 'text-blue-400 bg-blue-500/20';
+      case "Buyer's Market":
+        return 'text-purple-400 bg-purple-500/20';
+      default:
+        return 'text-gray-400 bg-gray-500/20';
     }
   };
 
@@ -166,7 +172,11 @@ const MarketCard: React.FC<MarketCardProps> = ({ data }) => {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h4 className="text-lg font-semibold mb-1">ZIP {data.zip}</h4>
-          <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${getTrendColor(data.trend)}`}>
+          <span
+            className={`inline-block px-2 py-1 rounded text-xs font-medium ${getTrendColor(
+              data.trend,
+            )}`}
+          >
             {data.trend}
           </span>
         </div>
@@ -202,12 +212,19 @@ const FeedsTab: React.FC = () => {
   const [selectedZip, setSelectedZip] = useState('all');
 
   // Filter market data based on selected ZIP
-  const filteredMarketData = selectedZip === 'all'
-    ? mockData.marketActivityByZip
-    : mockData.marketActivityByZip.filter(item => item.zip === selectedZip);
+  const filteredMarketData =
+    selectedZip === 'all'
+      ? mockData.marketActivityByZip
+      : mockData.marketActivityByZip.filter((item) => item.zip === selectedZip);
 
   // Custom Tooltip for Chart
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: { value: number; payload: { month: string } }[];
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 shadow-lg">
@@ -221,30 +238,38 @@ const FeedsTab: React.FC = () => {
     return null;
   };
 
-  const getActivityIcon = (type: string) => {
+  const getActivityIcon = (type: RecentActivity['type']) => {
     switch (type) {
-      case 'new': return 'New Listing';
-      case 'reduction': return 'Price Reduction';
-      case 'sold': return 'Sold';
-      default: return type;
+      case 'new':
+        return 'New Listing';
+      case 'reduction':
+        return 'Price Reduction';
+      case 'sold':
+        return 'Sold';
+      default:
+        return type;
     }
   };
 
-  const getActivityColor = (color: string) => {
-    const colorMap: { [key: string]: string } = {
+  const getActivityColor = (color: RecentActivity['color']) => {
+    const colorMap: Record<RecentActivity['color'], string> = {
       green: 'bg-green-400',
       yellow: 'bg-yellow-400',
-      red: 'bg-red-400'
+      red: 'bg-red-400',
     };
-    return colorMap[color] || 'bg-gray-400';
+    return colorMap[color];
   };
 
-  const getValueColor = (type: string) => {
+  const getValueColor = (type: RecentActivity['type']) => {
     switch (type) {
-      case 'new': return 'text-teal-400';
-      case 'reduction': return 'text-yellow-400';
-      case 'sold': return 'text-teal-400';
-      default: return 'text-gray-400';
+      case 'new':
+        return 'text-teal-400';
+      case 'reduction':
+        return 'text-yellow-400';
+      case 'sold':
+        return 'text-teal-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
@@ -296,21 +321,17 @@ const FeedsTab: React.FC = () => {
         <ResponsiveContainer width="100%" height={320}>
           <LineChart data={mockData.propertyValueTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-            <XAxis 
-              dataKey="month" 
-              stroke="#9CA3AF"
-              style={{ fontSize: '12px' }}
-            />
-            <YAxis 
+            <XAxis dataKey="month" stroke="#9CA3AF" style={{ fontSize: '12px' }} />
+            <YAxis
               stroke="#9CA3AF"
               style={{ fontSize: '12px' }}
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Line 
-              type="monotone" 
-              dataKey="avgValue" 
-              stroke="#00D1D1" 
+            <Line
+              type="monotone"
+              dataKey="avgValue"
+              stroke="#00D1D1"
               strokeWidth={3}
               dot={{ fill: '#00D1D1', r: 5 }}
               activeDot={{ r: 7 }}
@@ -396,8 +417,11 @@ const FeedsTab: React.FC = () => {
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
         <h3 className="text-lg font-semibold mb-4">Recent Market Activity</h3>
         <div className="space-y-3">
-          {mockData.recentActivity.map((activity) => (
-            <div key={activity.id} className="flex items-center justify-between py-3 border-b border-zinc-800/50 last:border-b-0">
+          {mockData.recentActivity.map((activity: any) => (
+            <div
+              key={activity.id}
+              className="flex items-center justify-between py-3 border-b border-zinc-800/50 last:border-b-0"
+            >
               <div className="flex items-center gap-3">
                 <div className={`w-2 h-2 ${getActivityColor(activity.color)} rounded-full`}></div>
                 <div>

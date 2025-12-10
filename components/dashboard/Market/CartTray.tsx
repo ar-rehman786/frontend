@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import { ShoppingCart, Trash2, FileText, Database, CheckCircle, X, Download } from 'lucide-react';
 
 export default function CartTray() {
-  const [cartItems, setCartItems] = useState([
+  const [cartItems, setCartItems] = useState<Array<{
+    id: number;
+    name: string;
+    market: string;
+    quarter: string;
+    records: number;
+    format: string;
+    pricing: string;
+  }>>([
     {
       id: 1,
       name: 'Raleigh Q4 2025 - Equity Refinance Pack',
@@ -24,8 +32,15 @@ export default function CartTray() {
   ]);
 
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-  const [checkoutStep, setCheckoutStep] = useState('form'); // form | success
-  const [formData, setFormData] = useState({
+  const [checkoutStep, setCheckoutStep] = useState<'form' | 'success'>('form');
+  const [formData, setFormData] = useState<{
+    name: string;
+    email: string;
+    company: string;
+    notes: string;
+    attachPDF: boolean;
+    attachCSV: boolean;
+  }>({
     name: '',
     email: '',
     company: '',
@@ -34,7 +49,7 @@ export default function CartTray() {
     attachCSV: true
   });
 
-  const removeItem = (id) => {
+  const removeItem = (id: number) => {
     setCartItems(cartItems.filter(item => item.id !== id));
   };
 
@@ -47,7 +62,7 @@ export default function CartTray() {
     setCheckoutStep('form');
   };
 
-  const submitCheckout = (e) => {
+  const submitCheckout = (e: React.FormEvent) => {
     e.preventDefault();
     setCheckoutStep('success');
   };

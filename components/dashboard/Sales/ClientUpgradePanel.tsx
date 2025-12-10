@@ -2,14 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { TrendingUp, Filter, Search, ChevronRight, CheckCircle, Clock, XCircle, DollarSign, Users } from 'lucide-react';
 
 export default function ClientUpgradePanel() {
-  const [selectedTier, setSelectedTier] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState('all');
-  const [selectedQuarter, setSelectedQuarter] = useState('Q4-2025');
+  const [selectedTier, setSelectedTier] = useState<'all' | 'Brokerage' | 'Lender Pro' | 'Institutional'>('all');
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'pending' | 'approved' | 'in-progress' | 'completed' | 'rejected'>('all');
+  const [selectedQuarter, setSelectedQuarter] = useState<'all' | 'Q4-2025' | 'Q1-2026' | 'Q2-2026'>('Q4-2025');
   const [searchQuery, setSearchQuery] = useState('');
-  const [animatedStats, setAnimatedStats] = useState({});
+  const [animatedStats, setAnimatedStats] = useState<Record<string, number>>({});
 
   // Upgrade Statistics
-  const upgradeStats = {
+  const upgradeStats: {
+    totalOpportunities: number;
+    pendingReview: number;
+    approved: number;
+    inProgress: number;
+    completed: number;
+    rejected: number;
+    totalRevenue: number;
+    avgDealSize: number;
+    conversionRate: number;
+  } = {
     totalOpportunities: 847,
     pendingReview: 234,
     approved: 156,
@@ -22,7 +32,24 @@ export default function ClientUpgradePanel() {
   };
 
   // Client Upgrade Opportunities
-  const upgradeOpportunities = [
+  const upgradeOpportunities: Array<{
+    id: number;
+    clientName: string;
+    currentTier: string;
+    targetTier: string;
+    status: 'pending' | 'approved' | 'in-progress' | 'completed' | 'rejected';
+    priority: 'high' | 'medium' | 'low';
+    requestDate: string;
+    potentialRevenue: number;
+    currentSpend: number;
+    uplift: number;
+    contact: string;
+    email: string;
+    phone: string;
+    reason: string;
+    quarter: string;
+    probability: number;
+  }> = [
     {
       id: 1,
       clientName: 'Coastal Lending Group',
@@ -253,7 +280,24 @@ const getPriorityBadge = (priority: "high" | "medium" | "low") => {
   return badges[priority];
 };
 
-  const filteredOpportunities = upgradeOpportunities.filter(opp => {
+  const filteredOpportunities = upgradeOpportunities.filter((opp: {
+    id: number;
+    clientName: string;
+    currentTier: string;
+    targetTier: string;
+    status: 'pending' | 'approved' | 'in-progress' | 'completed' | 'rejected';
+    priority: 'high' | 'medium' | 'low';
+    requestDate: string;
+    potentialRevenue: number;
+    currentSpend: number;
+    uplift: number;
+    contact: string;
+    email: string;
+    phone: string;
+    reason: string;
+    quarter: string;
+    probability: number;
+  }) => {
     const matchesTier = selectedTier === 'all' || opp.targetTier === selectedTier;
     const matchesStatus = selectedStatus === 'all' || opp.status === selectedStatus;
     const matchesQuarter = selectedQuarter === 'all' || opp.quarter === selectedQuarter;
@@ -323,7 +367,7 @@ const getPriorityBadge = (priority: "high" | "medium" | "low") => {
               <Filter className="w-5 h-5 text-[#19F6FF]" />
               <select
                 value={selectedTier}
-                onChange={(e) => setSelectedTier(e.target.value)}
+                onChange={(e) => setSelectedTier(e.target.value as 'all' | 'Brokerage' | 'Lender Pro' | 'Institutional')}
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="all">All Tiers</option>
@@ -334,7 +378,7 @@ const getPriorityBadge = (priority: "high" | "medium" | "low") => {
 
               <select
                 value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
+                onChange={(e) => setSelectedStatus(e.target.value as 'all' | 'pending' | 'approved' | 'in-progress' | 'completed' | 'rejected')}
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="all">All Statuses</option>
@@ -347,7 +391,7 @@ const getPriorityBadge = (priority: "high" | "medium" | "low") => {
 
               <select
                 value={selectedQuarter}
-                onChange={(e) => setSelectedQuarter(e.target.value)}
+                onChange={(e) => setSelectedQuarter(e.target.value as 'all' | 'Q4-2025' | 'Q1-2026' | 'Q2-2026')}
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white"
               >
                 <option value="all">All Quarters</option>
@@ -365,7 +409,24 @@ const getPriorityBadge = (priority: "high" | "medium" | "low") => {
             <h3 className="text-lg font-bold text-white">Upgrade Opportunities ({filteredOpportunities.length})</h3>
           </div>
 
-          {filteredOpportunities.map((opp) => {
+          {filteredOpportunities.map((opp: {
+        id: number;
+        clientName: string;
+        currentTier: string;
+        targetTier: string;
+        status: 'pending' | 'approved' | 'in-progress' | 'completed' | 'rejected';
+        priority: 'high' | 'medium' | 'low';
+        requestDate: string;
+        potentialRevenue: number;
+        currentSpend: number;
+        uplift: number;
+        contact: string;
+        email: string;
+        phone: string;
+        reason: string;
+        quarter: string;
+        probability: number;
+      }) => {
             const statusBadge = getStatusBadge(opp.status as any);
             const priorityBadge = getPriorityBadge(opp.priority as any);
             const StatusIcon = statusBadge.icon;

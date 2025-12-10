@@ -1,13 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, TrendingUp, TrendingDown, Users, DollarSign, Home, Activity } from 'lucide-react';
 
+type MarketTrendsLevel = 'very-high' | 'high' | 'medium' | 'low' | 'very-low';
+
+type MarketTrends = {
+  demand: MarketTrendsLevel | 'very-high' | 'high' | 'medium' | 'low';
+  supply: MarketTrendsLevel | 'very-low' | 'low' | 'medium' | 'high';
+  competition: MarketTrendsLevel | 'high' | 'very-high' | 'medium';
+};
+
+type Demographics = {
+  avgAge: number;
+  avgIncome: number;
+  homeownership: number;
+  education: number;
+};
+
+type City = {
+  name: string;
+  population: number;
+  medianPrice: number;
+  priceChange: number;
+  inventory: number;
+  avgDaysMarket: number;
+  demographics: Demographics;
+  trends: MarketTrends;
+  topZips: string[];
+};
+
+type Markets = Record<string, { cities: City[] }>;
+
+type AnimatedStats = {
+  population: number;
+  medianPrice: number;
+  inventory: number;
+  avgDaysMarket: number;
+};
+
 export default function MarketSelector() {
-  const [selectedState, setSelectedState] = useState('North Carolina');
-  const [selectedCity, setSelectedCity] = useState('Raleigh-Durham');
-  const [animatedStats, setAnimatedStats] = useState({});
+  const [selectedState, setSelectedState] = useState<string>('North Carolina');
+  const [selectedCity, setSelectedCity] = useState<string>('Raleigh-Durham');
+  const [animatedStats, setAnimatedStats] = useState<AnimatedStats>({
+    population: 0,
+    medianPrice: 0,
+    inventory: 0,
+    avgDaysMarket: 0,
+  });
 
   // Market Data
-  const markets = {
+  const markets: Markets = {
     'North Carolina': {
       cities: [
         {
@@ -214,28 +255,30 @@ export default function MarketSelector() {
     }
   };
 
-  const selectedMarket = markets[selectedState]?.cities.find(c => c.name === selectedCity);
+  const selectedMarket = markets[selectedState]?.cities.find((c) => c.name === selectedCity);
 
   // Animate stats
   useEffect(() => {
     if (!selectedMarket) return;
-    
+
     const timer = setInterval(() => {
-      setAnimatedStats(prev => {
-        const newStats = {};
-        ['population', 'medianPrice', 'inventory', 'avgDaysMarket'].forEach(key => {
-          const target = selectedMarket[key];
-          const current = prev[key] || 0;
-          newStats[key] = current < target ? Math.min(current + Math.ceil(target / 20), target) : target;
-        });
+      setAnimatedStats((prev) => {
+        const newStats: AnimatedStats = { ...prev };
+        (['population', 'medianPrice', 'inventory', 'avgDaysMarket'] as (keyof AnimatedStats)[]).forEach(
+          (key) => {
+            const target = selectedMarket[key];
+            const current = prev[key] || 0;
+            newStats[key] = current < target ? Math.min(current + Math.ceil(target / 20), target) : target;
+          },
+        );
         return newStats;
       });
     }, 50);
-    
+
     return () => clearInterval(timer);
   }, [selectedMarket, selectedCity]);
 
-  const getTrendBadge = (value) => {
+  const getTrendBadge = (value: MarketTrends[keyof MarketTrends]) => {
     if (value === 'very-high') return { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30', label: 'Very High' };
     if (value === 'high') return { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'border-orange-500/30', label: 'High' };
     if (value === 'medium') return { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30', label: 'Medium' };

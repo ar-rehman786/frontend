@@ -182,7 +182,13 @@ const FeedsTab: React.FC = () => {
     : mockData.marketActivityByZip.filter(item => item.zip === selectedZip);
 
   // Custom Tooltip for Chart
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: { value: number; payload: { month: string } }[];
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 shadow-lg">

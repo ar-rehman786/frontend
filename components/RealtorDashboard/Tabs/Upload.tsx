@@ -70,6 +70,12 @@ const UploadTab = () => {
       }, 200);
     });
   };
+
+  // Remove file
+  const removeFile = (id: number) => {
+    setUploadedFiles(prev => prev.filter(file => file.id !== id));
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}

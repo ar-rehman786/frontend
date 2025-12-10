@@ -2,12 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Check, X, Star, Zap, Crown, Building2, ChevronRight, TrendingUp } from 'lucide-react';
 
 export default function TierComparisonCards() {
-  const [selectedTier, setSelectedTier] = useState('lender');
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [selectedTier, setSelectedTier] = useState<'brokerage' | 'lender' | 'institutional'>('lender');
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const [showComparison, setShowComparison] = useState(true);
 
   // Tier Pricing
-  const tiers = [
+  const tiers: Array<{
+    id: string;
+    name: string;
+    icon: any;
+    color: string;
+    tagline: string;
+    monthlyPrice: number | null;
+    annualPrice: number | null;
+    savings: number | null;
+    popular: boolean;
+    features: {
+      core: Array<{ name: string; included: boolean }>;
+      analytics: Array<{ name: string; included: boolean; limit?: string }>;
+      data: Array<{ name: string; included: boolean; limit?: string }>;
+      support: Array<{ name: string; included: boolean }>;
+      users: Array<{ name: string; limit?: string; included?: boolean }>;
+    };
+    stats: {
+      currentUsers: number;
+      avgRevenue: number;
+      conversionRate: number;
+    };
+  }> = [
     {
       id: 'brokerage',
       name: 'Brokerage',
@@ -151,7 +173,29 @@ export default function TierComparisonCards() {
     }
   ];
 
-  const selectedTierData = tiers.find(t => t.id === selectedTier);
+  const selectedTierData = tiers.find((t: {
+    id: string;
+    name: string;
+    icon: any;
+    color: string;
+    tagline: string;
+    monthlyPrice: number | null;
+    annualPrice: number | null;
+    savings: number | null;
+    popular: boolean;
+    features: {
+      core: Array<{ name: string; included: boolean }>;
+      analytics: Array<{ name: string; included: boolean; limit?: string }>;
+      data: Array<{ name: string; included: boolean; limit?: string }>;
+      support: Array<{ name: string; included: boolean }>;
+      users: Array<{ name: string; limit?: string; included?: boolean }>;
+    };
+    stats: {
+      currentUsers: number;
+      avgRevenue: number;
+      conversionRate: number;
+    };
+  }) => t.id === selectedTier);
   const price = billingCycle === 'monthly' 
     ? selectedTierData?.monthlyPrice 
     : selectedTierData?.annualPrice;
@@ -205,7 +249,29 @@ export default function TierComparisonCards() {
 
         {/* Tier Cards */}
         <div className="grid grid-cols-3 gap-6">
-          {tiers.map((tier) => {
+          {tiers.map((tier: {
+        id: string;
+        name: string;
+        icon: any;
+        color: string;
+        tagline: string;
+        monthlyPrice: number | null;
+        annualPrice: number | null;
+        savings: number | null;
+        popular: boolean;
+        features: {
+          core: Array<{ name: string; included: boolean }>;
+          analytics: Array<{ name: string; included: boolean; limit?: string }>;
+          data: Array<{ name: string; included: boolean; limit?: string }>;
+          support: Array<{ name: string; included: boolean }>;
+          users: Array<{ name: string; limit?: string; included?: boolean }>;
+        };
+        stats: {
+          currentUsers: number;
+          avgRevenue: number;
+          conversionRate: number;
+        };
+      }) => {
             const Icon = tier.icon;
             const isSelected = selectedTier === tier.id;
             const monthlyPrice = tier.monthlyPrice;
@@ -215,7 +281,7 @@ export default function TierComparisonCards() {
             return (
               <div
                 key={tier.id}
-                onClick={() => setSelectedTier(tier.id)}
+                onClick={() => setSelectedTier(tier.id as 'brokerage' | 'lender' | 'institutional')}
                 className={`bg-gray-900/50 border rounded-xl p-6 cursor-pointer transition-all hover:scale-105 relative ${
                   isSelected 
                     ? 'border-[#19F6FF] shadow-[0_0_20px_rgba(25,246,255,0.3)]' 
@@ -256,7 +322,7 @@ export default function TierComparisonCards() {
 
                 {/* Quick Features */}
                 <div className="space-y-3 mb-6">
-                  {tier.features.core.slice(0, 4).map((feature, idx) => (
+                  {tier.features.core.slice(0, 4).map((feature: { name: string; included: boolean }, idx: number) => (
                     <div key={idx} className="flex items-center gap-3">
                       <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
                       <span className="text-sm text-gray-300">{feature.name}</span>
@@ -299,7 +365,7 @@ export default function TierComparisonCards() {
               <div>
                 <h4 className="text-lg font-bold text-[#19F6FF] mb-4">Core Features</h4>
                 <div className="space-y-2">
-                  {selectedTierData.features.core.map((feature, idx) => (
+                  {selectedTierData.features.core.map((feature: { name: string; included: boolean }, idx: number) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
                       <span className="text-sm text-white">{feature.name}</span>
                       {feature.included ? (
@@ -316,7 +382,7 @@ export default function TierComparisonCards() {
               <div>
                 <h4 className="text-lg font-bold text-[#19F6FF] mb-4">Analytics & Reporting</h4>
                 <div className="space-y-2">
-                  {selectedTierData.features.analytics.map((feature, idx) => (
+                  {selectedTierData.features.analytics.map((feature: { name: string; included: boolean; limit?: string }, idx: number) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
                       <span className="text-sm text-white">{feature.name}</span>
                       {feature.included ? (
@@ -333,7 +399,7 @@ export default function TierComparisonCards() {
               <div>
                 <h4 className="text-lg font-bold text-[#19F6FF] mb-4">Data & API Access</h4>
                 <div className="space-y-2">
-                  {selectedTierData.features.data.map((feature, idx) => (
+                  {selectedTierData.features.data.map((feature: { name: string; included: boolean; limit?: string }, idx: number) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
                       <span className="text-sm text-white">{feature.name}</span>
                       <div className="flex items-center gap-2">
@@ -355,7 +421,7 @@ export default function TierComparisonCards() {
               <div>
                 <h4 className="text-lg font-bold text-[#19F6FF] mb-4">Support & Service</h4>
                 <div className="space-y-2">
-                  {selectedTierData.features.support.map((feature, idx) => (
+                  {selectedTierData.features.support.map((feature: { name: string; included: boolean }, idx: number) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
                       <span className="text-sm text-white">{feature.name}</span>
                       {feature.included ? (
@@ -372,7 +438,7 @@ export default function TierComparisonCards() {
               <div>
                 <h4 className="text-lg font-bold text-[#19F6FF] mb-4">User Management</h4>
                 <div className="space-y-2">
-                  {selectedTierData.features.users.map((feature, idx) => (
+                  {selectedTierData.features.users.map((feature: { name: string; limit?: string; included?: boolean }, idx: number) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
                       <span className="text-sm text-white">{feature.name}</span>
                       <div className="flex items-center gap-2">

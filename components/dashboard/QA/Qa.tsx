@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Shield, AlertTriangle, CheckCircle, XCircle, Clock, Search, Filter, RefreshCw, Database, FileCheck } from 'lucide-react';
 
 // Mock Data
-const dataQualityMetrics = {
+const dataQualityMetrics: {
+  completeness: number;
+  accuracy: number;
+  duplicates: number;
+  invalidData: number;
+  overallScore: number;
+} = {
   completeness: 94.5,
   accuracy: 96.8,
   duplicates: 2.3,
@@ -10,27 +16,55 @@ const dataQualityMetrics = {
   overallScore: 95.2
 };
 
-const complianceIssues = [
+const complianceIssues: Array<{
+  id: number;
+  type: string;
+  severity: 'high' | 'medium' | 'low';
+  contact: string;
+  phone: string;
+  date: string;
+  status: 'resolved' | 'pending' | 'investigating';
+}> = [
   { id: 1, type: 'DNC Violation', severity: 'high', contact: 'John Williams', phone: '(555) 123-4567', date: '2025-11-20', status: 'resolved' },
   { id: 2, type: 'Missing Consent', severity: 'medium', contact: 'Sarah Davis', phone: '(555) 234-5678', date: '2025-11-19', status: 'pending' },
   { id: 3, type: 'TCPA Non-Compliance', severity: 'high', contact: 'Michael Brown', phone: '(555) 345-6789', date: '2025-11-18', status: 'investigating' },
   { id: 4, type: 'Opt-Out Request', severity: 'low', contact: 'Emily Wilson', phone: '(555) 456-7890', date: '2025-11-17', status: 'resolved' }
 ];
 
-const duplicateRecords = [
+const duplicateRecords: Array<{
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  count: number;
+  lastSeen: string;
+}> = [
   { id: 1, name: 'Robert Johnson', phone: '(555) 111-2222', email: 'robert.j@email.com', count: 3, lastSeen: '2 days ago' },
   { id: 2, name: 'Jennifer Smith', phone: '(555) 222-3333', email: 'jen.smith@email.com', count: 2, lastSeen: '5 days ago' },
   { id: 3, name: 'David Lee', phone: '(555) 333-4444', email: 'dlee@email.com', count: 2, lastSeen: '1 week ago' }
 ];
 
-const dataAnomalies = [
+const dataAnomalies: Array<{
+  id: number;
+  field: string;
+  issue: string;
+  records: number;
+  example: string;
+}> = [
   { id: 1, field: 'Email', issue: 'Invalid format', records: 45, example: 'user@invalid' },
   { id: 2, field: 'Phone', issue: 'Incomplete number', records: 23, example: '(555) 12-' },
   { id: 3, field: 'Address', issue: 'Missing ZIP code', records: 67, example: '123 Main St, City' },
   { id: 4, field: 'Loan Amount', issue: 'Out of range', records: 12, example: '$0 or $9,999,999+' }
 ];
 
-const auditLog = [
+const auditLog: Array<{
+  id: number;
+  user: string;
+  action: string;
+  target: string;
+  time: string;
+  result: 'success' | 'failed';
+}> = [
   { id: 1, user: 'John Smith', action: 'Merged duplicate records', target: '3 contacts', time: '2 hours ago', result: 'success' },
   { id: 2, user: 'Lisa Wang', action: 'Updated data validation rules', target: 'Phone field', time: '5 hours ago', result: 'success' },
   { id: 3, user: 'System', action: 'Automated cleanup', target: '145 invalid emails', time: '1 day ago', result: 'success' },
@@ -38,9 +72,13 @@ const auditLog = [
 ];
 
 const QAIntegrity = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'compliance' | 'duplicates' | 'audit'>('overview');
 
-  const tabs = [
+  const tabs: Array<{
+    id: 'overview' | 'compliance' | 'duplicates' | 'audit';
+    label: string;
+    icon: any;
+  }> = [
     { id: 'overview', label: 'Data Quality', icon: Database },
     { id: 'compliance', label: 'Compliance', icon: Shield },
     { id: 'duplicates', label: 'Duplicates', icon: FileCheck },
@@ -70,7 +108,11 @@ const QAIntegrity = () => {
 
       {/* Tab Navigation */}
       <div className="flex gap-2 mb-8 border-b border-gray-800">
-        {tabs.map((tab) => {
+        {tabs.map((tab: {
+      id: 'overview' | 'compliance' | 'duplicates' | 'audit';
+      label: string;
+      icon: any;
+    }) => {
           const Icon = tab.icon;
           return (
             <button
@@ -171,7 +213,13 @@ const QAIntegrity = () => {
             </div>
             
             <div className="space-y-3">
-              {dataAnomalies.map((anomaly) => (
+              {dataAnomalies.map((anomaly: {
+        id: number;
+        field: string;
+        issue: string;
+        records: number;
+        example: string;
+      }) => (
                 <div key={anomaly.id} className="flex items-center justify-between p-4 bg-[#2A2A2A] rounded-lg hover:bg-gray-700 transition-colors">
                   <div className="flex items-center gap-4">
                     <AlertTriangle className="w-6 h-6 text-yellow-400" />
@@ -287,7 +335,15 @@ const QAIntegrity = () => {
                 </tr>
               </thead>
               <tbody>
-                {complianceIssues.map((issue) => (
+                {complianceIssues.map((issue: {
+          id: number;
+          type: string;
+          severity: 'high' | 'medium' | 'low';
+          contact: string;
+          phone: string;
+          date: string;
+          status: 'resolved' | 'pending' | 'investigating';
+        }) => (
                   <tr key={issue.id} className="border-b border-gray-800 hover:bg-[#2A2A2A] transition-colors">
                     <td className="py-4 px-4 text-white font-semibold">{issue.type}</td>
                     <td className="py-4 px-4 text-white">{issue.contact}</td>
@@ -339,7 +395,14 @@ const QAIntegrity = () => {
             </div>
 
             <div className="space-y-4">
-              {duplicateRecords.map((record) => (
+              {duplicateRecords.map((record: {
+        id: number;
+        name: string;
+        phone: string;
+        email: string;
+        count: number;
+        lastSeen: string;
+      }) => (
                 <div key={record.id} className="bg-[#2A2A2A] border border-gray-700 rounded-lg p-6 hover:border-[#00D1D1]/30 transition-all">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -404,7 +467,14 @@ const QAIntegrity = () => {
             </div>
 
             <div className="space-y-3">
-              {auditLog.map((log) => (
+              {auditLog.map((log: {
+        id: number;
+        user: string;
+        action: string;
+        target: string;
+        time: string;
+        result: 'success' | 'failed';
+      }) => (
                 <div key={log.id} className="flex items-center justify-between p-4 bg-[#2A2A2A] rounded-lg hover:bg-gray-700 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-[#00D1D1]/20 flex items-center justify-center">

@@ -4,21 +4,30 @@ import { Package, Filter, Search, FileText, Database, Download, ShoppingCart, Ey
 type Pack = {
   id: number;
   name: string;
-  price: number;
-  description?: string;
-  image?: string;
+  market: string;
+  quarter: string;
+  records: number;
+  format: string;
+  pricing: string;
+  description: string;
+  includes: string[];
+  bestFor: string[];
+  featured: boolean;
+  dataPoints: number;
+  accuracy: number;
+  lastUpdated: string;
 };
 
 export default function MarketFeedCard() {
-  const [selectedMarket, setSelectedMarket] = useState('all');
-  const [selectedPackType, setSelectedPackType] = useState('all');
-  const [selectedQuarter, setSelectedQuarter] = useState('all');
+  const [selectedMarket, setSelectedMarket] = useState<'all' | string>('all');
+  const [selectedPackType, setSelectedPackType] = useState<'all' | string>('all');
+  const [selectedQuarter, setSelectedQuarter] = useState<'all' | string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [cart, setCart] = useState([]);
-  const [selectedPack, setSelectedPack] = useState(null);
+  const [cart, setCart] = useState<Pack[]>([]);
+  const [selectedPack, setSelectedPack] = useState<Pack | null>(null);
 
   // Data Packs
-  const dataPacks = [
+  const dataPacks: Pack[] = [
     {
       id: 1,
       name: 'Raleigh Q4 2025 - Equity Refinance Pack',
@@ -177,50 +186,35 @@ export default function MarketFeedCard() {
     }
   ];
 
-//   const addToCart = (pack) => {
-//     if (!cart.find(item => item.id === pack.id)) {
-//       setCart([...cart, pack]);
-//     }
-//   };
+  const addToCart = (pack: Pack): void => {
+    if (!cart.find(item => item.id === pack.id)) {
+      setCart([...cart, pack]);
+    }
+  };
 
-//   const removeFromCart = (packId) => {
-//     setCart(cart.filter(item => item.id !== packId));
-//   };
+  const removeFromCart = (packId: number): void => {
+    setCart(cart.filter(item => item.id !== packId));
+  };
 
-//   const openPackDetails = (pack) => {
-//     setSelectedPack(pack);
-//   };
+  const openPackDetails = (pack: Pack | null): void => {
+    setSelectedPack(pack);
+  };
 
-const addToCart = (pack: Pack): void => {
-  if (!cart.find(item => item.id === pack.id)) {
-    setCart([...cart, pack]);
-  }
-};
-
-const removeFromCart = (packId: number): void => {
-  setCart(cart.filter(item => item.id !== packId));
-};
-
-const openPackDetails = (pack: Pack | null): void => {
-  setSelectedPack(pack);
-};
-
-
-  const closePackDetails = () => {
+  const closePackDetails = (): void => {
     setSelectedPack(null);
   };
 
-  const filteredPacks = dataPacks.filter(pack => {
+  const filteredPacks = dataPacks.filter((pack: Pack) => {
     const matchesMarket = selectedMarket === 'all' || pack.market === selectedMarket;
     const matchesType = selectedPackType === 'all' || pack.format.includes(selectedPackType);
     const matchesQuarter = selectedQuarter === 'all' || pack.quarter === selectedQuarter;
-    const matchesSearch = searchQuery === '' || 
+    const matchesSearch = searchQuery === '' ||
       pack.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       pack.market.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesMarket && matchesType && matchesQuarter && matchesSearch;
   });
 
-  const getFormatBadge = (format) => {
+  const getFormatBadge = (format: string): { bg: string; text: string; border: string } => {
     if (format === 'Report + CSV') return { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30' };
     if (format === 'Report Only') return { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30' };
     return { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/30' };
@@ -312,7 +306,7 @@ const openPackDetails = (pack: Pack | null): void => {
 
         {/* Data Pack Cards Grid */}
         <div className="grid grid-cols-3 gap-6">
-          {filteredPacks.map((pack) => {
+          {filteredPacks.map((pack: Pack, idx: number) => {
             const formatBadge = getFormatBadge(pack.format);
             const inCart = cart.find(item => item.id === pack.id);
             
@@ -452,7 +446,7 @@ const openPackDetails = (pack: Pack | null): void => {
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-white mb-3">What's Included:</h3>
                   <div className="space-y-2">
-                    {selectedPack.includes.map((item, idx) => (
+                    {selectedPack.includes.map((item: string, idx: number) => (
                       <div key={idx} className="flex items-start gap-2 p-3 bg-gray-800/50 rounded-lg">
                         <Database className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-300">{item}</span>
@@ -464,7 +458,7 @@ const openPackDetails = (pack: Pack | null): void => {
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-white mb-3">Best For:</h3>
                   <div className="space-y-2">
-                    {selectedPack.bestFor.map((item, idx) => (
+                    {selectedPack.bestFor.map((item: string, idx: number) => (
                       <div key={idx} className="flex items-start gap-2">
                         <span className="text-[#19F6FF]">•</span>
                         <span className="text-sm text-gray-300">{item}</span>

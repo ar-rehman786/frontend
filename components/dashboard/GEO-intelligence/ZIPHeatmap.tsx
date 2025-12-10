@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
 import { Map, Layers, TrendingUp, Home, DollarSign, Filter, ZoomIn, ZoomOut } from 'lucide-react';
 
-export default function ZIPHeatmap() {
-  const [selectedMetric, setSelectedMetric] = useState('price');
-  const [selectedZip, setSelectedZip] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(1);
+type Metric = 'price' | 'demand' | 'supply' | 'transactions';
 
-  const zipCodes = [
+type ZipData = {
+  zip: string;
+  name: string;
+  price: number;
+  priceChange: number;
+  inventory: number;
+  avgDays: number;
+  demand: number;
+  supply: number;
+  transactions: number;
+  coords: { x: number; y: number };
+};
+
+export default function ZIPHeatmap() {
+  const [selectedMetric, setSelectedMetric] = useState<Metric>('price');
+  const [selectedZip, setSelectedZip] = useState<ZipData | null>(null);
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+
+  const zipCodes: ZipData[] = [
     {
       zip: '27560',
       name: 'Morrisville',
@@ -129,7 +144,7 @@ export default function ZIPHeatmap() {
     }
   ];
 
-  const getHeatColor = (value, metric) => {
+  const getHeatColor = (value: number, metric: Metric): string => {
     if (metric === 'price') {
       if (value >= 500000) return '#EF4444'; // Red - Very High
       if (value >= 450000) return '#F97316'; // Orange - High
@@ -151,7 +166,7 @@ export default function ZIPHeatmap() {
     return '#19F6FF';
   };
 
-  const getMetricValue = (zip, metric) => {
+  const getMetricValue = (zip: ZipData, metric: Metric): number => {
     switch (metric) {
       case 'price': return zip.price;
       case 'demand': return zip.demand;
@@ -181,12 +196,12 @@ export default function ZIPHeatmap() {
                 <Layers className="w-5 h-5 text-[#19F6FF]" />
                 <span className="text-sm font-semibold text-white">Metric:</span>
                 <div className="flex gap-2">
-                  {[
+                  {([
                     { id: 'price', label: 'Median Price', icon: DollarSign },
                     { id: 'demand', label: 'Demand Score', icon: TrendingUp },
                     { id: 'supply', label: 'Supply Level', icon: Home },
-                    { id: 'transactions', label: 'Transactions', icon: Map }
-                  ].map(metric => {
+                    { id: 'transactions', label: 'Transactions', icon: Map },
+                  ] as const).map((metric) => {
                     const Icon = metric.icon;
                     return (
                       <button
