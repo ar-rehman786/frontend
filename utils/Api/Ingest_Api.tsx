@@ -1,14 +1,21 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-export const sendData = async (payload) => {
+interface SendDataPayload {
+  file?: File | Blob;
+  
+  [key: string]: any;
+}
+
+
+export const sendData = async (payload: SendDataPayload): Promise<any> => {
   try {
-    const res = await axios.post(
+    const res: AxiosResponse = await axios.post(
       "https://jsonplaceholder.typicode.com/posts",
       payload
     );
     console.log("API Response:", res.data);
     return res.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("API Error:", error);
     throw error;
   }

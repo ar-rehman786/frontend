@@ -10,7 +10,8 @@ const navItems = [
 ];
 
 const Navbar = () => {
-  const location = usePathname();
+  const pathname = usePathname();
+  
   return (
     <>
       <header
@@ -36,8 +37,6 @@ const Navbar = () => {
           }}
         >
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-            <div
-            />
             <img src="/axis-trade-market.jpeg" className="h-16 w-16 rounded-full" alt="" />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <span
@@ -74,22 +73,21 @@ const Navbar = () => {
               }}
             >
               {navItems.map((item) => (
-                <Link href={item.to}>
-                    <button
-                  key={item.label}
-                  disabled={item.disabled}
-                  style={{
-                    border: 'none',
-                    background: 'transparent',
-                    color: item.disabled ? '#575b78' : '#d0d3ff',
-                    cursor: item.disabled ? 'not-allowed' : 'pointer',
-                    fontSize: '0.8rem',
-                    padding: 0,
-                    opacity: item.to === '/' && location.pathname === '/' ? 1 : 0.85,
-                  }}
-                >
-                  {item.label}
-                </button>
+                <Link href={item.to} key={item.label}>
+                  <button
+                    disabled={item.disabled}
+                    style={{
+                      border: 'none',
+                      background: 'transparent',
+                      color: item.disabled ? '#575b78' : '#d0d3ff',
+                      cursor: item.disabled ? 'not-allowed' : 'pointer',
+                      fontSize: '0.8rem',
+                      padding: 0,
+                      opacity: item.to === "/" && pathname === "/" ? 1 : 0.85,
+                    }}
+                  >
+                    {item.label}
+                  </button>
                 </Link>
               ))}
             </div>

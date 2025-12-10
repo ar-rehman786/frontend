@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import { useEffect, useState } from "react";
-
-
   const tabs = [
     "Dashboard",
     "Feeds",
@@ -12,8 +10,9 @@ import { useEffect, useState } from "react";
     "Settings",
   ];
 
-  
-  function useCountUp(end, duration = 1600) {
+  type CountUpEnd = number | string;
+
+  function useCountUp(end: CountUpEnd, duration = 1600) {
     const [value, setValue] = useState(0);
     
     useEffect(() => {
@@ -38,14 +37,14 @@ import { useEffect, useState } from "react";
     
     return () => clearInterval(timer);
   }, [end, duration]);
-  
+
   // Format output
   if (typeof end === "string" && end.includes("%")) {
     return value.toFixed(1) + "%";
   }
-  
+
   return Math.floor(value).toLocaleString();
-}
+};
 
 const KPI_CARDS = [
   {
@@ -79,6 +78,28 @@ const KPI_CARDS = [
     positive: false,
   },
 ] as const;
+
+type KpiCardProps = {
+  kpi: (typeof KPI_CARDS)[number];
+};
+
+const KpiCard: React.FC<KpiCardProps> = ({ kpi }) => {
+  const countValue = useCountUp(kpi.value);
+  const countPercent = useCountUp(kpi.change);
+
+  return (
+    <div className="kpi-card">
+      <div className="kpi-label">{kpi.label}</div>
+
+      <div className="kpi-value">{countValue}</div>
+
+      <div className={"kpi-change " + (kpi.positive ? "positive" : "negative")}>
+        <span className="kpi-dot" />
+        <span>{countPercent}</span>
+      </div>
+    </div>
+  );
+};
 
 const SEGMENTS = [
   {
@@ -268,23 +289,9 @@ export const Dashboard = () => {
 
         {/* KPI Row */}
         <div className="kpi-grid" style={{ marginBottom: "1.2rem" }}>
-          {KPI_CARDS.map((kpi) => {
-            const countValue = useCountUp(kpi.value);
-            const countPercent = useCountUp(kpi.change);
-
-            return (
-              <div key={kpi.label} className="kpi-card">
-                <div className="kpi-label">{kpi.label}</div>
-
-                <div className="kpi-value">{countValue}</div>
-
-                <div className={"kpi-change " + (kpi.positive ? "positive" : "negative")}>
-                  <span className="kpi-dot" />
-                  <span>{countPercent}</span>
-                </div>
-              </div>
-            );
-          })}
+          {KPI_CARDS.map((kpi) => (
+            <KpiCard key={kpi.label} kpi={kpi} />
+          ))}
         </div>
 
         {/* Charts */}
