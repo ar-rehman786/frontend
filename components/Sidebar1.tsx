@@ -38,8 +38,8 @@ const DASHBOARDS: DashboardInfo[] = [
         id: 'Realtor',
         title: 'Realtor',
         description: 'Dashboard, Feeds, Reports & Settings',
-        icon: BarChart3,
-        iconBg: 'bg-gradient-to-br from-[#00D4D4] to-[#00B8B8]'
+        icon: TrendingUp,
+        iconBg: 'bg-gray-800'
     },
     {
         id: 'lender',
@@ -130,7 +130,7 @@ export default function Sidebar1({ activeDashboard, onDashboardChange }: Sidebar
                                     : 'bg-transparent border-gray-900 hover:border-gray-800 hover:bg-gray-900/30'
                             }`}
                         >
-                            <div className="flex items-start gap-4">
+                            <div className="flex items-start gap-4 cursor-pointer">
                                 <div className={`w-12 h-12 ${dashboard.iconBg} rounded-lg flex items-center justify-center flex-shrink-0`}>
                                     <Icon className="w-6 h-6 text-white" />
                                 </div>
