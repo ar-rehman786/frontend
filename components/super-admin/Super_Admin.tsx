@@ -11,6 +11,7 @@ type StatsType = {
 
 
 import React, { useState, useEffect } from 'react';
+
 import {
   Shield, Users, Activity, Database, Settings, Key, Clock,
   Grid3x3, Building2, TrendingUp, ShoppingCart, FileText, MapPin,
@@ -20,7 +21,9 @@ import {
 } from 'lucide-react';
 
 export default function Super_Admin() {
+  const router = useRouter();
   const [activeSection, setActiveSection] = useState('overview');
+
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [demoRole, setDemoRole] = useState('');
   //   const [generatedDemo, setGeneratedDemo] = useState(null);
@@ -28,7 +31,6 @@ export default function Super_Admin() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-
 
   const [stats, setStats] = useState<StatsType>({
     totalUsers: 0,
@@ -38,7 +40,6 @@ export default function Super_Admin() {
     apiCalls: 0,
     storageUsed: 0,
   });
-
 
   useEffect(() => {
     const targets: StatsType = {
@@ -71,9 +72,30 @@ export default function Super_Admin() {
     return () => clearInterval(timer);
   }, []);
 
-
   // Available Dashboards
   const dashboards = [
+    {
+      id: 'Realtor',
+      title: 'Realtor',
+      description: 'Property listings, market feeds & client management',
+      icon: BarChart3,
+      color: 'bg-cyan-500',
+      users: 420,
+      status: 'active',
+      lastAccess: 'Just now',
+      path: '/RealtorDashboard',
+    },
+    {
+      id: 'Title',
+      title: 'Title Company',
+      description: 'Title pipeline, document management & closing coordination',
+      icon: BarChart3,
+      color: 'bg-emerald-500',
+      users: 210,
+      status: 'active',
+      lastAccess: '1 min ago',
+      path: '/TitleDashboard',
+    },
     {
       id: 'lender',
       title: 'Lender Intelligence',
@@ -81,7 +103,8 @@ export default function Super_Admin() {
       color: 'bg-blue-500',
       users: 342,
       status: 'active',
-      lastAccess: '2 mins ago'
+      lastAccess: '2 mins ago',
+      path: '/lender-dashboard',
     },
     {
       id: 'institutional',
@@ -90,7 +113,8 @@ export default function Super_Admin() {
       color: 'bg-purple-500',
       users: 156,
       status: 'active',
-      lastAccess: '5 mins ago'
+      lastAccess: '5 mins ago',
+      path: '/institutional-dashboard',
     },
     {
       id: 'sales',
@@ -99,7 +123,8 @@ export default function Super_Admin() {
       color: 'bg-yellow-500',
       users: 234,
       status: 'active',
-      lastAccess: '1 min ago'
+      lastAccess: '1 min ago',
+      path: '/sales-dashboard',
     },
     {
       id: 'marketplace',
@@ -108,7 +133,8 @@ export default function Super_Admin() {
       color: 'bg-green-500',
       users: 189,
       status: 'active',
-      lastAccess: '3 mins ago'
+      lastAccess: '3 mins ago',
+      path: '/marketplace-dashboard',
     },
     {
       id: 'reports',
@@ -117,7 +143,8 @@ export default function Super_Admin() {
       color: 'bg-red-500',
       users: 267,
       status: 'active',
-      lastAccess: '4 mins ago'
+      lastAccess: '4 mins ago',
+      path: '/reports-dashboard',
     },
     {
       id: 'geo',
@@ -126,8 +153,9 @@ export default function Super_Admin() {
       color: 'bg-teal-500',
       users: 198,
       status: 'active',
-      lastAccess: '6 mins ago'
-    }
+      lastAccess: '6 mins ago',
+      path: '/geo-dashboard',
+    },
   ];
 
   // Demo Accounts Data
@@ -235,17 +263,6 @@ export default function Super_Admin() {
     alert('Demo account extended by 5 days');
   };
 
-  //   const getStatusBadge = (status) => {
-  //     const badges = {
-  //       active: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', icon: CheckCircle },
-  //       expiring: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30', icon: Clock },
-  //       expired: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30', icon: XCircle },
-  //       healthy: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', icon: CheckCircle },
-  //       warning: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30', icon: AlertTriangle }
-  //     };
-  //     return badges[status] || badges.active;
-  //   };
-
   const getStatusBadge = (
     status: 'active' | 'expiring' | 'expired' | 'healthy' | 'warning'
   ) => {
@@ -262,7 +279,6 @@ export default function Super_Admin() {
 
     return badges[status] || badges.active;
   };
-
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -374,58 +390,15 @@ export default function Super_Admin() {
         <div className="mb-8">
           <h2 className="text-xl font-bold text-white mb-4">All Dashboards</h2>
           <div className="grid grid-cols-3 gap-4">
-            {/* {dashboards.map((dashboard) => {
-              const Icon = dashboard.icon;
-              const statusBadge = getStatusBadge(dashboard.status as any);
-              const StatusIcon = statusBadge.icon;
-
-              return (
-                <div
-                  key={dashboard.id}
-                  className="bg-gradient-to-br from-gray-900 to-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-[#00D4D4]/30 transition-all cursor-pointer group"
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`w-12 h-12 ${dashboard.color} rounded-xl flex items-center justify-center`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusBadge.bg} ${statusBadge.text} ${statusBadge.border} flex items-center gap-1`}>
-                      <StatusIcon className="w-3 h-3" />
-                      {dashboard.status}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#00D4D4] transition-colors">
-                    {dashboard.title}
-                  </h3>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="text-gray-400">
-                      <Users className="w-4 h-4 inline mr-1" />
-                      {dashboard.users} users
-                    </div>
-                    <div className="text-gray-500 text-xs">{dashboard.lastAccess}</div>
-                  </div>
-
-                  <div className="mt-4 flex gap-2">
-                    <button className="flex-1 px-3 py-2 bg-[#00D4D4] text-black rounded-lg hover:bg-[#00BCC9] transition-colors text-sm font-medium">
-                      Access
-                    </button>
-                    <button className="px-3 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors border border-gray-700">
-                      <Eye className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })} */}
-
             {dashboards.map((dashboard) => {
-              const router = useRouter();
               const Icon = dashboard.icon;
               const statusBadge = getStatusBadge(dashboard.status as any);
               const StatusIcon = statusBadge.icon;
 
               const handleNavigate = () => {
-                router.push(`/dashboard/${dashboard.id}`);
+                if (dashboard.path) {
+                  router.push(dashboard.path);
+                }
               };
 
               return (

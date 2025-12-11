@@ -11,6 +11,7 @@ module.exports = {
     { pattern: /border-\[var\(--.*\)\]/ },
   ],
 
+
   theme: {
     extend: {},
   },
