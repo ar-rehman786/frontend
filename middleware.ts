@@ -25,13 +25,15 @@ export async function middleware(request: NextRequest) {
   
   // Define public routes that don't require authentication
   const publicRoutes = [
-    '/login',
-    '/auth/signup',
-    '/',
-    '/_next',
-    '/public',
-    '/api',
-    '/favicon.ico'
+    '/admin',
+    // '/login',
+    // '/auth/signup',
+    // '/',
+    // '/_next',
+    // '/public',
+    // '/api',
+    // '/favicon.ico'
+    ''
   ];
 
   // Check if current route is public
