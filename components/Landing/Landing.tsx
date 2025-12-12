@@ -170,12 +170,12 @@ export default function LandingPage() {
 
             <p className="text-xl mb-8" style={{ color: "#9CA3AF" }}>
               This is the standard we started building, and are building toward.
-              This is our architecture, our direction, and you’re part of creating a category.
+              This is our architecture, our direction, and you are part of creating a category.
               <br />
               These visuals are now part of our investor, enterpri
               se, and partner-facing ecosystem.
-              Wanted you to see what you’re helping bring to life.
-              Let’s lock this together.
+              Wanted you to see what you are helping bring to life.
+              Let lock this together.
             </p>
           </div>
 
