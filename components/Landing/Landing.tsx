@@ -165,7 +165,7 @@ export default function LandingPage() {
           {/* left Content */}
           <div className="flex flex-col justify-center">
             <h1 className="text-6xl font-bold leading-tight mb-6">
-              latest Verified Data Refinery & Axis visuals.
+              Latest Verified Data Refinery & Axis Visuals.
             </h1>
 
             <p className="text-xl mb-8" style={{ color: "#9CA3AF" }}>
