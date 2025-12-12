@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import { Sparkles, Zap, Lock, Check, Shield, Layers, TrendingUp, Database, ChevronRight } from 'lucide-react';
 

@@ -83,7 +83,7 @@ export default function Super_Admin() {
       users: 420,
       status: 'active',
       lastAccess: 'Just now',
-      path: '/RealtorDashboard',
+      path: '/dashboard/Realtor',
     },
     {
       id: 'Title',
@@ -94,7 +94,7 @@ export default function Super_Admin() {
       users: 210,
       status: 'active',
       lastAccess: '1 min ago',
-      path: '/TitleDashboard',
+      path: '/dashboard/Title',
     },
     {
       id: 'lender',
@@ -104,7 +104,7 @@ export default function Super_Admin() {
       users: 342,
       status: 'active',
       lastAccess: '2 mins ago',
-      path: '/lender-dashboard',
+      path: '/dashboard/lender',
     },
     {
       id: 'institutional',
@@ -114,7 +114,7 @@ export default function Super_Admin() {
       users: 156,
       status: 'active',
       lastAccess: '5 mins ago',
-      path: '/institutional-dashboard',
+      path: '/dashboard/institutional',
     },
     {
       id: 'sales',
@@ -124,7 +124,7 @@ export default function Super_Admin() {
       users: 234,
       status: 'active',
       lastAccess: '1 min ago',
-      path: '/sales-dashboard',
+      path: '/dashboard/sales',
     },
     {
       id: 'marketplace',
@@ -134,7 +134,7 @@ export default function Super_Admin() {
       users: 189,
       status: 'active',
       lastAccess: '3 mins ago',
-      path: '/marketplace-dashboard',
+      path: '/dashboard/marketplace',
     },
     {
       id: 'reports',
@@ -144,7 +144,7 @@ export default function Super_Admin() {
       users: 267,
       status: 'active',
       lastAccess: '4 mins ago',
-      path: '/reports-dashboard',
+      path: '/dashboard/Reports',
     },
     {
       id: 'geo',
@@ -154,7 +154,7 @@ export default function Super_Admin() {
       users: 198,
       status: 'active',
       lastAccess: '6 mins ago',
-      path: '/geo-dashboard',
+      path: '/dashboard/geo',
     },
   ];
 

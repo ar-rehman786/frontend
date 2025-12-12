@@ -16,10 +16,33 @@ export default function Admin() {
         setError('');
         setIsLoading(true);
         setTimeout(() => {
+            const setAuth = (role: string, token: string, redirectTo: string) => {
+                localStorage.setItem('adminToken', token);
+                localStorage.setItem('adminUser', JSON.stringify({ email, role }));
+
+                // Used by existing /super-admin route guard
+                if (role === 'MASTER_ADMIN') {
+                    localStorage.setItem('auth', 'super-admin');
+                } else {
+                    localStorage.removeItem('auth');
+                }
+
+                // Used by Next.js middleware (server side)
+                document.cookie = `adminToken=${token}; path=/; max-age=86400; SameSite=Lax`;
+                document.cookie = `user_role=${role}; path=/; max-age=86400; SameSite=Lax`;
+
+                router.push(redirectTo);
+            };
+
+            // Super Admin (existing dummy)
             if (email === 'admin@axistrademarket.ai' && password === 'Temp123!') {
-                localStorage.setItem("auth", "super-admin");
-                router.push('/super-admin');
-            } else {
+                setAuth('MASTER_ADMIN', 'super-admin-token', '/super-admin');
+            }
+            // Admin (requested dummy)
+            else if (email === 'admin@gmail.com' && password === '12345678') {
+                setAuth('ADMIN', 'admin-token', '/dashboard');
+            }
+            else {
                 setError('Invalid credentials. Access denied.');
             }
 

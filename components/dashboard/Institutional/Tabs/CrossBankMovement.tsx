@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { ArrowRightLeft, TrendingUp, TrendingDown, Building2, DollarSign, Activity, Filter } from 'lucide-react';
 

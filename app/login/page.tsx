@@ -2,17 +2,51 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Globe, Lock, Mail, Eye, EyeOff, Shield } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
+    setError('');
     console.log('Login submitted:', { email, password, rememberMe });
-    // Handle login logic
-    alert('Login functionality will be implemented with backend');
+
+    const setAuth = (role: string, token: string, defaultRedirectTo: string) => {
+      localStorage.setItem('adminToken', token);
+      localStorage.setItem('adminUser', JSON.stringify({ email, role }));
+
+      if (role === 'MASTER_ADMIN') {
+        localStorage.setItem('auth', 'super-admin');
+      } else {
+        localStorage.removeItem('auth');
+      }
+
+      document.cookie = `adminToken=${token}; path=/; max-age=86400; SameSite=Lax`;
+      document.cookie = `user_role=${role}; path=/; max-age=86400; SameSite=Lax`;
+
+      const redirectParam = searchParams.get('redirect');
+      const redirectTo = redirectParam && redirectParam.startsWith('/') ? redirectParam : defaultRedirectTo;
+      router.push(redirectTo);
+    };
+
+    if (email === 'admin@gmail.com' && password === '12345678') {
+      setAuth('ADMIN', 'admin-token', '/dashboard');
+      return;
+    }
+
+    if (email === 'admin@axistrademarket.ai' && password === 'Temp123!') {
+      setAuth('MASTER_ADMIN', 'super-admin-token', '/super-admin');
+      return;
+    }
+
+    setError('Invalid credentials. Access denied.');
   };
 
   return (
@@ -22,19 +56,17 @@ export default function LoginPage() {
         <div className="flex justify-center mb-6">
           <div className="relative">
             <div className="absolute inset-0 bg-[#00D4D4]/20 blur-3xl text-center rounded-full"></div>
-           <Image
+            <Image
               src="/axis-trade-market.jpeg"
               alt="Axis Trade Market Logo"
               width={80}
               height={80}
               className="relative rounded-full border border-gray-400/20"
-            />  
-           
- <h1 className="font-bold tracking-tight">
-                    <span className="text-white">AXIS</span>
-                    <span className="text-[#00D4D4]">TRADE</span>
-                </h1>
-            
+            />
+            <h1 className="font-bold tracking-tight">
+              <span className="text-white">AXIS</span>
+              <span className="text-[#00D4D4]">TRADE</span>
+            </h1>
           </div>
         </div>
 
@@ -45,6 +77,12 @@ export default function LoginPage() {
             <h1 className="text-3xl font-bold mb-2">Institutional Login</h1>
             <p className="text-gray-400">Access your verified intelligence platform</p>
           </div>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <div className="text-sm text-red-300">{error}</div>
+            </div>
+          )}
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">

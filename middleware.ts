@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
     'sessionid',
     'csrftoken', 
     'auth_session',
+    'auth-token',
     'adminToken',
     'access_token'
   ];
@@ -21,21 +22,16 @@ export async function middleware(request: NextRequest) {
     }
   }
   
-  const userRole = request.cookies.get('user_role')?.value;
+  const userRole = request.cookies.get('user_role')?.value || request.cookies.get('user-role')?.value;
   
   // Define public routes that don't require authentication
   const publicRoutes = [
     '/admin',
-    // '/login',
-    // '/auth/signup',
-    // '/',
-    // '/_next',
-    // '/public',
-    // '/api',
-    // '/favicon.ico'
-    ''
+    '/login',
+    '/auth/login',
+    '/auth/signup'
   ];
-
+  
   // Check if current route is public
   const isPublicRoute = publicRoutes.some(route => 
     pathname === route || 
@@ -43,7 +39,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/_next/') ||
     pathname.startsWith('/api/')
   );
-
+  
   // Define role-based access
   const roleAccess: Record<string, string[]> = {
     'MASTER_ADMIN': [
@@ -51,6 +47,9 @@ export async function middleware(request: NextRequest) {
       '/admin/dashboard',
       '/admin/users',
       '/admin/settings'
+    ],
+    'ADMIN': [
+      '/dashboard'
     ],
     'INSTITUTIONAL': [
       '/institutional',
@@ -86,6 +85,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // Dashboard access is only for ADMIN and MASTER_ADMIN
+  if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) {
+    if (!hasAuthCookie) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (userRole !== 'ADMIN' && userRole !== 'MASTER_ADMIN') {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
+
   // If authenticated but trying to access auth pages
   if (hasAuthCookie && (pathname === '/login' || pathname === '/auth/signup')) {
     let redirectUrl = '/';
@@ -93,6 +105,9 @@ export async function middleware(request: NextRequest) {
       switch (userRole) {
         case 'MASTER_ADMIN':
           redirectUrl = '/admin/dashboard';
+          break;
+        case 'ADMIN':
+          redirectUrl = '/dashboard';
           break;
         case 'INSTITUTIONAL':
           redirectUrl = '/institutional/dashboard';
@@ -125,6 +140,8 @@ export async function middleware(request: NextRequest) {
       switch (userRole) {
         case 'MASTER_ADMIN':
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+        case 'ADMIN':
+          return NextResponse.redirect(new URL('/dashboard', request.url));
         case 'INSTITUTIONAL':
           return NextResponse.redirect(new URL('/institutional/dashboard', request.url));
         case 'BROKERAGE':
@@ -142,6 +159,8 @@ export async function middleware(request: NextRequest) {
       switch (userRole) {
         case 'MASTER_ADMIN':
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+        case 'ADMIN':
+          return NextResponse.redirect(new URL('/dashboard', request.url));
         case 'INSTITUTIONAL':
           return NextResponse.redirect(new URL('/institutional/dashboard', request.url));
         case 'BROKERAGE':
@@ -169,5 +188,7 @@ export const config = {
     '/admin/:path*',
     '/institutional/:path*',
     '/brokerage/:path*',
+    '/dashboard/:path*',
+    '/super-admin/:path*',
   ],
 };
