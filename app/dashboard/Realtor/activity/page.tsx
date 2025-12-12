@@ -8,7 +8,7 @@ const page = () => {
     <div className="p-15">
       <ActivityHeader />
       <ActivityAISummary />
-      <ActivityTable data={data} />
+      <ActivityTable />
     </div>
   );
 };
