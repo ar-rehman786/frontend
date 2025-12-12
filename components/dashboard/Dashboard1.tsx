@@ -52,6 +52,7 @@ import TitleReportsTab from '@/components/TitleCompanyDadhbaord/tabs/Reports';
 import TitleUploadTab from '@/components/TitleCompanyDadhbaord/tabs/Uploads';
 import TitleQATab from '@/components/TitleCompanyDadhbaord/tabs/QA';
 import TitleSettingsTab from '@/components/TitleCompanyDadhbaord/tabs/Setting';
+import BrokerFeedsTab from './Data-broker/FeedsTab';
 
 export type DashboardTab = {
     id: string;
@@ -67,7 +68,7 @@ export type DashboardInfo = {
     iconBg: string;
 };
 
-export type DashboardId = 'lender' | 'institutional' | 'sales' | 'marketplace' | 'reports' | 'geo'  | 'Realtor' | 'Title';
+export type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo'  | 'Realtor' | 'Title';
 
 // Tab Definitions - All dashboards with their individual tabs
 export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
@@ -126,6 +127,12 @@ export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
         { id: 'market-selector', label: 'Market Selector', component: MarketSelector },
         { id: 'heatmap', label: 'Heat Map', component: ZIPHeatmap },
         { id: 'insight', label: 'Insight', component: InsightCards }
+    ],
+
+    broker: [
+        { id: 'feeds', label: 'Feeds', component: BrokerFeedsTab },
+        // { id: 'heatmap', label: 'Heat Map', component: ZIPHeatmap },
+        // { id: 'insight', label: 'Insight', component: InsightCards }
     ],
     // 'Lendor': [
     //     { id: 'dashboard', label: 'Dashboard', component: Dashboard },
