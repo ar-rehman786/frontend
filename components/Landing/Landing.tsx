@@ -12,13 +12,14 @@ export default function LandingPage() {
           {/* Left Content */}
           <div className="flex flex-col justify-center">
             <h1 className="text-6xl font-bold leading-tight mb-6">
-              One-Click Market Intelligence for<br />
-              <span style={{ color: "#FFFFFF" }}>Real Estate Teams.</span>
+              The AI-Native Global Ledger for<br />
+              <span style={{ color: "#FFFFFF" }}>Verified Market Intelligence.</span>
             </h1>
 
             <p className="text-xl mb-8" style={{ color: "#9CA3AF" }}>
-              Upload a CSV and get a 7-page report<br />
-              and dashboard.
+              Axis is the world’s first Verified Data Refinery-as-a-Service (VDRaaS™), transforming fragmented owner, lending,
+              <br />
+               consumer, behavioral, macro, and cross-asset data into the single predictive intelligence layer enterprises rely on.
             </p>
 
             <div className="flex gap-4">
@@ -29,7 +30,7 @@ export default function LandingPage() {
                   color: "#FFFFFF",
                 }}
               >
-                Request Demo
+                Request Institutional Demo
               </button>
 
               <button
@@ -39,7 +40,7 @@ export default function LandingPage() {
                   color: "#FFFFFF",
                 }}
               >
-                View Sample Report
+                Download Compliance 3.0 Audit Snapshot
               </button>
             </div>
           </div>
