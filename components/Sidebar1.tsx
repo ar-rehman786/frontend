@@ -107,7 +107,8 @@ export default function Sidebar1({ activeDashboard, onDashboardChange }: Sidebar
     return (
         <aside className="w-[400px] h-screen bg-black border-r border-gray-900 flex flex-col fixed left-0 top-0">
             {/* Logo */}
-            <div className="p-6 pb-4 border-b border-gray-900 flex-shrink-0">
+            <div className="p-6 pb-4 border-b border-gray-900 flex-shrink-0 flex items-center gap-x-2">
+                    <img src="/axis-trade-market.jpeg" className='rounded-full h-20 w-20' alt="" />
                 <h1 className="text-2xl font-bold tracking-tight">
                     <span className="text-white">AXIS</span>
                     <span className="text-[#00D4D4]">TRADE</span>
