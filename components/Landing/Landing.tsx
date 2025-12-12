@@ -44,7 +44,7 @@ export default function LandingPage() {
               </button>
             </div>
           </div>
-
+          
           {/* Right Dashboard */}
           <div
             className="rounded-2xl rounded-r-none p-8 border-t-2 border-b-2 border-l-2 border-r-0"
@@ -155,6 +155,39 @@ export default function LandingPage() {
               </div>
             </div>
 
+          </div>
+
+        </div>
+
+
+         <div className="px-8 lg:pr-0 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+          {/* left Content */}
+          <div className="flex flex-col justify-center">
+            <h1 className="text-6xl font-bold leading-tight mb-6">
+              latest Verified Data Refinery & Axis visuals.
+            </h1>
+
+            <p className="text-xl mb-8" style={{ color: "#9CA3AF" }}>
+              This is the standard we started building, and are building toward.
+              This is our architecture, our direction, and you’re part of creating a category.
+              <br />
+              These visuals are now part of our investor, enterpri
+              se, and partner-facing ecosystem.
+              Wanted you to see what you’re helping bring to life.
+              Let’s lock this together.
+            </p>
+          </div>
+
+          {/* right Content */}
+          <div
+            className="rounded-2xl rounded-r-none p-8 border-t-2 border-b-2 border-l-2 border-r-0"
+            style={{
+              backgroundColor: "#1A1A1A",
+              borderColor: "#2A2A2A",
+            }}
+          >
+            <img src="/axis-image.jpeg" className='rounded-lg' alt="" />
           </div>
 
         </div>
