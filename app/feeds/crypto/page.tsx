@@ -1,6 +1,10 @@
 "use client";
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { TrendingUp, TrendingDown, Bitcoin, Coins, DollarSign, AlertCircle, LineChart, PieChart } from 'lucide-react';
+=======
+import { TrendingUp, TrendingDown, Bitcoin, DollarSign, AlertCircle, LineChart, PieChart } from 'lucide-react';
+>>>>>>> bb9b51291a09f39f284756152a52b4b9b9006955
 
 const CryptoFeed = () => {
   const [timeRange, setTimeRange] = useState('24h');
@@ -35,7 +39,7 @@ const CryptoFeed = () => {
       volume: '$14.2B',
       marketCap: '$285B',
       correlation: 0.65,
-      icon: Coins,
+      icon: Bitcoin,
       color: 'text-purple-500'
     },
     { 
