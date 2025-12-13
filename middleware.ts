@@ -23,11 +23,28 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/login') ||
     pathname.startsWith('/auth') ||
     pathname.startsWith('/_next') ||
-    pathname.startsWith('/api');
+    pathname.startsWith('/api') ||
+    pathname === '/'; // Allow access to root page for everyone
 
-  // Require auth
-  if (!hasAuthCookie && !isPublicRoute) {
+  // Require auth for protected routes (excluding root)
+  if (!hasAuthCookie && !isPublicRoute && pathname !== '/') {
     return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // Handle root page '/' logic
+  if (pathname === '/') {
+    if (hasAuthCookie) {
+      // Logged-in users get redirected based on role
+      if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
+        return NextResponse.redirect(new URL('/super-admin', request.url));
+      } else if (userRole === 'ADMIN') {
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+      }
+      // For other roles or no role, stay on root page
+      return NextResponse.next();
+    }
+    // Not logged in - stay on root page
+    return NextResponse.next();
   }
 
   /* =========================================
@@ -35,9 +52,6 @@ export function middleware(request: NextRequest) {
      NO RESTRICTIONS AT ALL
   ========================================== */
   if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
-    if (pathname === '/') {
-      return NextResponse.redirect(new URL('/super-admin', request.url));
-    }
     return NextResponse.next(); // FULL ACCESS
   }
 
@@ -51,20 +65,15 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect logged-in users from login
-  if (hasAuthCookie && pathname === '/login') {
-    if (userRole === 'ADMIN' || userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
-  }
-
-  // Root redirect - ONLY redirect SUPER_ADMIN/MASTER_ADMIN
-  // ADMIN can stay on / page
-  if (pathname === '/' && hasAuthCookie) {
+  // Redirect logged-in users from login page
+  if (hasAuthCookie && (pathname === '/login' || pathname.startsWith('/auth/login'))) {
     if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
       return NextResponse.redirect(new URL('/super-admin', request.url));
+    } else if (userRole === 'ADMIN') {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
-    // Admin can stay on / page, no redirect needed
+    // For other roles, redirect to home
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   return NextResponse.next();
