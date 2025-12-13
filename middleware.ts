@@ -46,23 +46,25 @@ export function middleware(request: NextRequest) {
      (super admins already bypassed)
   ====================== */
   if (pathname.startsWith('/dashboard')) {
-    if (userRole !== 'ADMIN') {
+    if (userRole !== 'ADMIN' && userRole !== 'SUPER_ADMIN' && userRole !== 'MASTER_ADMIN') {
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
 
   // Redirect logged-in users from login
   if (hasAuthCookie && pathname === '/login') {
-    if (userRole === 'ADMIN') {
+    if (userRole === 'ADMIN' || userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
 
-  // Root redirect
+  // Root redirect - ONLY redirect SUPER_ADMIN/MASTER_ADMIN
+  // ADMIN can stay on / page
   if (pathname === '/' && hasAuthCookie) {
-    if (userRole === 'ADMIN') {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+    if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
+      return NextResponse.redirect(new URL('/super-admin', request.url));
     }
+    // Admin can stay on / page, no redirect needed
   }
 
   return NextResponse.next();

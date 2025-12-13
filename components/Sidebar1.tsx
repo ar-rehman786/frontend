@@ -4,7 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Building2, ChevronRight, FileText, Grid3x3, MapPin, ShoppingCart, TrendingUp, BarChart3, LucideIcon } from 'lucide-react';
 
 // Update this type to match the main file
-type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo' | 'Realtor' | 'Title' | 'consumer';
+type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo' | 'Realtor' | 'Title' | 'consumer' | 'firm';
 
 type DashboardInfo = {
     id: string;
@@ -96,6 +96,13 @@ const DASHBOARDS: DashboardInfo[] = [
         id: 'consumer',
         title: 'Consumer',
         description: 'Owner profiles & financial insights',
+        icon: MapPin,
+        iconBg: 'bg-gray-800'
+    },
+        {
+        id: 'firm',
+        title: 'Firm Intelligence',
+        description: '`Firm profiles & market positioning',
         icon: MapPin,
         iconBg: 'bg-gray-800'
     }

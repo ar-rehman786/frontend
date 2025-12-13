@@ -59,6 +59,12 @@ import PredictiveTab from '@/components/dashboard/consumer/tabs/predictiveTab';;
 import CrossMarketTab from '@/components/dashboard/consumer/tabs/CrossMarketTab';
 import ActionsTab from '@/components/dashboard/consumer/tabs/ActionsTab';
 
+import HomeTabs from '@/components/dashboard/firm-intelligence-dashboard/tabs/HomeTab';
+import TeamTab from '@/components/dashboard/firm-intelligence-dashboard/tabs/TeamTab';
+import OpportunitiesTab from '@/components/dashboard/firm-intelligence-dashboard/tabs/OpportunitiesTab';
+import RevenueTab from '@/components/dashboard/firm-intelligence-dashboard/tabs/RevenueTab';
+import ReportsTab from '@/components/dashboard/firm-intelligence-dashboard/tabs/ReportsTab';
+import SettingsTab from '@/components/dashboard/firm-intelligence-dashboard/tabs/SettingsTab';
 
 export type DashboardTab = {
     id: string;
@@ -74,7 +80,7 @@ export type DashboardInfo = {
     iconBg: string;
 };
 
-export type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo'  | 'Realtor' | 'Title' | 'consumer';
+export type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo'  | 'Realtor' | 'Title' | 'consumer' | 'firm';
 
 // Tab Definitions - All dashboards with their individual tabs
 export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
@@ -146,6 +152,14 @@ export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
         { id: 'PredictiveTab', label: 'PredictiveTab', component: PredictiveTab },
          { id: 'CrossMarketTab ', label: 'CrossMarketTab ', component: CrossMarketTab  },
         { id: 'ActionsTab', label: 'ActionsTab', component: ActionsTab },
+    ],
+     firm: [
+        { id: 'HomeTabs', label: 'HomeTabs', component: HomeTabs  },
+        { id: 'TeamTab', label: 'TeamTab', component: TeamTab },
+        { id: 'OpportunitiesTab', label: 'OpportunitiesTab', component: OpportunitiesTab },
+         { id: 'RevenueTab ', label: 'RevenueTab', component: RevenueTab },
+        { id: 'ReportsTab', label: 'ReportsTab', component: ReportsTab },
+        { id: 'SettingsTab', label: 'SettingsTab', component: SettingsTab },
     ]
     // 'Lendor': [
     //     { id: 'dashboard', label: 'Dashboard', component: Dashboard },
@@ -226,6 +240,13 @@ export const DASHBOARDS: DashboardInfo[] = [
         id: 'consumer',
         title: 'Consumer',
         description: 'Owner profiles & financial insights',
+        icon: MapPin,
+        iconBg: 'bg-gray-800'
+    },
+    {
+        id: 'firm',
+        title: 'Firm Intelligence',
+        description: '`Firm profiles & market positioning',
         icon: MapPin,
         iconBg: 'bg-gray-800'
     }
