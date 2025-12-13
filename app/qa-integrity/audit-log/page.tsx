@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Clock, Search, Filter, Download, Eye, CheckCircle, XCircle, User, Shield, Database, Calendar } from 'lucide-react';
 
@@ -146,7 +148,10 @@ const AuditLog = () => {
     averageDaily: '1.2'
   };
 
-  const getActionIcon = (actionType) => {
+  type ActionType = 'data' | 'security' | 'compliance' | 'system';
+  type UserType = 'admin' | 'manager' | 'user' | 'system' | 'external';
+
+  const getActionIcon = (actionType: ActionType) => {
     switch(actionType) {
       case 'data': return Database;
       case 'security': return Shield;
@@ -156,7 +161,7 @@ const AuditLog = () => {
     }
   };
 
-  const getUserColor = (userType) => {
+  const getUserColor = (userType: UserType) => {
     switch(userType) {
       case 'admin': return 'bg-purple-500/20 text-purple-400';
       case 'manager': return 'bg-blue-500/20 text-blue-400';
@@ -312,12 +317,12 @@ const AuditLog = () => {
             </thead>
             <tbody>
               {filteredLogs.map((log) => {
-                const ActionIcon = getActionIcon(log.actionType);
+                const ActionIcon = getActionIcon(log.actionType as ActionType);
                 return (
                   <tr key={log.id} className="border-b border-gray-800 hover:bg-[#2A2A2A] transition-colors">
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-full ${getUserColor(log.userType)} flex items-center justify-center`}>
+                        <div className={`w-10 h-10 rounded-full ${getUserColor(log.userType as UserType)} flex items-center justify-center`}>
                           {log.userType === 'system' ? (
                             <Database className="w-5 h-5" />
                           ) : (

@@ -46,7 +46,7 @@ export default function Lender() {
                 {(activeDashboard === 'Realtor' || activeDashboard === 'Title') && (
                   <div className="mt-8 bg-zinc-900 border-t border-zinc-800 px-6 py-3">
                     <p className="text-xs text-gray-500 flex items-center gap-2">
-                      <span className="text-yellow-500">⚖️</span>
+                      <span className="text-gray-400">⚖️</span>
                       {activeDashboard === 'Realtor'
                         ? '24h Delay — Informational Only. Not for immediate transaction decisions.'
                         : 'Predictive data for planning purposes only. Actual transaction volume may vary.'}

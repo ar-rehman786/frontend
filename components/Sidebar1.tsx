@@ -4,7 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Building2, ChevronRight, FileText, Grid3x3, MapPin, ShoppingCart, TrendingUp, BarChart3, LucideIcon } from 'lucide-react';
 
 // Update this type to match the main file
-type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo' | 'Realtor' | 'Title';
+type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo' | 'Realtor' | 'Title' | 'consumer';
 
 type DashboardInfo = {
     id: string;
@@ -89,6 +89,13 @@ const DASHBOARDS: DashboardInfo[] = [
         id: 'geo',
         title: 'City/ZIP Intelligence',
         description: 'Hot ZIPs, churn risk & opportunity',
+        icon: MapPin,
+        iconBg: 'bg-gray-800'
+    },
+      {
+        id: 'consumer',
+        title: 'Consumer',
+        description: 'Owner profiles & financial insights',
         icon: MapPin,
         iconBg: 'bg-gray-800'
     }

@@ -125,28 +125,28 @@ const Reports = () => {
         <div className="space-y-6">
           {/* KPI Summary */}
           <div className="grid grid-cols-4 gap-6">
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Pipeline Value</p>
               <h3 className="text-3xl font-bold text-white mb-2">$8.4M</h3>
-              <p className="text-green-400 text-sm font-semibold">+18.5% vs last period</p>
+              <p className="text-red-400 text-sm font-semibold">+18.5% vs last period</p>
             </div>
             
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Closed Deals</p>
               <h3 className="text-3xl font-bold text-white mb-2">192</h3>
-              <p className="text-green-400 text-sm font-semibold">+12.3% vs last period</p>
+              <p className="text-red-400 text-sm font-semibold">+12.3% vs last period</p>
             </div>
             
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Conversion Rate</p>
               <h3 className="text-3xl font-bold text-white mb-2">18.4%</h3>
               <p className="text-red-400 text-sm font-semibold">-2.1% vs last period</p>
             </div>
             
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Avg Deal Size</p>
               <h3 className="text-3xl font-bold text-white mb-2">$385K</h3>
-              <p className="text-green-400 text-sm font-semibold">+5.7% vs last period</p>
+              <p className="text-red-400 text-sm font-semibold">+5.7% vs last period</p>
             </div>
           </div>
 
@@ -221,7 +221,7 @@ const Reports = () => {
                     </td>
                     <td className="py-4 px-4 text-right">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        member.conversion >= 28 ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                        member.conversion >= 28 ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'
                       }`}>
                         {member.conversion}%
                       </span>
@@ -262,9 +262,9 @@ const Reports = () => {
                     </td>
                     <td className="py-4 px-4 text-right">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        source.roi >= 5000 ? 'bg-green-500/20 text-green-400' : 
+                        source.roi >= 5000 ? 'bg-red-500/20 text-red-400' : 
                         source.roi >= 3000 ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-red-500/20 text-red-400'
+                        'bg-blue-500/20 text-blue-400'
                       }`}>
                         {source.roi.toLocaleString()}%
                       </span>
@@ -318,7 +318,7 @@ const Reports = () => {
                     <span className="text-white font-semibold">4.2 mins</span>
                   </div>
                   <div className="w-full bg-[#2A2A2A] rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{ width: '85%' }} />
+                    <div className="bg-teal-500 h-2 rounded-full" style={{ width: '85%' }} />
                   </div>
                 </div>
 
@@ -328,7 +328,7 @@ const Reports = () => {
                     <span className="text-white font-semibold">92%</span>
                   </div>
                   <div className="w-full bg-[#2A2A2A] rounded-full h-2">
-                    <div className="bg-[#00D1D1] h-2 rounded-full" style={{ width: '92%' }} />
+                    <div className="bg-teal-500 h-2 rounded-full" style={{ width: '92%' }} />
                   </div>
                 </div>
 
@@ -351,22 +351,22 @@ const Reports = () => {
       {activeCategory === 'marketing' && (
         <div className="space-y-6">
           <div className="grid grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Email Open Rate</p>
               <h3 className="text-3xl font-bold text-white mb-2">34.2%</h3>
-              <p className="text-green-400 text-sm font-semibold">+4.5% vs benchmark</p>
+              <p className="text-red-400 text-sm font-semibold">+4.5% vs benchmark</p>
             </div>
             
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Click-Through Rate</p>
               <h3 className="text-3xl font-bold text-white mb-2">6.8%</h3>
-              <p className="text-green-400 text-sm font-semibold">+1.2% vs benchmark</p>
+              <p className="text-red-400 text-sm font-semibold">+1.2% vs benchmark</p>
             </div>
             
-            <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Campaign ROI</p>
               <h3 className="text-3xl font-bold text-white mb-2">5.2x</h3>
-              <p className="text-green-400 text-sm font-semibold">Above target</p>
+              <p className="text-red-400 text-sm font-semibold">Above target</p>
             </div>
           </div>
 
@@ -405,7 +405,7 @@ const Reports = () => {
                     <td className="py-4 px-4 text-right text-white font-semibold">{campaign.roi}x</td>
                     <td className="py-4 px-4 text-center">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        campaign.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+                        campaign.status === 'active' ? 'bg-teal-500/20 text-teal-400' : 'bg-gray-500/20 text-gray-400'
                       }`}>
                         {campaign.status}
                       </span>
@@ -423,12 +423,12 @@ const Reports = () => {
         <div className="space-y-6">
           <div className="grid grid-cols-5 gap-6">
             {Object.entries(complianceMetrics).map(([key, value]) => (
-              <div key={key} className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/30 rounded-xl p-6">
+              <div key={key} className="bg-gradient-to-br from-teal-500/10 to-teal-600/5 border border-teal-500/30 rounded-xl p-6">
                 <p className="text-[#9CA3AF] text-sm mb-2">
                   {key.replace(/([A-Z])/g, ' $1').trim()}
                 </p>
                 <h3 className="text-3xl font-bold text-white mb-2">{value}%</h3>
-                <p className={`text-sm font-semibold ${value >= 98 ? 'text-green-400' : 'text-yellow-400'}`}>
+                <p className={`text-sm font-semibold ${value >= 98 ? 'text-teal-400' : 'text-yellow-400'}`}>
                   {value >= 98 ? 'Excellent' : 'Good'}
                 </p>
               </div>
@@ -440,19 +440,19 @@ const Reports = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-center p-4 bg-[#2A2A2A] rounded-lg">
                 <span className="text-white font-semibold">DNC List Review</span>
-                <span className="px-4 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-semibold">Passed</span>
+                <span className="px-4 py-1 bg-teal-500/20 text-teal-400 rounded-full text-sm font-semibold">Passed</span>
               </div>
               <div className="flex justify-between items-center p-4 bg-[#2A2A2A] rounded-lg">
                 <span className="text-white font-semibold">TCPA Compliance</span>
-                <span className="px-4 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-semibold">Passed</span>
+                <span className="px-4 py-1 bg-teal-500/20 text-teal-400 rounded-full text-sm font-semibold">Passed</span>
               </div>
               <div className="flex justify-between items-center p-4 bg-[#2A2A2A] rounded-lg">
                 <span className="text-white font-semibold">Document Retention</span>
-                <span className="px-4 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-semibold">Passed</span>
+                <span className="px-4 py-1 bg-teal-500/20 text-teal-400 rounded-full text-sm font-semibold">Passed</span>
               </div>
               <div className="flex justify-between items-center p-4 bg-[#2A2A2A] rounded-lg">
                 <span className="text-white font-semibold">Fair Lending Review</span>
-                <span className="px-4 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-semibold">Passed</span>
+                <span className="px-4 py-1 bg-teal-500/20 text-teal-400 rounded-full text-sm font-semibold">Passed</span>
               </div>
             </div>
           </div>

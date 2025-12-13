@@ -135,13 +135,13 @@ const QAIntegrity = () => {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           {/* Overall Score */}
-          <div className="bg-gradient-to-br from-[#00D1D1]/10 to-[#00B8B8]/5 border border-[#00D1D1]/30 rounded-xl p-8 text-center">
+          <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/5 border border-teal-500/30 rounded-xl p-8 text-center">
             <h2 className="text-[#9CA3AF] text-lg mb-4">Overall Data Quality Score</h2>
             <div className="relative inline-block">
               <div className="text-7xl font-bold text-white">{dataQualityMetrics.overallScore}</div>
               <span className="text-3xl text-[#9CA3AF]">/100</span>
             </div>
-            <p className="text-green-400 font-semibold mt-4 text-lg">Excellent Health</p>
+            <p className="text-teal-400 font-semibold mt-4 text-lg">Excellent Health</p>
           </div>
 
           {/* Quality Metrics */}
@@ -149,12 +149,12 @@ const QAIntegrity = () => {
             <div className="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <p className="text-[#9CA3AF] text-sm">Completeness</p>
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-teal-400" />
               </div>
               <h3 className="text-3xl font-bold text-white mb-2">{dataQualityMetrics.completeness}%</h3>
               <div className="w-full bg-[#2A2A2A] rounded-full h-2">
                 <div 
-                  className="bg-gradient-to-r from-[#00D1D1] to-[#00B8B8] h-2 rounded-full"
+                  className="bg-gradient-to-r from-teal-500 to-teal-600 h-2 rounded-full"
                   style={{ width: `${dataQualityMetrics.completeness}%` }}
                 />
               </div>
@@ -163,12 +163,12 @@ const QAIntegrity = () => {
             <div className="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <p className="text-[#9CA3AF] text-sm">Accuracy</p>
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-teal-400" />
               </div>
               <h3 className="text-3xl font-bold text-white mb-2">{dataQualityMetrics.accuracy}%</h3>
               <div className="w-full bg-[#2A2A2A] rounded-full h-2">
                 <div 
-                  className="bg-gradient-to-r from-[#00D1D1] to-[#00B8B8] h-2 rounded-full"
+                  className="bg-gradient-to-r from-teal-500 to-teal-600 h-2 rounded-full"
                   style={{ width: `${dataQualityMetrics.accuracy}%` }}
                 />
               </div>
@@ -245,7 +245,7 @@ const QAIntegrity = () => {
               <div className="p-4 bg-[#2A2A2A] rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white font-semibold">Email Format</span>
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
                 </div>
                 <p className="text-[#9CA3AF] text-sm">RFC 5322 compliant email validation</p>
               </div>
@@ -253,7 +253,7 @@ const QAIntegrity = () => {
               <div className="p-4 bg-[#2A2A2A] rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white font-semibold">Phone Number</span>
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
                 </div>
                 <p className="text-[#9CA3AF] text-sm">US format: (XXX) XXX-XXXX</p>
               </div>
@@ -261,7 +261,7 @@ const QAIntegrity = () => {
               <div className="p-4 bg-[#2A2A2A] rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white font-semibold">Address Standardization</span>
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
                 </div>
                 <p className="text-[#9CA3AF] text-sm">USPS address verification</p>
               </div>
@@ -269,7 +269,7 @@ const QAIntegrity = () => {
               <div className="p-4 bg-[#2A2A2A] rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white font-semibold">Required Fields</span>
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-teal-400" />
                 </div>
                 <p className="text-[#9CA3AF] text-sm">Name, Contact, Property Address</p>
               </div>
@@ -283,28 +283,28 @@ const QAIntegrity = () => {
         <div className="space-y-6">
           {/* Compliance Score */}
           <div className="grid grid-cols-4 gap-6">
-            <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/5 border border-teal-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">DNC Compliance</p>
               <h3 className="text-3xl font-bold text-white mb-2">98.5%</h3>
-              <p className="text-green-400 text-sm font-semibold">Excellent</p>
+              <p className="text-teal-400 text-sm font-semibold">Excellent</p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/5 border border-teal-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">TCPA Adherence</p>
               <h3 className="text-3xl font-bold text-white mb-2">99.2%</h3>
-              <p className="text-green-400 text-sm font-semibold">Excellent</p>
+              <p className="text-teal-400 text-sm font-semibold">Excellent</p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/5 border border-teal-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Consent Tracking</p>
               <h3 className="text-3xl font-bold text-white mb-2">96.8%</h3>
-              <p className="text-green-400 text-sm font-semibold">Good</p>
+              <p className="text-teal-400 text-sm font-semibold">Good</p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/5 border border-teal-500/30 rounded-xl p-6">
               <p className="text-[#9CA3AF] text-sm mb-2">Disclosure Rate</p>
               <h3 className="text-3xl font-bold text-white mb-2">100%</h3>
-              <p className="text-green-400 text-sm font-semibold">Perfect</p>
+              <p className="text-teal-400 text-sm font-semibold">Perfect</p>
             </div>
           </div>
 
@@ -360,7 +360,7 @@ const QAIntegrity = () => {
                     </td>
                     <td className="py-4 px-4 text-center">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        issue.status === 'resolved' ? 'bg-green-500/20 text-green-400' :
+                        issue.status === 'resolved' ? 'bg-teal-500/20 text-teal-400' :
                         issue.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
                         'bg-blue-500/20 text-blue-400'
                       }`}>
@@ -479,7 +479,7 @@ const QAIntegrity = () => {
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-[#00D1D1]/20 flex items-center justify-center">
                       {log.result === 'success' ? (
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <CheckCircle className="w-5 h-5 text-teal-400" />
                       ) : (
                         <XCircle className="w-5 h-5 text-red-400" />
                       )}
@@ -497,7 +497,7 @@ const QAIntegrity = () => {
                   </div>
                   
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                    log.result === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                    log.result === 'success' ? 'bg-teal-500/20 text-teal-400' : 'bg-red-500/20 text-red-400'
                   }`}>
                     {log.result}
                   </span>

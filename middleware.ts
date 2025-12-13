@@ -1,182 +1,67 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
-  // Check for any authentication cookie
+
   const authCookies = [
     'sessionid',
-    'csrftoken', 
+    'csrftoken',
     'auth_session',
     'auth-token',
     'adminToken',
-    'access_token'
+    'access_token',
   ];
-  
-  let hasAuthCookie = false;
-  for (const cookieName of authCookies) {
-    if (request.cookies.get(cookieName)) {
-      hasAuthCookie = true;
-      break;
-    }
-  }
-  
-  const userRole = request.cookies.get('user_role')?.value || request.cookies.get('user-role')?.value;
-  
-  // Define public routes that don't require authentication
-  const publicRoutes = [
-    '/admin',
-    '/login',
-    '/auth/login',
-    '/auth/signup'
-  ];
-  
-  // Check if current route is public
-  const isPublicRoute = publicRoutes.some(route => 
-    pathname === route || 
-    pathname.startsWith(`${route}/`) ||
-    pathname.startsWith('/_next/') ||
-    pathname.startsWith('/api/')
-  );
-  
-  // Define role-based access
-  const roleAccess: Record<string, string[]> = {
-    'MASTER_ADMIN': [
-      '/admin',
-      '/admin/dashboard',
-      '/admin/users',
-      '/admin/settings'
-    ],
-    'ADMIN': [
-      '/dashboard'
-    ],
-    'INSTITUTIONAL': [
-      '/institutional',
-      '/institutional/dashboard',
-      '/institutional/portfolio'
-    ],
-    'BROKERAGE': [
-      '/brokerage',
-      '/brokerage/dashboard',
-      '/brokerage/listings'
-    ],
-    'REALTOR': [
-      '/realtor',
-      '/realtor/dashboard',
-      '/realtor/properties'
-    ],
-    'CONSUMER': [
-      '/consumer',
-      '/consumer/dashboard',
-      '/consumer/marketplace'
-    ]
-  };
 
-  // Handle signup page accessibility
-  if (pathname === '/auth/signup' && process.env.NEXT_PUBLIC_ENABLE_SIGNUP !== 'true') {
+  const hasAuthCookie = authCookies.some(c => request.cookies.get(c));
+
+  const userRole =
+    request.cookies.get('user_role')?.value ||
+    request.cookies.get('user-role')?.value;
+
+  const isPublicRoute =
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/auth') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api');
+
+  // Require auth
+  if (!hasAuthCookie && !isPublicRoute) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // If route is not public and user is not authenticated
-  if (!isPublicRoute && !hasAuthCookie) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
+  /* =========================================
+     MASTER_ADMIN / SUPER_ADMIN → FULL ACCESS
+     NO RESTRICTIONS AT ALL
+  ========================================== */
+  if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
+    if (pathname === '/') {
+      return NextResponse.redirect(new URL('/super-admin', request.url));
+    }
+    return NextResponse.next(); // FULL ACCESS
   }
 
-  // Dashboard access is only for ADMIN and MASTER_ADMIN
-  if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) {
-    if (!hasAuthCookie) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    if (userRole !== 'ADMIN' && userRole !== 'MASTER_ADMIN') {
+  /* =====================
+     /dashboard → ADMIN ONLY
+     (super admins already bypassed)
+  ====================== */
+  if (pathname.startsWith('/dashboard')) {
+    if (userRole !== 'ADMIN') {
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
 
-  // If authenticated but trying to access auth pages
-  if (hasAuthCookie && (pathname === '/login' || pathname === '/auth/signup')) {
-    let redirectUrl = '/';
-    if (userRole) {
-      switch (userRole) {
-        case 'MASTER_ADMIN':
-          redirectUrl = '/admin/dashboard';
-          break;
-        case 'ADMIN':
-          redirectUrl = '/dashboard';
-          break;
-        case 'INSTITUTIONAL':
-          redirectUrl = '/institutional/dashboard';
-          break;
-        case 'BROKERAGE':
-          redirectUrl = '/brokerage/dashboard';
-          break;
-        case 'REALTOR':
-          redirectUrl = '/realtor/dashboard';
-          break;
-        case 'CONSUMER':
-          redirectUrl = '/consumer/dashboard';
-          break;
-        default:
-          redirectUrl = '/';
-      }
+  // Redirect logged-in users from login
+  if (hasAuthCookie && pathname === '/login') {
+    if (userRole === 'ADMIN') {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
-    return NextResponse.redirect(new URL(redirectUrl, request.url));
   }
 
-  // Role-based access control for authenticated users
-  if (hasAuthCookie && userRole) {
-    const allowedRoutes = roleAccess[userRole] || [];
-    const isAllowedRoute = allowedRoutes.some(route => 
-      pathname === route || pathname.startsWith(`${route}/`)
-    );
-
-    // If root path, redirect to role-specific dashboard
-    if (pathname === '/') {
-      switch (userRole) {
-        case 'MASTER_ADMIN':
-          return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-        case 'ADMIN':
-          return NextResponse.redirect(new URL('/dashboard', request.url));
-        case 'INSTITUTIONAL':
-          return NextResponse.redirect(new URL('/institutional/dashboard', request.url));
-        case 'BROKERAGE':
-          return NextResponse.redirect(new URL('/brokerage/dashboard', request.url));
-        case 'REALTOR':
-          return NextResponse.redirect(new URL('/realtor/dashboard', request.url));
-        case 'CONSUMER':
-          return NextResponse.redirect(new URL('/consumer/dashboard', request.url));
-      }
-    }
-
-    // If trying to access a route not allowed for their role
-    if (!isAllowedRoute && !isPublicRoute) {
-      // Redirect to their role's dashboard
-      switch (userRole) {
-        case 'MASTER_ADMIN':
-          return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-        case 'ADMIN':
-          return NextResponse.redirect(new URL('/dashboard', request.url));
-        case 'INSTITUTIONAL':
-          return NextResponse.redirect(new URL('/institutional/dashboard', request.url));
-        case 'BROKERAGE':
-          return NextResponse.redirect(new URL('/brokerage/dashboard', request.url));
-        case 'REALTOR':
-          return NextResponse.redirect(new URL('/realtor/dashboard', request.url));
-        case 'CONSUMER':
-          return NextResponse.redirect(new URL('/consumer/dashboard', request.url));
-        default:
-          // If role is not recognized, clear auth and redirect to login
-          const response = NextResponse.redirect(new URL('/login', request.url));
-          authCookies.forEach(cookie => {
-            response.cookies.delete(cookie);
-          });
-          return response;
-      }
+  // Root redirect
+  if (pathname === '/' && hasAuthCookie) {
+    if (userRole === 'ADMIN') {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
 
@@ -184,11 +69,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/admin/:path*',
-    '/institutional/:path*',
-    '/brokerage/:path*',
-    '/dashboard/:path*',
-    '/super-admin/:path*',
-  ],
+  matcher: ['/:path*'],
 };

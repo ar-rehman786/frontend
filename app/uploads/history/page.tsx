@@ -1,12 +1,32 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Clock, FileText, Users, Database, Download, Filter, Search, CheckCircle, XCircle, AlertCircle, Calendar, BarChart3 } from 'lucide-react';
+
+type UploadStatus = 'completed' | 'processing' | 'failed';
+type UploadType = 'leads' | 'documents' | 'properties' | 'transactions';
+
+type UploadRecord = {
+  id: number;
+  fileName: string;
+  uploadDate: string;
+  status: UploadStatus;
+  type: UploadType;
+  records: number;
+  errors: number;
+  user: string;
+  size: string;
+  duration: string;
+  imported: number;
+  skipped: number;
+};
 
 const UploadHistory = () => {
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [dateRange, setDateRange] = useState('30days');
 
-  const uploadHistory = [
+  const uploadHistory: UploadRecord[] = [
     {
       id: 1,
       fileName: 'Q4_Leads_November.csv',
@@ -109,7 +129,7 @@ const UploadHistory = () => {
     { id: 'year', label: 'Last Year' }
   ];
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: UploadStatus) => {
     switch(status) {
       case 'completed': return CheckCircle;
       case 'processing': return AlertCircle;
@@ -118,7 +138,7 @@ const UploadHistory = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: UploadStatus): string => {
     switch(status) {
       case 'completed': return 'bg-green-500/20 text-green-400 border-green-500/30';
       case 'processing': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
@@ -127,7 +147,7 @@ const UploadHistory = () => {
     }
   };
 
-  const getTypeIcon = (type) => {
+  const getTypeIcon = (type: UploadType) => {
     switch(type) {
       case 'leads': return Users;
       case 'documents': return FileText;
@@ -137,7 +157,7 @@ const UploadHistory = () => {
     }
   };
 
-  const getTypeColor = (type) => {
+  const getTypeColor = (type: UploadType): string => {
     switch(type) {
       case 'leads': return 'bg-blue-500/20 text-blue-400';
       case 'documents': return 'bg-purple-500/20 text-purple-400';

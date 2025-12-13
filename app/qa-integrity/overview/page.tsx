@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Shield, AlertTriangle, CheckCircle, Database, RefreshCw, TrendingUp, TrendingDown } from 'lucide-react';
 

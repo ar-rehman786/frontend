@@ -1,16 +1,40 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { Bell, Mail, MessageSquare, Smartphone, Clock, Zap, Check, AlertCircle, Users, DollarSign, Shield } from 'lucide-react';
 
+type ChannelKey = 'email' | 'sms' | 'push' | 'inApp';
+type EventChannelKey = 'email' | 'sms' | 'push';
+
+type ChannelSettings = {
+  enabled: boolean;
+  frequency: 'instant' | 'daily' | 'weekly';
+};
+
+type ChannelsState = Record<ChannelKey, ChannelSettings>;
+
+type NotificationEvent = {
+  id: string;
+  name: string;
+  description: string;
+} & Record<EventChannelKey, boolean>;
+
+type EventCategory = {
+  id: string;
+  name: string;
+  icon: any;
+  enabled: boolean;
+  events: NotificationEvent[];
+};
+
 const NotificationsSettings = () => {
-  const [channels, setChannels] = useState({
+  const [channels, setChannels] = useState<ChannelsState>({
     email: { enabled: true, frequency: 'instant' },
     sms: { enabled: false, frequency: 'instant' },
     push: { enabled: true, frequency: 'instant' },
     inApp: { enabled: true, frequency: 'instant' }
   });
 
-  const [eventCategories, setEventCategories] = useState([
+  const [eventCategories, setEventCategories] = useState<EventCategory[]>([
     {
       id: 'leads',
       name: 'Lead Activities',
@@ -53,7 +77,7 @@ const NotificationsSettings = () => {
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   });
 
-  const toggleChannel = (channel) => {
+  const toggleChannel = (channel: ChannelKey) => {
     setChannels({
       ...channels,
       [channel]: {
@@ -63,7 +87,7 @@ const NotificationsSettings = () => {
     });
   };
 
-  const toggleEventNotification = (categoryId, eventId, channel) => {
+  const toggleEventNotification = (categoryId: string, eventId: string, channel: EventChannelKey) => {
     setEventCategories(eventCategories.map(category => {
       if (category.id === categoryId) {
         return {
@@ -83,7 +107,7 @@ const NotificationsSettings = () => {
     }));
   };
 
-  const toggleCategory = (categoryId) => {
+  const toggleCategory = (categoryId: string) => {
     setEventCategories(eventCategories.map(category => {
       if (category.id === categoryId) {
         return {
@@ -101,7 +125,7 @@ const NotificationsSettings = () => {
     }));
   };
 
-  const getChannelIcon = (channel) => {
+  const getChannelIcon = (channel: ChannelKey) => {
     switch(channel) {
       case 'email': return Mail;
       case 'sms': return MessageSquare;
@@ -128,7 +152,7 @@ const NotificationsSettings = () => {
       <div className="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6">
         <h3 className="text-white text-xl font-semibold mb-4">Notification Channels</h3>
         <div className="grid grid-cols-4 gap-6">
-          {Object.entries(channels).map(([channel, settings]) => {
+          {(Object.entries(channels) as [ChannelKey, ChannelSettings][]).map(([channel, settings]) => {
             const Icon = getChannelIcon(channel);
             return (
               <div key={channel} className="p-4 bg-[#2A2A2A] rounded-lg hover:bg-gray-800 transition-colors">

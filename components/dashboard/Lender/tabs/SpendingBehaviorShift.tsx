@@ -138,9 +138,9 @@ export default function SpendingBehaviorShift() {
 
     const getTrendIcon = (change: number): JSX.Element => {
         if (change > 0) {
-            return <TrendingUp className="w-4 h-4 text-green-400" />;
+            return <TrendingUp className="w-4 h-4 text-red-400" />;
         }
-        return <TrendingDown className="w-4 h-4 text-red-400" />;
+        return <TrendingDown className="w-4 h-4 text-blue-400" />;
     };
 
 
@@ -211,17 +211,17 @@ export default function SpendingBehaviorShift() {
                                 {/* ${(animatedValues.avgSpending  || 0).toLocaleString()} */}
                                 ${((animatedValues.avgSpending ?? 0) as number).toLocaleString()}
                             </div>
-                            <div className="text-xs text-green-400">↑ {currentMetrics.spendingChange}% vs last period</div>
+                            <div className="text-xs text-red-400">↑ {currentMetrics.spendingChange}% vs last period</div>
                         </div>
 
                         <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                    <TrendingUp className="w-5 h-5 text-green-400" />
+                                <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
+                                    <TrendingUp className="w-5 h-5 text-red-400" />
                                 </div>
                                 <div className="text-xs text-gray-400">High Spenders</div>
                             </div>
-                            <div className="text-2xl font-bold text-green-400 mb-1">
+                            <div className="text-2xl font-bold text-red-400 mb-1">
                                 {(animatedValues.highSpenders || 0).toLocaleString()}
                             </div>
                             <div className="text-xs text-gray-400">Increased activity</div>
@@ -281,7 +281,7 @@ export default function SpendingBehaviorShift() {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             {getTrendIcon(category.change)}
-                                            <span className={`text-sm font-bold ${category.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                            <span className={`text-sm font-bold ${category.change > 0 ? 'text-red-400' : 'text-blue-400'}`}>
                                                 {category.change > 0 ? '+' : ''}{category.change}%
                                             </span>
                                         </div>
@@ -295,7 +295,7 @@ export default function SpendingBehaviorShift() {
 
                                         <div className="relative h-3 bg-gray-700 rounded-full overflow-hidden">
                                             <div
-                                                className={`absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ${category.trend === 'up' ? 'bg-green-500' : 'bg-red-500'
+                                                className={`absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ${category.trend === 'up' ? 'bg-red-500' : 'bg-blue-500'
                                                     }`}
                                                 style={{ width: `${Math.min((category.current / 3000) * 100, 100)}%` }}
                                             ></div>
@@ -318,7 +318,7 @@ export default function SpendingBehaviorShift() {
                                 <div key={customer.id} className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-[#19F6FF] transition-all">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-4">
-                                            <div className={`px-4 py-3 rounded-xl ${customer.trend === 'increasing' ? 'bg-green-500/10 border border-green-500/30' : 'bg-yellow-500/10 border border-yellow-500/30'
+                                            <div className={`px-4 py-3 rounded-xl ${customer.trend === 'increasing' ? 'bg-red-500/10 border border-red-500/30' : 'bg-yellow-500/10 border border-yellow-500/30'
                                                 }`}>
                                                 <div className="text-xs text-gray-400 mb-1">Spending</div>
                                                 <div className="text-xl font-bold text-white">${(customer.spending / 1000).toFixed(1)}k</div>
@@ -335,7 +335,7 @@ export default function SpendingBehaviorShift() {
                                                     <span className="px-2 py-0.5 bg-gray-700 rounded text-xs text-white">{customer.segment}</span>
                                                     <div className="flex items-center gap-1">
                                                         {getTrendIcon(customer.change)}
-                                                        <span className={`text-xs font-bold ${customer.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                        <span className={`text-xs font-bold ${customer.change > 0 ? 'text-red-400' : 'text-blue-400'}`}>
                                                             {customer.change > 0 ? '+' : ''}{customer.change}%
                                                         </span>
                                                     </div>

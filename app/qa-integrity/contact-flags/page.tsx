@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { AlertTriangle, Shield, Ban, Clock, CheckCircle, XCircle, Search, Filter, Eye, User } from 'lucide-react';
 
@@ -94,7 +96,7 @@ const ContactFlags = () => {
     averageAge: '3.2 days'
   };
 
-  const getFlagIcon = (type) => {
+  const getFlagIcon = (type: 'compliance' | 'duplicate' | 'invalid' | 'risk') => {
     switch(type) {
       case 'compliance': return Shield;
       case 'duplicate': return User;
@@ -104,7 +106,7 @@ const ContactFlags = () => {
     }
   };
 
-  const getSeverityColor = (severity) => {
+  const getSeverityColor = (severity: 'high' | 'medium' | 'low'): string => {
     switch(severity) {
       case 'high': return 'bg-red-500/20 text-red-400 border-red-500/30';
       case 'medium': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
@@ -113,7 +115,7 @@ const ContactFlags = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: 'resolved' | 'pending' | 'investigating'): string => {
     switch(status) {
       case 'resolved': return 'bg-green-500/20 text-green-400';
       case 'pending': return 'bg-yellow-500/20 text-yellow-400';
@@ -247,9 +249,9 @@ const ContactFlags = () => {
                 <td className="py-4 px-6">
                   <div className="space-y-2">
                     {contact.flags.map((flag, idx) => {
-                      const Icon = getFlagIcon(flag.type);
+                      const Icon = getFlagIcon(flag.type as 'compliance' | 'duplicate' | 'invalid' | 'risk');
                       return (
-                        <div key={idx} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${getSeverityColor(flag.severity)}`}>
+                        <div key={idx} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${getSeverityColor(flag.severity as 'high' | 'medium' | 'low')}`}>
                           <Icon className="w-4 h-4" />
                           <span className="text-sm">{flag.label}</span>
                           <span className="text-xs opacity-75 ml-auto">{flag.date}</span>
@@ -259,7 +261,7 @@ const ContactFlags = () => {
                   </div>
                 </td>
                 <td className="py-4 px-6">
-                  <span className={`px-3 py-1.5 rounded-full text-sm font-semibold ${getStatusColor(contact.status)}`}>
+                  <span className={`px-3 py-1.5 rounded-full text-sm font-semibold ${getStatusColor(contact.status as 'resolved' | 'pending' | 'investigating')}`}>
                     {contact.status.charAt(0).toUpperCase() + contact.status.slice(1)}
                   </span>
                 </td>

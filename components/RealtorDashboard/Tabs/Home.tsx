@@ -66,7 +66,7 @@ const HomeTab: React.FC<{ mockData?: MockDataType }> = ({ mockData = realtorMock
                         <Icon className="text-teal-400" size={24} />
                     </div>
                     {change && (
-                        <div className={`flex items-center gap-1 text-sm ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                        <div className={`flex items-center gap-1 text-sm ${isPositive ? 'text-red-400' : 'text-blue-400'}`}>
                             {isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                             <span>{Math.abs(change.value)}{format === 'currency' ? '%' : ''}</span>
                         </div>
@@ -183,7 +183,7 @@ const HomeTab: React.FC<{ mockData?: MockDataType }> = ({ mockData = realtorMock
                                     <td className="py-4">
                                         <span className={`px-2 py-1 rounded text-xs ${item.churnRisk === 'High' ? 'bg-red-500/20 text-red-400' :
                                             item.churnRisk === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                                                'bg-green-500/20 text-green-400'
+                                                'bg-teal-500/20 text-teal-400'
                                             }`}>
                                             {item.churnRisk || '-'}
                                         </span>

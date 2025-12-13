@@ -49,7 +49,7 @@ export default function MultiAssetWidget() {
             value: 1245000,
             percentage: 43.7,
             change: 12.4,
-            color: 'blue',
+            color: 'red',
             count: 3,
             avgValue: 415000
         },
@@ -59,7 +59,7 @@ export default function MultiAssetWidget() {
             value: 892000,
             percentage: 31.3,
             change: 5.8,
-            color: 'green',
+            color: 'teal',
             count: 5,
             avgValue: 178400
         },
@@ -69,7 +69,7 @@ export default function MultiAssetWidget() {
             value: 456000,
             percentage: 16.0,
             change: 8.2,
-            color: 'purple',
+            color: 'yellow',
             count: 12,
             avgValue: 38000
         },
@@ -79,7 +79,7 @@ export default function MultiAssetWidget() {
             value: 154000,
             percentage: 5.4,
             change: -15.3,
-            color: 'orange',
+            color: 'blue',
             count: 4,
             avgValue: 38500
         },
@@ -108,7 +108,7 @@ export default function MultiAssetWidget() {
                 other: 10000
             },
             riskScore: 28,
-            diversification: 'good'
+            diversification: 'excellent'
         },
         {
             id: 2,
@@ -122,7 +122,7 @@ export default function MultiAssetWidget() {
                 other: 12000
             },
             riskScore: 42,
-            diversification: 'moderate'
+            diversification: 'good'
         },
         {
             id: 3,
@@ -176,10 +176,10 @@ export default function MultiAssetWidget() {
         level: DiversificationLevel
     ): { bg: string; text: string; border: string } => {
         const badges: Record<DiversificationLevel, { bg: string; text: string; border: string }> = {
-            excellent: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30' },
-            good: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30' },
+            excellent: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30' },
+            good: { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'border-teal-500/30' },
             moderate: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30' },
-            poor: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30' }
+            poor: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30' }
         };
 
         return badges[level];
@@ -241,7 +241,7 @@ export default function MultiAssetWidget() {
                         </div>
                         <div className="text-right">
                             <div className="text-sm text-gray-400 mb-2">Portfolio Growth</div>
-                            <div className="text-3xl font-bold text-green-400">+8.7%</div>
+                            <div className="text-3xl font-bold text-red-400">+8.7%</div>
                             <div className="text-sm text-gray-400">Last 12 months</div>
                         </div>
                     </div>
@@ -284,7 +284,7 @@ export default function MultiAssetWidget() {
 
                                     <div className="flex items-center justify-between text-xs">
                                         <span className="text-gray-400">Change</span>
-                                        <span className={`font-semibold ${asset.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                        <span className={`font-semibold ${asset.change > 0 ? 'text-red-400' : 'text-blue-400'}`}>
                                             {asset.change > 0 ? '+' : ''}{asset.change}%
                                         </span>
                                     </div>
@@ -307,8 +307,8 @@ export default function MultiAssetWidget() {
                         <div className="flex items-center justify-center">
                             <div className="relative w-64 h-64">
                                 {/* Simplified Pie Chart Representation */}
-                                <div className="absolute inset-0 rounded-full border-8 border-blue-500" style={{ clipPath: 'polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 50% 100%)' }}></div>
-                                <div className="absolute inset-0 rounded-full border-8 border-green-500" style={{ clipPath: 'polygon(50% 50%, 50% 0%, 50% 0%, 50% 100%, 0% 100%, 0% 0%)' }}></div>
+                                <div className="absolute inset-0 rounded-full border-8 border-red-500" style={{ clipPath: 'polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 50% 100%)' }}></div>
+                                <div className="absolute inset-0 rounded-full border-8 border-teal-500" style={{ clipPath: 'polygon(50% 50%, 50% 0%, 50% 0%, 50% 100%, 0% 100%, 0% 0%)' }}></div>
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <div className="text-center">
                                         <div className="text-3xl font-bold text-white">$2.8M</div>
@@ -357,8 +357,8 @@ export default function MultiAssetWidget() {
                                                 <h4 className="text-base font-bold text-white mb-1">{customer.name}</h4>
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-xs text-gray-400">Risk Score:</span>
-                                                    <span className={`text-xs font-bold ${customer.riskScore < 30 ? 'text-green-400' :
-                                                            customer.riskScore < 50 ? 'text-yellow-400' : 'text-red-400'
+                                                    <span className={`text-xs font-bold ${customer.riskScore < 30 ? 'text-teal-400' :
+                                                            customer.riskScore < 50 ? 'text-yellow-400' : 'text-blue-400'
                                                         }`}>
                                                         {customer.riskScore}
                                                     </span>

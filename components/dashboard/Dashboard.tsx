@@ -244,8 +244,8 @@ const Dashboard = () => {
                                                 <span className="text-white font-semibold">{crypto.price}</span>
                                             </div>
                                             <div className="flex gap-4 text-sm">
-                                                <span className="text-green-400">24h: {crypto.change24h}</span>
-                                                <span className="text-green-400">7d: {crypto.change7d}</span>
+                                                <span className="text-red-400">24h: {crypto.change24h}</span>
+                                                <span className="text-red-400">7d: {crypto.change7d}</span>
                                             </div>
                                         </div>
                                     ))}
@@ -256,11 +256,11 @@ const Dashboard = () => {
                                     <div className="space-y-2">
                                         <div className="flex justify-between">
                                             <span className="text-[#9CA3AF] text-sm">BTC → Refi Volume</span>
-                                            <span className="text-green-400 font-semibold">+0.42</span>
+                                            <span className="text-red-400 font-semibold">+0.42</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-[#9CA3AF] text-sm">ETH → Equity Growth</span>
-                                            <span className="text-green-400 font-semibold">+0.38</span>
+                                            <span className="text-red-400 font-semibold">+0.38</span>
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +276,7 @@ const Dashboard = () => {
                                             <span className="text-[#9CA3AF]">{index.name}</span>
                                             <div className="text-right">
                                                 <div className="text-white font-semibold">{index.value}</div>
-                                                <div className="text-green-400 text-sm">{index.change}</div>
+                                                <div className="text-red-400 text-sm">{index.change}</div>
                                             </div>
                                         </div>
                                     ))}
@@ -293,7 +293,7 @@ const Dashboard = () => {
                                                 </div>
                                                 <div className="text-right">
                                                     <div className="text-white text-sm">{stock.price}</div>
-                                                    <div className={`text-sm ${stock.positive ? 'text-green-400' : 'text-red-400'}`}>
+                                                    <div className={`text-sm ${stock.positive ? 'text-red-400' : 'text-blue-400'}`}>
                                                         {stock.change}
                                                     </div>
                                                 </div>
@@ -326,7 +326,7 @@ const Dashboard = () => {
                                             <span className="text-[#9CA3AF]">{metric.label}</span>
                                             <div className="text-right">
                                                 <div className="text-white font-semibold">{metric.value}</div>
-                                                <div className={`text-sm ${metric.positive ? 'text-green-400' : 'text-red-400'}`}>
+                                                <div className={`text-sm ${metric.positive ? 'text-red-400' : 'text-blue-400'}`}>
                                                     {metric.change}
                                                 </div>
                                             </div>
@@ -341,9 +341,10 @@ const Dashboard = () => {
                                             <span className="text-[#9CA3AF] text-sm">Refi Volume</span>
                                             <div className="flex items-center gap-2">
                                                 <span className="text-white font-semibold">2,340/mo</span>
-                                                <TrendingUp className="w-4 h-4 text-green-400" />
+                                                <TrendingUp className="w-4 h-4 text-red-400" />
                                             </div>
                                         </div>
+
                                         <div className="flex justify-between items-center">
                                             <span className="text-[#9CA3AF] text-sm">Lender Activity</span>
                                             <span className="text-white font-semibold">High</span>

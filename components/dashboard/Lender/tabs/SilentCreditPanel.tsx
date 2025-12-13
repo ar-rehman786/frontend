@@ -147,42 +147,30 @@ useEffect(() => {
   return () => clearTimeout(timer);
 }, []);
 
-//   const getSeverityBadge = (severity) => {
-//     const badges = {
-//       critical: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30', icon: '🔴' },
-//       high: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'border-orange-500/30', icon: '🟠' },
-//       medium: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30', icon: '🟡' },
-//       low: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', icon: '🟢' }
-//     };
-//     return badges[severity];
-//   };
+  const getSeverityBadge = (severity: Severity): { bg: string; text: string; border: string; icon: string } => {
+    const badges: Record<Severity, { bg: string; text: string; border: string; icon: string }> = {
+      critical: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30', icon: '🔴' },
+      high: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/30', icon: '🔵' },
+      medium: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30', icon: '🟡' },
+      low: { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'border-teal-500/30', icon: '🟦' },
+    };
 
-
-const getSeverityBadge = (severity: Severity): { bg: string; text: string; border: string; icon: string } => {
-  const badges: Record<Severity, { bg: string; text: string; border: string; icon: string }> = {
-    critical: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/30', icon: '🔴' },
-    high: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'border-orange-500/30', icon: '🟠' },
-    medium: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/30', icon: '🟡' },
-    low: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/30', icon: '🟢' }
+    return badges[severity];
   };
 
-  return badges[severity];
-};
+  type Trend = "improving" | "declining" | "stable" | undefined;
 
-type Trend = "improving" | "declining" | "stable" | undefined;
+  const getTrendIcon = (trend: Trend): JSX.Element => {
+    if (trend === "improving") {
+      return <TrendingDown className="w-4 h-4 text-red-400 rotate-180" />;
+    }
 
-const getTrendIcon = (trend: Trend): JSX.Element => {
-  if (trend === "improving") {
-    return <TrendingDown className="w-4 h-4 text-green-400 rotate-180" />;
-  }
+    if (trend === "declining") {
+      return <TrendingDown className="w-4 h-4 text-red-400" />;
+    }
 
-  if (trend === "declining") {
-    return <TrendingDown className="w-4 h-4 text-red-400" />;
-  }
-
-  return <Activity className="w-4 h-4 text-gray-400" />;
-};
-
+    return <Activity className="w-4 h-4 text-gray-400" />;
+  };
 
   return (
     <div className="min-h-screen bg-black p-8">
@@ -263,12 +251,12 @@ const getTrendIcon = (trend: Trend): JSX.Element => {
 
           <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                <TrendingDown className="w-5 h-5 text-orange-400" />
+              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <TrendingDown className="w-5 h-5 text-blue-400" />
               </div>
               <div className="text-xs text-gray-400">Score Drops</div>
             </div>
-            <div className="text-2xl font-bold text-orange-400">{creditSummary.scoreDrops}</div>
+            <div className="text-2xl font-bold text-blue-400">{creditSummary.scoreDrops}</div>
           </div>
 
           <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
@@ -301,8 +289,7 @@ const getTrendIcon = (trend: Trend): JSX.Element => {
 
           <div className="space-y-4">
             {creditEvents.map((event) => {
-            //   const badge = getSeverityBadge(event.severity);
-            const badge = getSeverityBadge(event.severity as "critical" | "high" | "medium" | "low");
+              const badge = getSeverityBadge(event.severity as "critical" | "high" | "medium" | "low");
               const animatedScore = animatedScores[event.id] || event.previousScore;
               
               return (
@@ -316,7 +303,7 @@ const getTrendIcon = (trend: Trend): JSX.Element => {
                             {Math.round(animatedScore)}
                           </div>
                           <div className={`flex items-center gap-1 text-xs font-bold ${
-                            event.change < 0 ? 'text-red-400' : 'text-green-400'
+                            event.change < 0 ? 'text-blue-400' : 'text-red-400'
                           }`}>
                             <TrendingDown className="w-3 h-3" />
                             {event.change}

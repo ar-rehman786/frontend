@@ -20,7 +20,7 @@ const Property = ({ property = propertyData }) => (
             </div>
             <span className={`px-2 py-1 rounded text-xs font-medium ${property.churnProbability > 80 ? 'bg-red-500/20 text-red-400' :
                     property.churnProbability > 60 ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-green-500/20 text-green-400'
+                        'bg-teal-500/20 text-teal-400'
                 }`}>
                 {property.churnProbability}% Churn
             </span>

@@ -124,10 +124,10 @@ const ReportsTab: React.FC = () => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'Urgent': return 'bg-red-500/20 text-red-400';
-      case 'High': return 'bg-orange-500/20 text-orange-400';
+      case 'Urgent': return 'bg-blue-500/20 text-blue-400';
+      case 'High': return 'bg-yellow-500/20 text-yellow-400';
       case 'Medium': return 'bg-yellow-500/20 text-yellow-400';
-      case 'Low': return 'bg-blue-500/20 text-blue-400';
+      case 'Low': return 'bg-teal-500/20 text-teal-400';
       case 'Monitor': return 'bg-gray-500/20 text-gray-400';
       default: return 'bg-gray-500/20 text-gray-400';
     }
@@ -139,7 +139,7 @@ const ReportsTab: React.FC = () => {
       'blue': 'bg-blue-500',
       'yellow': 'bg-yellow-500',
       'teal': 'bg-teal-500',
-      'green': 'bg-green-500',
+      'green': 'bg-red-500',
       'purple': 'bg-purple-500'
     };
     return colorMap[color] || 'bg-gray-500';
@@ -200,7 +200,7 @@ const ReportsTab: React.FC = () => {
             title="ROI Calculator"
             description="Investment scenarios with flip, hold, and wholesale projections"
             icon={DollarSign}
-            color="bg-green-500/10 text-green-400"
+            color="bg-red-500/10 text-red-400"
             action={() => console.log('Generate ROI Report')}
           />
           <ReportCard
@@ -221,7 +221,7 @@ const ReportsTab: React.FC = () => {
             title="Custom Report"
             description="Build your own custom report with selected metrics"
             icon={FileText}
-            color="bg-orange-500/10 text-orange-400"
+            color="bg-purple-500/10 text-purple-400"
             action={() => console.log('Generate Custom Report')}
           />
         </div>
@@ -306,11 +306,11 @@ const ReportsTab: React.FC = () => {
                 </div>
                 <div className="flex justify-between pt-2 border-t border-zinc-700">
                   <span className="text-gray-400">ROI:</span>
-                  <span className="text-green-400 font-medium">{scenario.roi}%</span>
+                  <span className="text-red-400 font-medium">{scenario.roi}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Annualized ROI:</span>
-                  <span className="text-green-400 font-medium">{scenario.annualizedROI}%</span>
+                  <span className="text-red-400 font-medium">{scenario.annualizedROI}%</span>
                 </div>
               </div>
             </div>
@@ -349,7 +349,7 @@ const ReportsTab: React.FC = () => {
             <p className="text-sm text-gray-400">Total Contacts</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-green-400">
+            <p className="text-2xl font-bold text-red-400">
               {mockData.contactStatus
                 .filter(s => ['Meeting Scheduled', 'Under Contract', 'Closed Deal'].includes(s.status))
                 .reduce((sum, s) => sum + s.count, 0)}

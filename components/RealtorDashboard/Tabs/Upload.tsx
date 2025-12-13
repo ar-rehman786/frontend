@@ -142,7 +142,7 @@ const UploadTab = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     {file.status === 'complete' ? (
-                      <CheckCircle className="text-green-400" size={20} />
+                      <CheckCircle className="text-teal-400" size={20} />
                     ) : (
                       <AlertCircle className="text-yellow-400" size={20} />
                     )}
@@ -163,7 +163,7 @@ const UploadTab = () => {
                   </div>
                 )}
                 {file.status === 'complete' && (
-                  <p className="text-xs text-green-400 mt-2">✓ Upload complete</p>
+                  <p className="text-xs text-teal-400 mt-2">✓ Upload complete</p>
                 )}
               </div>
             ))}
@@ -225,7 +225,7 @@ const UploadTab = () => {
         <div className="space-y-3">
           <div className="flex items-center justify-between py-3 border-b border-zinc-800/50">
             <div className="flex items-center gap-3">
-              <CheckCircle className="text-green-400" size={20} />
+              <CheckCircle className="text-teal-400" size={20} />
               <div>
                 <p className="text-sm font-medium">charlotte_properties_nov2024.csv</p>
                 <p className="text-xs text-gray-400">Uploaded on Nov 20, 2024 - 1,247 records</p>
@@ -236,7 +236,7 @@ const UploadTab = () => {
 
           <div className="flex items-center justify-between py-3 border-b border-zinc-800/50">
             <div className="flex items-center gap-3">
-              <CheckCircle className="text-green-400" size={20} />
+              <CheckCircle className="text-teal-400" size={20} />
               <div>
                 <p className="text-sm font-medium">owner_contacts_oct2024.xlsx</p>
                 <p className="text-xs text-gray-400">Uploaded on Oct 15, 2024 - 892 records</p>

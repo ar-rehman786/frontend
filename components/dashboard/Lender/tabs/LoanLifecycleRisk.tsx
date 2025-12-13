@@ -146,15 +146,15 @@ const getRiskBadge = (
     { bg: string; text: string; border: string; icon: string }
   > = {
     critical: {
-      bg: 'bg-red-500/10',
-      text: 'text-red-400',
-      border: 'border-red-500/30',
+      bg: 'bg-blue-500/10',
+      text: 'text-blue-400',
+      border: 'border-blue-500/30',
       icon: '🔴'
     },
     high: {
-      bg: 'bg-orange-500/10',
-      text: 'text-orange-400',
-      border: 'border-orange-500/30',
+      bg: 'bg-blue-500/10',
+      text: 'text-blue-400',
+      border: 'border-blue-500/30',
       icon: '🟠'
     },
     medium: {
@@ -164,9 +164,9 @@ const getRiskBadge = (
       icon: '🟡'
     },
     low: {
-      bg: 'bg-green-500/10',
-      text: 'text-green-400',
-      border: 'border-green-500/30',
+      bg: 'bg-teal-500/10',
+      text: 'text-teal-400',
+      border: 'border-teal-500/30',
       icon: '🟢'
     }
   };
@@ -184,12 +184,12 @@ const getTrendIcon = (
   trend: "worsening" | "improving" | "stable" | undefined
 ): JSX.Element => {
   if (trend === "worsening")
-    return <TrendingDown className="w-4 h-4 text-red-400" />;
+    return <TrendingDown className="w-4 h-4 text-blue-400" />;
 
   if (trend === "improving")
-    return <TrendingDown className="w-4 h-4 text-green-400 rotate-180" />;
+    return <TrendingDown className="w-4 h-4 text-red-400 rotate-180" />;
 
-  return <Activity className="w-4 h-4 text-gray-400" />;
+  return <Activity className="w-4 h-4 text-teal-400" />;
 };
 
 
@@ -250,11 +250,11 @@ const getTrendIcon = (
         {/* Risk Summary Cards */}
         <div className="grid grid-cols-5 gap-4">
           {[
-            { key: 'critical', label: 'Critical Risk', icon: AlertTriangle, color: 'red' },
-            { key: 'high', label: 'High Risk', icon: AlertTriangle, color: 'orange' },
+            { key: 'critical', label: 'Critical Risk', icon: AlertTriangle, color: 'blue' },
+            { key: 'high', label: 'High Risk', icon: AlertTriangle, color: 'blue' },
             { key: 'medium', label: 'Medium Risk', icon: Shield, color: 'yellow' },
-            { key: 'low', label: 'Low Risk', icon: Shield, color: 'green' },
-            { key: 'totalLoans', label: 'Total Loans', icon: Target, color: 'blue' }
+            { key: 'low', label: 'Low Risk', icon: Shield, color: 'teal' },
+            { key: 'totalLoans', label: 'Total Loans', icon: Target, color: 'teal' }
           ].map(item => {
             const Icon = item.icon;
             const count: number = animatedCounts[item.key as keyof typeof animatedCounts] || 0;
@@ -289,13 +289,13 @@ const getTrendIcon = (
                 
                 <div className="flex gap-1 h-8 rounded-lg overflow-hidden">
                   <div 
-                    className="bg-red-500 flex items-center justify-center text-xs font-bold text-white transition-all duration-1000"
+                    className="bg-blue-500 flex items-center justify-center text-xs font-bold text-white transition-all duration-1000"
                     style={{ width: `${(stage.critical / stage.total) * 100}%` }}
                   >
                     {stage.critical > 0 && stage.critical}
                   </div>
                   <div 
-                    className="bg-orange-500 flex items-center justify-center text-xs font-bold text-white transition-all duration-1000"
+                    className="bg-blue-500 flex items-center justify-center text-xs font-bold text-white transition-all duration-1000"
                     style={{ width: `${(stage.high / stage.total) * 100}%` }}
                   >
                     {stage.high > 0 && stage.high}
@@ -307,7 +307,7 @@ const getTrendIcon = (
                     {stage.medium > 0 && stage.medium}
                   </div>
                   <div 
-                    className="bg-green-500 flex items-center justify-center text-xs font-bold text-white transition-all duration-1000"
+                    className="bg-teal-500 flex items-center justify-center text-xs font-bold text-black transition-all duration-1000"
                     style={{ width: `${(stage.low / stage.total) * 100}%` }}
                   >
                     {stage.low > 0 && stage.low}
@@ -387,7 +387,7 @@ const getTrendIcon = (
                     
                     <div className="p-3 bg-gray-900/50 rounded-lg">
                       <div className="text-xs text-gray-400 mb-1">Payment History</div>
-                      <div className="text-sm font-bold text-orange-400">{loan.paymentHistory}</div>
+                      <div className="text-sm font-bold text-yellow-400">{loan.paymentHistory}</div>
                     </div>
                     
                     <div className="p-3 bg-gray-900/50 rounded-lg">

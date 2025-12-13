@@ -1,3 +1,4 @@
+
 "use client"
 import React, { useState } from 'react';
 import { TrendingUp, TrendingDown, Link, BarChart3, PieChart, LineChart, Activity } from 'lucide-react';
@@ -142,12 +143,12 @@ const CorrelationsFeed = () => {
     }
   };
 
-  const getCorrelationColor = (value, direction) => {
+  const getCorrelationColor = (value: number, direction: 'positive' | 'negative'): string => {
     const absValue = Math.abs(value);
-    if (absValue >= 0.8) return direction === 'positive' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400';
-    if (absValue >= 0.6) return direction === 'positive' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400';
-    if (absValue >= 0.4) return direction === 'positive' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-orange-500/20 text-orange-400';
-    return 'bg-gray-500/20 text-gray-400';
+    if (absValue >= 0.8) return direction === 'positive' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400';
+    if (absValue >= 0.6) return direction === 'positive' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400';
+    if (absValue >= 0.4) return direction === 'positive' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400';
+    return 'bg-zinc-500/20 text-gray-400';
   };
 
   return (
@@ -194,21 +195,21 @@ const CorrelationsFeed = () => {
 
         <div className="space-y-4">
           {getCorrelationData().map((correlation, idx) => (
-            <div key={idx} className="p-4 bg-[#2A2A2A] rounded-lg hover:bg-gray-800 transition-colors">
+            <div key={idx} className="p-4 bg-[#2A2A2A] rounded-lg hover:bg-zinc-800 transition-colors">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
                   <h4 className="text-white font-semibold text-lg mb-2">{correlation.pair}</h4>
                   <p className="text-[#9CA3AF] text-sm">{correlation.description}</p>
                 </div>
                 <div className="flex flex-col items-end ml-4">
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold mb-2 ${getCorrelationColor(correlation.correlation, correlation.direction)}`}>
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold mb-2 ${getCorrelationColor(correlation.correlation, correlation.direction as 'positive' | 'negative')}`}>
                     {correlation.direction === 'positive' ? '+' : ''}{correlation.correlation.toFixed(2)}
                   </span>
                   <span className={`px-2 py-1 rounded text-xs ${
-                    correlation.strength === 'Very Strong' ? 'bg-green-500/20 text-green-400' :
-                    correlation.strength === 'Strong' ? 'bg-green-500/20 text-green-400' :
+                    correlation.strength === 'Very Strong' ? 'bg-purple-500/20 text-purple-400' :
+                    correlation.strength === 'Strong' ? 'bg-purple-500/20 text-purple-400' :
                     correlation.strength === 'Moderate' ? 'bg-yellow-500/20 text-yellow-400' :
-                    'bg-gray-500/20 text-gray-400'
+                    'bg-zinc-500/20 text-gray-400'
                   }`}>
                     {correlation.strength}
                   </span>
@@ -219,7 +220,7 @@ const CorrelationsFeed = () => {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center">
                     <div className={`w-3 h-3 rounded-full mr-2 ${
-                      correlation.direction === 'positive' ? 'bg-green-500' : 'bg-red-500'
+                      correlation.direction === 'positive' ? 'bg-red-500' : 'bg-blue-500'
                     }`} />
                     <span className="text-[#9CA3AF] text-sm">
                       {correlation.direction === 'positive' ? 'Positive Correlation' : 'Negative Correlation'}
@@ -245,16 +246,16 @@ const CorrelationsFeed = () => {
                 <p className="text-white font-semibold">{insight.insight}</p>
                 <div className="flex flex-col items-end ml-4">
                   <span className={`px-2 py-1 rounded text-xs mb-2 ${
-                    insight.confidence === 'High' ? 'bg-green-500/20 text-green-400' :
+                    insight.confidence === 'High' ? 'bg-purple-500/20 text-purple-400' :
                     insight.confidence === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                    'bg-red-500/20 text-red-400'
+                    'bg-blue-500/20 text-blue-400'
                   }`}>
                     Confidence: {insight.confidence}
                   </span>
                   <span className={`px-2 py-1 rounded text-xs ${
-                    insight.impact === 'High' ? 'bg-red-500/20 text-red-400' :
+                    insight.impact === 'High' ? 'bg-blue-500/20 text-blue-400' :
                     insight.impact === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                    'bg-green-500/20 text-green-400'
+                    'bg-teal-500/20 text-teal-400'
                   }`}>
                     Impact: {insight.impact}
                   </span>
@@ -273,14 +274,14 @@ const CorrelationsFeed = () => {
       <div className="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6">
         <h3 className="text-white text-xl font-semibold mb-4">Correlation Strength Guide</h3>
         <div className="grid grid-cols-4 gap-6">
-          <div className="text-center p-4 bg-green-500/10 rounded-lg">
-            <div className="text-2xl font-bold text-green-400 mb-2">0.8 - 1.0</div>
+          <div className="text-center p-4 bg-purple-500/10 rounded-lg">
+            <div className="text-2xl font-bold text-purple-400 mb-2">0.8 - 1.0</div>
             <h4 className="text-white font-semibold mb-1">Very Strong</h4>
             <p className="text-[#9CA3AF] text-sm">Highly predictive relationship</p>
           </div>
           
-          <div className="text-center p-4 bg-green-500/10 rounded-lg">
-            <div className="text-2xl font-bold text-green-400 mb-2">0.6 - 0.79</div>
+          <div className="text-center p-4 bg-purple-500/10 rounded-lg">
+            <div className="text-2xl font-bold text-purple-400 mb-2">0.6 - 0.79</div>
             <h4 className="text-white font-semibold mb-1">Strong</h4>
             <p className="text-[#9CA3AF] text-sm">Clear relationship exists</p>
           </div>
@@ -291,7 +292,7 @@ const CorrelationsFeed = () => {
             <p className="text-[#9CA3AF] text-sm">Some correlation present</p>
           </div>
           
-          <div className="text-center p-4 bg-gray-500/10 rounded-lg">
+          <div className="text-center p-4 bg-zinc-500/10 rounded-lg">
             <div className="text-2xl font-bold text-gray-400 mb-2">0.0 - 0.39</div>
             <h4 className="text-white font-semibold mb-1">Weak</h4>
             <p className="text-[#9CA3AF] text-sm">Limited or no correlation</p>

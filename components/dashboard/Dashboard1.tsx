@@ -1,7 +1,7 @@
 // Dashboard1.tsx
 'use client'
 import React, { useState, useEffect } from 'react';
-import { Grid3x3, Building2, TrendingUp, ShoppingCart, FileText, MapPin, BarChart3, LucideIcon } from 'lucide-react';
+import { Grid3x3, Building2, TrendingUp, ShoppingCart, FileText, MapPin, BarChart3, LucideIcon, Target } from 'lucide-react';
 import Sidebar1 from '../Sidebar1';
 import Topbar1 from './Topbar1';
 
@@ -53,6 +53,12 @@ import TitleUploadTab from '@/components/TitleCompanyDadhbaord/tabs/Uploads';
 import TitleQATab from '@/components/TitleCompanyDadhbaord/tabs/QA';
 import TitleSettingsTab from '@/components/TitleCompanyDadhbaord/tabs/Setting';
 import BrokerFeedsTab from './Data-broker/FeedsTab';
+import ProfileTab from '@/components/dashboard/consumer/tabs/profileTab';
+import FinancialTab from '@/components/dashboard/consumer/tabs/FinaincialTab';
+import PredictiveTab from '@/components/dashboard/consumer/tabs/predictiveTab';;
+import CrossMarketTab from '@/components/dashboard/consumer/tabs/CrossMarketTab';
+import ActionsTab from '@/components/dashboard/consumer/tabs/ActionsTab';
+
 
 export type DashboardTab = {
     id: string;
@@ -68,7 +74,7 @@ export type DashboardInfo = {
     iconBg: string;
 };
 
-export type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo'  | 'Realtor' | 'Title';
+export type DashboardId = 'lender' | 'institutional' | 'broker' | 'sales' | 'marketplace' | 'reports' | 'geo'  | 'Realtor' | 'Title' | 'consumer';
 
 // Tab Definitions - All dashboards with their individual tabs
 export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
@@ -134,6 +140,13 @@ export const DASHBOARD_TABS: Record<DashboardId, DashboardTab[]> = {
         // { id: 'heatmap', label: 'Heat Map', component: ZIPHeatmap },
         // { id: 'insight', label: 'Insight', component: InsightCards }
     ],
+    consumer: [
+        { id: 'ProfileTab', label: 'ProfileTab', component: ProfileTab  },
+        { id: 'FinancialTab', label: 'FinancialTab', component: FinancialTab },
+        { id: 'PredictiveTab', label: 'PredictiveTab', component: PredictiveTab },
+         { id: 'CrossMarketTab ', label: 'CrossMarketTab ', component: CrossMarketTab  },
+        { id: 'ActionsTab', label: 'ActionsTab', component: ActionsTab },
+    ]
     // 'Lendor': [
     //     { id: 'dashboard', label: 'Dashboard', component: Dashboard },
     //     { id: 'feeds', label: 'Feeds', component: Feeds },
@@ -206,6 +219,13 @@ export const DASHBOARDS: DashboardInfo[] = [
         id: 'geo',
         title: 'City/ZIP Intelligence',
         description: 'Hot ZIPs, churn risk & opportunity',
+        icon: Target,
+        iconBg: 'bg-gray-800'
+    },
+       {
+        id: 'consumer',
+        title: 'Consumer',
+        description: 'Owner profiles & financial insights',
         icon: MapPin,
         iconBg: 'bg-gray-800'
     }

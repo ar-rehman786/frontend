@@ -128,7 +128,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ data }) => {
   const getTrendColor = (trend: string) => {
     switch (trend) {
       case 'Very Hot': return 'text-red-400 bg-red-500/20';
-      case 'Hot Market': return 'text-orange-400 bg-orange-500/20';
+      case 'Hot Market': return 'text-red-400 bg-red-500/20';
       case 'Stable': return 'text-teal-400 bg-teal-500/20';
       case 'Cooling': return 'text-blue-400 bg-blue-500/20';
       case "Buyer's Market": return 'text-purple-400 bg-purple-500/20';
@@ -159,7 +159,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ data }) => {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-400">Price Reductions</span>
-          <span className="text-lg font-semibold text-yellow-400">{data.priceReductions}</span>
+          <span className="text-lg font-semibold text-blue-400">{data.priceReductions}</span>
         </div>
         <div className="flex justify-between items-center pt-3 border-t border-zinc-800">
           <span className="text-sm text-gray-400">Median Price</span>
@@ -280,15 +280,15 @@ const FeedsTab: React.FC = () => {
           {/* Total Listings */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-3 bg-teal-500/10 rounded-lg">
-                <Home className="text-teal-400" size={24} />
+              <div className="p-3 bg-red-500/10 rounded-lg">
+                <Home className="text-red-400" size={24} />
               </div>
               <div>
                 <p className="text-2xl font-bold">{mockData.marketIndicators.totalListings.value}</p>
                 <p className="text-sm text-gray-400">Total Listings</p>
               </div>
             </div>
-            <div className="flex items-center gap-1 text-sm text-green-400">
+            <div className="flex items-center gap-1 text-sm text-red-400">
               <TrendingUp size={16} />
               <span>+{mockData.marketIndicators.totalListings.change}% vs last month</span>
             </div>
@@ -297,15 +297,15 @@ const FeedsTab: React.FC = () => {
           {/* Average DOM */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-3 bg-yellow-500/10 rounded-lg">
-                <Calendar className="text-yellow-400" size={24} />
+              <div className="p-3 bg-blue-500/10 rounded-lg">
+                <Calendar className="text-blue-400" size={24} />
               </div>
               <div>
                 <p className="text-2xl font-bold">{mockData.marketIndicators.avgDOM.value}</p>
                 <p className="text-sm text-gray-400">Avg DOM</p>
               </div>
             </div>
-            <div className="flex items-center gap-1 text-sm text-green-400">
+            <div className="flex items-center gap-1 text-sm text-red-400">
               <TrendingDown size={16} />
               <span>{mockData.marketIndicators.avgDOM.change} days (better)</span>
             </div>
@@ -314,8 +314,8 @@ const FeedsTab: React.FC = () => {
           {/* Price Reductions */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-3 bg-red-500/10 rounded-lg">
-                <DollarSign className="text-red-400" size={24} />
+              <div className="p-3 bg-blue-500/10 rounded-lg">
+                <DollarSign className="text-blue-400" size={24} />
               </div>
               <div>
                 <p className="text-2xl font-bold">{mockData.marketIndicators.priceReductions.value}</p>

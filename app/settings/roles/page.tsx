@@ -2,6 +2,12 @@
 import React, { useState } from 'react';
 import { Shield, Key, Users, Plus, Trash2, Edit, Check } from 'lucide-react';
 
+type NewRole = {
+  name: string;
+  description: string;
+  permissions: string[];
+};
+
 const RolesSettings = () => {
   const [roles, setRoles] = useState([
     {
@@ -77,13 +83,13 @@ const RolesSettings = () => {
     'Marketing campaigns'
   ];
 
-  const [newRole, setNewRole] = useState({
+  const [newRole, setNewRole] = useState<NewRole>({
     name: '',
     description: '',
     permissions: []
   });
 
-  const handlePermissionToggle = (roleId, permission) => {
+  const handlePermissionToggle = (roleId: number, permission: string) => {
     setRoles(roles.map(role => {
       if (role.id === roleId) {
         const hasPermission = role.permissions.includes(permission);

@@ -220,25 +220,25 @@ export default function AddOnFeaturePreviews() {
 
         {/* Stats & Filters */}
         <div className="grid grid-cols-4 gap-4">
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
+          <div className="bg-zinc-900/50 border border-gray-800 rounded-xl p-5">
             <div className="text-xs text-gray-400 mb-2">Total Add-Ons</div>
             <div className="text-3xl font-bold text-white">{addOns.length}</div>
             <div className="text-xs text-gray-500 mt-1">Available features</div>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
+          <div className="bg-zinc-900/50 border border-gray-800 rounded-xl p-5">
             <div className="text-xs text-gray-400 mb-2">Available Now</div>
             <div className="text-3xl font-bold text-green-400">{addOns.filter(a => a.status === 'available').length}</div>
             <div className="text-xs text-gray-500 mt-1">Ready to use</div>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
+          <div className="bg-zinc-900/50 border border-gray-800 rounded-xl p-5">
             <div className="text-xs text-gray-400 mb-2">Coming Soon</div>
             <div className="text-3xl font-bold text-yellow-400">{addOns.filter(a => a.status === 'coming-soon').length}</div>
             <div className="text-xs text-gray-500 mt-1">In development</div>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
+          <div className="bg-zinc-900/50 border border-gray-800 rounded-xl p-5">
             <div className="text-xs text-gray-400 mb-2">Selected</div>
             <div className="text-3xl font-bold text-[#19F6FF]">{selectedCount}</div>
             <div className="text-xs text-gray-500 mt-1">${totalPrice}/month</div>
@@ -246,7 +246,7 @@ export default function AddOnFeaturePreviews() {
         </div>
 
         {/* Filter */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+        <div className="bg-zinc-900/50 border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-4">
             <span className="text-sm font-semibold text-white">Filter by Status:</span>
             <div className="flex gap-2">
@@ -301,7 +301,7 @@ export default function AddOnFeaturePreviews() {
               return (
                 <div
                   key={addon.id}
-                  className={`bg-gray-900/50 border rounded-xl p-6 transition-all relative ${
+                  className={`bg-zinc-900/50 border rounded-xl p-6 transition-all relative ${
                     isSelected 
                       ? 'border-[#19F6FF] shadow-[0_0_20px_rgba(25,246,255,0.2)]' 
                       : 'border-gray-800 hover:border-gray-700'
@@ -371,15 +371,15 @@ export default function AddOnFeaturePreviews() {
 
                   {!addon.comingSoon && (
                     <div className="grid grid-cols-3 gap-2 mb-4">
-                      <div className="p-2 bg-gray-800/50 rounded">
+                      <div className="p-2 bg-zinc-800/50 rounded">
                         <div className="text-xs text-gray-400">Users</div>
                         <div className="text-sm font-bold text-white">{addon.stats.users}</div>
                       </div>
-                      <div className="p-2 bg-gray-800/50 rounded">
+                      <div className="p-2 bg-zinc-800/50 rounded">
                         <div className="text-xs text-gray-400">Avg Revenue</div>
                         <div className="text-sm font-bold text-green-400">${(addon.stats.avgRevenue / 1000).toFixed(1)}k</div>
                       </div>
-                      <div className="p-2 bg-gray-800/50 rounded">
+                      <div className="p-2 bg-zinc-800/50 rounded">
                         <div className="text-xs text-gray-400">Adoption</div>
                         <div className="text-sm font-bold text-purple-400">{addon.stats.adoption}%</div>
                       </div>
@@ -390,7 +390,7 @@ export default function AddOnFeaturePreviews() {
                     <div className="text-xs text-gray-400 mb-2">Compatible with:</div>
                     <div className="flex flex-wrap gap-2">
                       {addon.compatibility.map((tier: string, idx: number) => (
-                        <span key={idx} className="px-2 py-1 bg-gray-700 rounded text-xs text-white">
+                        <span key={idx} className="px-2 py-1 bg-zinc-700 rounded text-xs text-white">
                           {tier}
                         </span>
                       ))}
@@ -400,7 +400,7 @@ export default function AddOnFeaturePreviews() {
                   <button 
                     className={`w-full py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2 ${
                       addon.comingSoon
-                        ? 'bg-gray-800 text-gray-400 cursor-not-allowed border border-gray-700'
+                        ? 'bg-zinc-800 text-gray-400 cursor-not-allowed border border-gray-700'
                         : isSelected
                         ? 'bg-[#19F6FF] text-black hover:bg-[#00BCC9]'
                         : 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-700'
@@ -448,7 +448,7 @@ export default function AddOnFeaturePreviews() {
               <div className="flex gap-3">
                 <button 
                   onClick={() => setSelectedAddOns([])}
-                  className="px-6 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-700 transition-colors border border-gray-700"
+                  className="px-6 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-zinc-700 transition-colors border border-gray-700"
                 >
                   Clear Selection
                 </button>
@@ -465,10 +465,10 @@ export default function AddOnFeaturePreviews() {
           <button className="px-6 py-3 bg-[#19F6FF] text-black font-bold rounded-lg hover:bg-[#00BCC9] transition-colors">
             View All Features
           </button>
-          <button className="px-6 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-700 transition-colors border border-gray-700">
+          <button className="px-6 py-3 bg-zinc-800 text-white font-bold rounded-lg hover:bg-zinc-700 transition-colors border border-gray-700">
             Schedule Demo
           </button>
-          <button className="px-6 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-700 transition-colors border border-gray-700">
+          <button className="px-6 py-3 bg-zinc-800 text-white font-bold rounded-lg hover:bg-zinc-700 transition-colors border border-gray-700">
             Contact Sales
           </button>
         </div>

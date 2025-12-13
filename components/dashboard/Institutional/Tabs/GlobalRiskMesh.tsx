@@ -171,10 +171,10 @@ export default function GlobalRiskMesh() {
     }, []);
 
 
-    const getRiskColor = (score: number): 'red' | 'yellow' | 'green' => {
-        if (score >= 70) return 'red';
+    const getRiskColor = (score: number): 'blue' | 'yellow' | 'teal' => {
+        if (score >= 70) return 'blue';
         if (score >= 50) return 'yellow';
-        return 'green';
+        return 'teal';
     };
 
 
@@ -185,21 +185,15 @@ export default function GlobalRiskMesh() {
             "critical" | "high" | "medium" | "low",
             { bg: string; text: string; border: string }
         > = {
-            critical: { bg: "bg-red-500/10", text: "text-red-400", border: "border-red-500/30" },
-            high: { bg: "bg-orange-500/10", text: "text-orange-400", border: "border-orange-500/30" },
+            critical: { bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/30" },
+            high: { bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/30" },
             medium: { bg: "bg-yellow-500/10", text: "text-yellow-400", border: "border-yellow-500/30" },
-            low: { bg: "bg-green-500/10", text: "text-green-400", border: "border-green-500/30" }
+            low: { bg: "bg-teal-500/10", text: "text-teal-400", border: "border-teal-500/30" }
         };
 
         return badges[level];
     };
 
-
-    //   const getTrendIcon = (trend) => {
-    //     if (trend === 'increasing') return <TrendingUp className="w-4 h-4 text-red-400" />;
-    //     if (trend === 'decreasing') return <TrendingDown className="w-4 h-4 text-green-400" />;
-    //     return <Shield className="w-4 h-4 text-gray-400" />;
-    //   };
 
     const getTrendIcon = (
         trend: "increasing" | "decreasing" | "stable"
@@ -208,7 +202,7 @@ export default function GlobalRiskMesh() {
             return <TrendingUp className="w-4 h-4 text-red-400" />;
 
         if (trend === "decreasing")
-            return <TrendingDown className="w-4 h-4 text-green-400" />;
+            return <TrendingDown className="w-4 h-4 text-blue-400" />;
 
         return <Shield className="w-4 h-4 text-gray-400" />;
     };
@@ -263,12 +257,12 @@ export default function GlobalRiskMesh() {
                 <div className="grid grid-cols-5 gap-4">
                     <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                                <AlertTriangle className="w-5 h-5 text-orange-400" />
+                            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                <AlertTriangle className="w-5 h-5 text-blue-400" />
                             </div>
                             <div className="text-xs text-gray-400">Overall Risk</div>
                         </div>
-                        <div className="text-3xl font-bold text-orange-400">{globalMetrics.overallRisk}</div>
+                        <div className="text-3xl font-bold text-blue-400">{globalMetrics.overallRisk}</div>
                         <div className="text-xs text-gray-500 mt-1">Global Index</div>
                     </div>
 
@@ -439,8 +433,6 @@ export default function GlobalRiskMesh() {
                         })}
                     </div>
                 </div>
-
-                {/* Systemic Risk Events */}
                 <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
                     <h3 className="text-lg font-bold text-white mb-6">⚠️ Active Systemic Risk Events</h3>
 
@@ -471,7 +463,7 @@ export default function GlobalRiskMesh() {
                                         </div>
                                         <div className="p-3 bg-gray-900/50 rounded-lg">
                                             <div className="text-xs text-gray-400 mb-1">Probability</div>
-                                            <div className="text-sm font-bold text-orange-400">{event.probability}%</div>
+                                            <div className="text-sm font-bold text-yellow-400">{event.probability}%</div>
                                         </div>
                                         <div className="p-3 bg-gray-900/50 rounded-lg">
                                             <div className="text-xs text-gray-400 mb-1">Affected Institutions</div>

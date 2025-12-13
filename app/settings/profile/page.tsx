@@ -1,9 +1,22 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { User, Mail, Phone, MapPin, Camera, Save, Upload } from 'lucide-react';
 
+type Profile = {
+  name: string;
+  email: string;
+  phone: string;
+  title: string;
+  department: string;
+  location: string;
+  bio: string;
+  avatar: string | null;
+};
+
+type ProfileField = Exclude<keyof Profile, 'avatar'>;
+
 const ProfileSettings = () => {
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<Profile>({
     name: 'John Smith',
     email: 'john.smith@company.com',
     phone: '(555) 123-4567',
@@ -14,16 +27,17 @@ const ProfileSettings = () => {
     avatar: null
   });
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: ProfileField, value: string) => {
     setProfile({ ...profile, [field]: value });
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfile({ ...profile, avatar: e.target.result });
+      reader.onload = (ev: ProgressEvent<FileReader>) => {
+        const result = ev.target?.result;
+        setProfile({ ...profile, avatar: typeof result === 'string' ? result : null });
       };
       reader.readAsDataURL(file);
     }

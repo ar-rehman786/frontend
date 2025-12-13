@@ -155,28 +155,13 @@ export default function MultiAssetExposureTable() {
 
     // Concentration Risk
     const concentrationData = [
-        { range: '0-20%', institutions: 45, color: 'green' },
+        { range: '0-20%', institutions: 45, color: 'teal' },
         { range: '20-40%', institutions: 67, color: 'yellow' },
-        { range: '40-60%', institutions: 32, color: 'orange' },
-        { range: '60%+', institutions: 12, color: 'red' }
+        { range: '40-60%', institutions: 32, color: 'blue' },
+        { range: '60%+', institutions: 12, color: 'blue' }
     ];
 
     // Animate values
-    //   useEffect(() => {
-    //     const timer = setInterval(() => {
-    //       setAnimatedValues(prev => {
-    //         const newValues = {};
-    //         Object.keys(portfolioSummary).forEach(key => {
-    //           const target = portfolioSummary[key];
-    //           const current = prev[key] || 0;
-    //           newValues[key] = current < target ? Math.min(current + Math.ceil(target / 20), target) : target;
-    //         });
-    //         return newValues;
-    //       });
-    //     }, 50);
-    //     return () => clearInterval(timer);
-    //   }, []);
-
     useEffect(() => {
         const timer: NodeJS.Timeout = setInterval(() => {
             setAnimatedValues(
@@ -205,37 +190,23 @@ export default function MultiAssetExposureTable() {
         return () => clearInterval(timer);
     }, []);
 
-
-    //   const getRiskColor = (score) => {
-    //     if (score >= 60) return 'red';
-    //     if (score >= 40) return 'yellow';
-    //     return 'green';
-    //   };
-
-    const getRiskColor = (score: number): "red" | "yellow" | "green" => {
-        if (score >= 60) return "red";
+    const getRiskColor = (score: number): "blue" | "yellow" | "teal" => {
+        if (score >= 60) return "blue";
         if (score >= 40) return "yellow";
-        return "green";
+        return "teal";
     };
 
-
-    //   const getTrendIcon = (trend) => {
-    //     if (trend === 'increasing') return <TrendingUp className="w-4 h-4 text-green-400" />;
-    //     if (trend === 'decreasing') return <TrendingDown className="w-4 h-4 text-red-400" />;
-    //     return <Shield className="w-4 h-4 text-gray-400" />;
-    //   };
     const getTrendIcon = (
         trend: "increasing" | "decreasing" | "stable"
     ): JSX.Element => {
         if (trend === "increasing")
-            return <TrendingUp className="w-4 h-4 text-green-400" />;
+            return <TrendingUp className="w-4 h-4 text-red-400" />;
 
         if (trend === "decreasing")
-            return <TrendingDown className="w-4 h-4 text-red-400" />;
+            return <TrendingDown className="w-4 h-4 text-blue-400" />;
 
         return <Shield className="w-4 h-4 text-gray-400" />;
     };
-
 
     return (
         <div className="min-h-screen bg-black p-8">
@@ -303,23 +274,19 @@ export default function MultiAssetExposureTable() {
                             <div className="text-xs text-gray-400">Total Exposure</div>
                         </div>
                         <div className="text-2xl font-bold text-white">
-                            {/* ${((animatedValues.totalExposure || 0) / 1000000000000).toFixed(2)}T */}
                             ${(((animatedValues as Record<string, number>).totalExposure || 0) / 1_000_000_000_000).toFixed(2)}T
-
                         </div>
                     </div>
 
                     <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <Shield className="w-5 h-5 text-green-400" />
+                            <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                                <Shield className="w-5 h-5 text-teal-400" />
                             </div>
                             <div className="text-xs text-gray-400">Institutions</div>
                         </div>
                         <div className="text-2xl font-bold text-white">
-                            {/* {animatedValues.totalInstitutions || 0} */}
                             {(animatedValues as Record<string, number>).totalInstitutions || 0}
-
                         </div>
                     </div>
 
@@ -331,10 +298,7 @@ export default function MultiAssetExposureTable() {
                             <div className="text-xs text-gray-400">Avg Concentration</div>
                         </div>
                         <div className="text-2xl font-bold text-yellow-400">
-                            {/* {animatedValues.avgConcentration || 0}%
-                             */}
-                             {((animatedValues as Record<string, number>).avgConcentration || 0)}%
-
+                            {((animatedValues as Record<string, number>).avgConcentration || 0)}%
                         </div>
                     </div>
 
@@ -346,20 +310,18 @@ export default function MultiAssetExposureTable() {
                             <div className="text-xs text-gray-400">Risk-Weighted</div>
                         </div>
                         <div className="text-2xl font-bold text-purple-400">
-                            {/* ${((animatedValues.riskWeightedAssets || 0) / 1000000000).toFixed(0)}B */}
                             ${(((animatedValues as Record<string, number>).riskWeightedAssets || 0) / 1_000_000_000).toFixed(0)}B
-
                         </div>
                     </div>
 
                     <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-5">
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <TrendingUp className="w-5 h-5 text-green-400" />
+                            <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                                <TrendingUp className="w-5 h-5 text-teal-400" />
                             </div>
                             <div className="text-xs text-gray-400">Capital Ratio</div>
                         </div>
-                        <div className="text-2xl font-bold text-green-400">
+                        <div className="text-2xl font-bold text-teal-400">
                             {portfolioSummary.capitalRatio}%
                         </div>
                     </div>
@@ -375,9 +337,7 @@ export default function MultiAssetExposureTable() {
                                 <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-3">
                                         <h4 className="text-base font-bold text-white">{asset.class}</h4>
-                                        {/* {getTrendIcon(asset.trend)}
-                                         */}
-                                         {getTrendIcon(asset.trend as "increasing" | "decreasing" | "stable")}
+                                        {getTrendIcon(asset.trend as "increasing" | "decreasing" | "stable")}
                                     </div>
                                     <div className="text-right">
                                         <div className="text-2xl font-bold text-white">${(asset.exposure / 1000000000).toFixed(0)}B</div>
@@ -403,7 +363,7 @@ export default function MultiAssetExposureTable() {
                                     </div>
                                     <div className="p-2 bg-gray-900/50 rounded">
                                         <div className="text-xs text-gray-400">YTD Change</div>
-                                        <div className={`text-sm font-bold ${asset.ytd > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                        <div className={`text-sm font-bold ${asset.ytd > 0 ? 'text-red-400' : 'text-blue-400'}`}>
                                             {asset.ytd > 0 ? '+' : ''}{asset.ytd}%
                                         </div>
                                     </div>

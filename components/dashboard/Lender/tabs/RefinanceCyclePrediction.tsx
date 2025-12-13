@@ -175,16 +175,16 @@ export default function RefinanceCyclePrediction() {
 
     // const getScoreColor = (score) => {
     const getScoreColor = (score: number): string => {
-        if (score >= 80) return 'text-green-400';
+        if (score >= 80) return 'text-red-400';
         if (score >= 60) return 'text-yellow-400';
-        return 'text-red-400';
+        return 'text-blue-400';
     };
 
     // const getScoreBg = (score) => {
     const getScoreBg = (score: number): string => {
-        if (score >= 80) return 'bg-green-500/10 border-green-500/30';
+        if (score >= 80) return 'bg-red-500/10 border-red-500/30';
         if (score >= 60) return 'bg-yellow-500/10 border-yellow-500/30';
-        return 'bg-red-500/10 border-red-500/30';
+        return 'bg-blue-500/10 border-blue-500/30';
     };
 
     // const getUrgencyBadge = (urgency) => {
@@ -252,15 +252,15 @@ export default function RefinanceCyclePrediction() {
                 <div className="grid grid-cols-4 gap-6">
                     <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
-                                <TrendingUp className="w-6 h-6 text-green-400" />
+                            <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
+                                <TrendingUp className="w-6 h-6 text-red-400" />
                             </div>
                             <div>
                                 <div className="text-xs text-gray-400">High Probability</div>
                                 <div className="text-2xl font-bold text-white">{currentPrediction.highProbability.toLocaleString()}</div>
                             </div>
                         </div>
-                        <div className="text-xs text-green-400">↑ Ready to refinance</div>
+                        <div className="text-xs text-red-400">↑ Ready to refinance</div>
                     </div>
 
                     <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
@@ -309,9 +309,9 @@ export default function RefinanceCyclePrediction() {
 
                     <div className="space-y-4">
                         {[
-                            { label: 'High Probability (80-100)', count: currentPrediction.highProbability, color: 'green', percent: 52 },
+                            { label: 'High Probability (80-100)', count: currentPrediction.highProbability, color: 'red', percent: 52 },
                             { label: 'Medium Probability (60-79)', count: currentPrediction.mediumProbability, color: 'yellow', percent: 28 },
-                            { label: 'Low Probability (0-59)', count: currentPrediction.lowProbability, color: 'red', percent: 20 }
+                            { label: 'Low Probability (0-59)', count: currentPrediction.lowProbability, color: 'blue', percent: 20 }
                         ].map((item, idx) => (
                             <div key={idx}>
                                 <div className="flex items-center justify-between mb-2">
@@ -371,7 +371,7 @@ export default function RefinanceCyclePrediction() {
 
                                         <div className="p-3 bg-gray-900/50 rounded-lg">
                                             <div className="text-xs text-gray-400 mb-1">Potential Rate</div>
-                                            <div className="text-base font-bold text-green-400">{household.potentialRate}%</div>
+                                            <div className="text-base font-bold text-red-400">{household.potentialRate}%</div>
                                         </div>
 
                                         <div className="p-3 bg-gray-900/50 rounded-lg">

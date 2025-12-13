@@ -1,11 +1,32 @@
+"use client";
+
 import React, { useState } from 'react';
 import { AlertCircle, XCircle, FileText, RefreshCw, Download, Filter, Search, CheckCircle, Clock, User, Database } from 'lucide-react';
 
+type ErrorSeverity = 'error' | 'warning' | 'info';
+
+type ErrorStatus = 'pending' | 'resolved' | 'auto-resolved';
+
+type ErrorLog = {
+  id: number;
+  fileName: string;
+  uploadDate: string;
+  errorType: 'Validation' | 'Format' | 'Missing Data' | 'Duplicate' | 'System';
+  severity: ErrorSeverity;
+  description: string;
+  field: string;
+  value: string | null;
+  expected: string;
+  row: number | null;
+  status: ErrorStatus;
+  user: string;
+};
+
 const ErrorLogs = () => {
   const [filter, setFilter] = useState('all');
-  const [selectedError, setSelectedError] = useState(null);
+  const [selectedError, setSelectedError] = useState<ErrorLog | null>(null);
 
-  const errorLogs = [
+  const errorLogs: ErrorLog[] = [
     {
       id: 1,
       fileName: 'Realtor_Referrals_Q3.xlsx',
@@ -100,7 +121,7 @@ const ErrorLogs = () => {
     { id: 'system', label: 'System', count: errorLogs.filter(e => e.errorType === 'System').length }
   ];
 
-  const getSeverityColor = (severity) => {
+  const getSeverityColor = (severity: ErrorSeverity): string => {
     switch(severity) {
       case 'error': return 'bg-red-500/20 text-red-400';
       case 'warning': return 'bg-yellow-500/20 text-yellow-400';
@@ -109,7 +130,7 @@ const ErrorLogs = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: ErrorStatus): string => {
     switch(status) {
       case 'pending': return 'bg-yellow-500/20 text-yellow-400';
       case 'resolved': return 'bg-green-500/20 text-green-400';
@@ -118,7 +139,7 @@ const ErrorLogs = () => {
     }
   };
 
-  const getErrorTypeIcon = (type) => {
+  const getErrorTypeIcon = (type: ErrorLog['errorType']) => {
     switch(type) {
       case 'Validation': return AlertCircle;
       case 'Format': return FileText;
@@ -146,7 +167,7 @@ const ErrorLogs = () => {
     errorRate: Math.round((errorLogs.length / 100) * 100) // Example calculation
   };
 
-  const handleResolveError = (id) => {
+  const handleResolveError = (id: number) => {
     // In a real app, this would update the error status
     console.log(`Resolving error ${id}`);
   };

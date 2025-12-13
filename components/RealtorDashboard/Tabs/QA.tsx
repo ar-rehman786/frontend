@@ -197,7 +197,7 @@ interface ValidationRule {
 const QAMetricCard: React.FC<QAMetricCardProps> = ({ title, value, status, icon: Icon }) => {
     const getStatusColor = () => {
         switch (status) {
-            case 'good': return 'text-green-400 bg-green-500/10';
+            case 'good': return 'text-teal-400 bg-teal-500/10';
             case 'warning': return 'text-yellow-400 bg-yellow-500/10';
             case 'error': return 'text-red-400 bg-red-500/10';
             default: return 'text-gray-400 bg-gray-500/10';
@@ -210,7 +210,7 @@ const QAMetricCard: React.FC<QAMetricCardProps> = ({ title, value, status, icon:
                 <div className={`p-3 rounded-lg ${getStatusColor()}`}>
                     <Icon size={24} />
                 </div>
-                <span className={`text-2xl font-bold ${status === 'good' ? 'text-green-400' :
+                <span className={`text-2xl font-bold ${status === 'good' ? 'text-teal-400' :
                         status === 'warning' ? 'text-yellow-400' :
                             'text-red-400'
                     }`}>
@@ -246,7 +246,7 @@ const QATab: React.FC = () => {
         switch (status) {
             case 'error': return <XCircle className="text-red-400" size={20} />;
             case 'warning': return <AlertTriangle className="text-yellow-400" size={20} />;
-            case 'valid': return <CheckCircle className="text-green-400" size={20} />;
+            case 'valid': return <CheckCircle className="text-teal-400" size={20} />;
             default: return null;
         }
     };
@@ -257,7 +257,7 @@ const QATab: React.FC = () => {
         } else if (issueType === 'Duplicate' || issueType === 'Data Warning') {
             return 'bg-yellow-500/20 text-yellow-400';
         } else if (issueType === 'Valid') {
-            return 'bg-green-500/20 text-green-400';
+            return 'bg-teal-500/20 text-teal-400';
         }
         return 'bg-gray-500/20 text-gray-400';
     };
@@ -389,35 +389,32 @@ const QATab: React.FC = () => {
                                         No issues found matching your criteria
                                     </td>
                                 </tr>
-                            ) :
-                             (
-                                    filteredIssues.map((issue) => (
-                                        <tr key={issue.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
-                                            <td className="p-4">
-                                                {getStatusIcon(issue.status)}
-                                            </td>
-                                            <td className="p-4">
-                                                <span className={`px-2 py-1 rounded text-xs ${getIssueTypeBadge(issue.issueType)}`}>
-                                                    {issue.issueType}
-                                                </span>
-                                            </td>
-                                            <td className="p-4 font-medium">{issue.record}</td>
-                                            <td className="p-4">{issue.field}</td>
-                                            <td className="p-4 text-gray-400">{issue.description}</td>
-                                            <td className="p-4 text-gray-400">{issue.detected}</td>
-                                            <td className="p-4">
-                                                {issue.action !== 'None' ? (
-                                                    <button className="text-teal-400 hover:text-teal-300">{issue.action}</button>
-                                                ) : (
-                                                    <span className="text-gray-500">—</span>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))
-                            )
-                            }
+                            ) : (
+                                filteredIssues.map((issue) => (
+                                    <tr key={issue.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
+                                        <td className="p-4">
+                                            {getStatusIcon(issue.status)}
+                                        </td>
+                                        <td className="p-4">
+                                            <span className={`px-2 py-1 rounded text-xs ${getIssueTypeBadge(issue.issueType)}`}>
+                                                {issue.issueType}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 font-medium">{issue.record}</td>
+                                        <td className="p-4">{issue.field}</td>
+                                        <td className="p-4 text-gray-400">{issue.description}</td>
+                                        <td className="p-4 text-gray-400">{issue.detected}</td>
+                                        <td className="p-4">
+                                            {issue.action !== 'None' ? (
+                                                <button className="text-teal-400 hover:text-teal-300">{issue.action}</button>
+                                            ) : (
+                                                <span className="text-gray-500">—</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
-                        
                     </table>
                 </div>
             </div>
@@ -429,12 +426,12 @@ const QATab: React.FC = () => {
                     {mockData.validationRules.map((rule: ValidationRule) => (
                         <div key={rule.id} className="flex items-center justify-between py-3 border-b border-zinc-800/50 last:border-b-0">
                             <div className="flex items-center gap-3 flex-1">
-                                <CheckCircle className="text-green-400" size={20} />
+                                <CheckCircle className="text-teal-400" size={20} />
                                 <div className="flex-1">
                                     <p className="text-sm font-medium">{rule.name}</p>
                                     <p className="text-xs text-gray-400">{rule.description}</p>
                                     <div className="mt-2 flex items-center gap-4 text-xs">
-                                        <span className="text-green-400">✓ {rule.passed} passed</span>
+                                        <span className="text-teal-400">✓ {rule.passed} passed</span>
                                         <span className="text-red-400">✗ {rule.failed} failed</span>
                                         <span className="text-gray-400">
                                             ({((rule.passed / rule.totalChecks) * 100).toFixed(1)}% success rate)
@@ -459,7 +456,7 @@ const QATab: React.FC = () => {
                         <p className="text-sm text-gray-400">Total Records</p>
                     </div>
                     <div className="text-center">
-                        <p className="text-2xl font-bold text-green-400">
+                        <p className="text-2xl font-bold text-teal-400">
                             {mockData.qaMetrics.validRecords.value}
                         </p>
                         <p className="text-sm text-gray-400">Valid Records</p>

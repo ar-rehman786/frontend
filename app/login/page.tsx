@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Globe, Lock, Mail, Eye, EyeOff, Shield } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,6 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -31,7 +30,9 @@ export default function LoginPage() {
       document.cookie = `adminToken=${token}; path=/; max-age=86400; SameSite=Lax`;
       document.cookie = `user_role=${role}; path=/; max-age=86400; SameSite=Lax`;
 
-      const redirectParam = searchParams.get('redirect');
+      const redirectParam = typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search).get('redirect')
+        : null;
       const redirectTo = redirectParam && redirectParam.startsWith('/') ? redirectParam : defaultRedirectTo;
       router.push(redirectTo);
     };

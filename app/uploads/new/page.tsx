@@ -1,11 +1,42 @@
-import React, { useState } from 'react';
-import { Upload, FileText, Table, AlertCircle, CheckCircle, XCircle, Database, Users, Home, Mail, Phone, MapPin, DollarSign } from 'lucide-react';
+"use client";
+
+import React, { useState, ChangeEvent, DragEvent } from 'react';
+import { Upload, FileText, Table, AlertCircle, CheckCircle, XCircle, Database, Users, Home, Mail, Phone, MapPin, DollarSign, LucideIcon } from 'lucide-react';
+
+interface UploadType {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  description: string;
+}
+
+interface Field {
+  id: keyof Mapping;
+  label: string;
+  icon: LucideIcon;
+  required: boolean;
+}
+
+interface Mapping {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  loanAmount: string;
+}
+
+interface FileInfo {
+  name: string;
+  size: number;
+  type: string;
+}
 
 const NewUpload = () => {
-  const [dragActive, setDragActive] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadType, setUploadType] = useState('leads');
-  const [mapping, setMapping] = useState({
+  const [dragActive, setDragActive] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadType, setUploadType] = useState<string>('leads');
+  const [mapping, setMapping] = useState<Mapping>({
     firstName: '',
     lastName: '',
     email: '',
@@ -14,7 +45,7 @@ const NewUpload = () => {
     loanAmount: ''
   });
 
-  const handleDrag = (e) => {
+  const handleDrag = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
@@ -24,7 +55,7 @@ const NewUpload = () => {
     }
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -34,25 +65,25 @@ const NewUpload = () => {
     }
   };
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
     }
   };
 
-  const handleMappingChange = (field, value) => {
+  const handleMappingChange = (field: keyof Mapping, value: string) => {
     setMapping({ ...mapping, [field]: value });
   };
 
-  const uploadTypes = [
+  const uploadTypes: UploadType[] = [
     { id: 'leads', label: 'Leads', icon: Users, description: 'Import new leads or contacts' },
     { id: 'documents', label: 'Documents', icon: FileText, description: 'Upload client documents' },
     { id: 'properties', label: 'Properties', icon: Home, description: 'Property data and listings' },
     { id: 'transactions', label: 'Transactions', icon: Database, description: 'Loan application data' }
   ];
 
-  const requiredFields = [
+  const requiredFields: Field[] = [
     { id: 'firstName', label: 'First Name', icon: Users, required: true },
     { id: 'lastName', label: 'Last Name', icon: Users, required: true },
     { id: 'email', label: 'Email', icon: Mail, required: false },
@@ -208,7 +239,7 @@ const NewUpload = () => {
                 <span className="text-[#9CA3AF]">→</span>
                 <select
                   value={mapping[field.id]}
-                  onChange={(e) => handleMappingChange(field.id, e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) => handleMappingChange(field.id, e.target.value)}
                   className="flex-1 px-4 py-2 bg-black text-white rounded-lg border border-gray-700 focus:border-[#00D1D1] outline-none"
                 >
                   <option value="">Select Column</option>

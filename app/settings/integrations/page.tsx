@@ -1,9 +1,23 @@
-'use client';
+"use client";
 import React, { useState } from 'react';
 import { Link, Zap, Mail, MessageSquare, Home, CreditCard, Cloud, Database, Check, X, AlertCircle } from 'lucide-react';
 
+type IntegrationStatus = 'connected' | 'disconnected' | 'pending';
+type IntegrationCategory = 'LOS' | 'CRM' | 'Email' | 'Communication' | 'Real Estate' | 'Payment' | 'Calendar' | 'eSignature';
+
+type Integration = {
+  id: number;
+  name: string;
+  category: IntegrationCategory;
+  icon: any;
+  status: IntegrationStatus;
+  description: string;
+  lastSync: string;
+  config: Record<string, string>;
+};
+
 const IntegrationsSettings = () => {
-  const [integrations, setIntegrations] = useState([
+  const [integrations, setIntegrations] = useState<Integration[]>([
     {
       id: 1,
       name: 'Encompass LOS',
@@ -86,11 +100,11 @@ const IntegrationsSettings = () => {
     }
   ]);
 
-  const [activeIntegration, setActiveIntegration] = useState(null);
+  const [activeIntegration, setActiveIntegration] = useState<Integration | null>(null);
   const [apiKey, setApiKey] = useState('');
   const [webhookUrl, setWebhookUrl] = useState('');
 
-  const handleConnectToggle = (id) => {
+  const handleConnectToggle = (id: number) => {
     setIntegrations(integrations.map(integration => {
       if (integration.id === id) {
         const newStatus = integration.status === 'connected' ? 'disconnected' : 'connected';
@@ -104,7 +118,7 @@ const IntegrationsSettings = () => {
     }));
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: IntegrationStatus): string => {
     switch(status) {
       case 'connected': return 'bg-green-500/20 text-green-400';
       case 'disconnected': return 'bg-red-500/20 text-red-400';
@@ -113,7 +127,7 @@ const IntegrationsSettings = () => {
     }
   };
 
-  const getCategoryColor = (category) => {
+  const getCategoryColor = (category: IntegrationCategory): string => {
     switch(category) {
       case 'LOS': return 'bg-blue-500/20 text-blue-400';
       case 'CRM': return 'bg-purple-500/20 text-purple-400';
