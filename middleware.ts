@@ -31,20 +31,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Handle root page '/' logic
+  // Handle root page '/' logic - ALLOW ACCESS TO EVERYONE
   if (pathname === '/') {
-    if (hasAuthCookie) {
-      // Logged-in users get redirected based on role
-      if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
-        return NextResponse.redirect(new URL('/super-admin', request.url));
-      } else if (userRole === 'ADMIN') {
-        return NextResponse.redirect(new URL('/dashboard', request.url));
-      }
-      // For other roles or no role, stay on root page
-      return NextResponse.next();
-    }
-    // Not logged in - stay on root page
-    return NextResponse.next();
+    return NextResponse.next(); // Allow all users (logged in or not) to access root page
   }
 
   /* =========================================
