@@ -205,7 +205,7 @@ export default function LandingPage() {
         {/* WHO IT'S FOR */}
         <ScrollReveal>
 
-          <div id="who-it-for" className="max-w-6xl mx-auto mb-20">
+          <div id="who-it-for" className="mx-auto mb-20">
             <h2
               className="text-sm tracking-widest mb-6"
               style={{ color: "#00D1D1" }}
