@@ -28,7 +28,9 @@ export default function Super_Admin() {
 
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [demoRole, setDemoRole] = useState('');
-  const [responseData, setResponseData] = useState('');
+  const [responseEmail, setResponseEmail] = useState('');
+  const [responsePassword, setResponsePassword] = useState('');
+  const [responseRole, setResponseRole] = useState('');
   //   const [generatedDemo, setGeneratedDemo] = useState(null);
   const [generatedDemo, setGeneratedDemo] = useState<{ password: string;[key: string]: any } | null>(null);
 
@@ -239,7 +241,9 @@ export default function Super_Admin() {
       );
 
       console.log('Demo account created:', res.data);
-      setResponseData(res.data)
+      setResponseEmail(res.data.email)
+      setResponsePassword(res.data.password)
+      setResponseRole(res.data.role)
       
     } catch (err: any) {
       console.error(
@@ -671,9 +675,9 @@ export default function Super_Admin() {
                     <div className="text-sm text-blue-300">
                       <div className="font-medium mb-1">Auto-generated credentials:</div>
                       <ul className="space-y-1 text-blue-200">
-                        <li>• Email: {responseData.email}</li>
-                        <li>• Password: {responseData.password}</li>
-                        <li>• Role: {responseData.role}</li>
+                        <li>• Email: {responseEmail}</li>
+                        <li>• Password: {responsePassword}</li>
+                        <li>• Role: {responseRole}</li>
                         <li>• Expiry: 5 days from creation</li>
                       </ul>
                     </div>
