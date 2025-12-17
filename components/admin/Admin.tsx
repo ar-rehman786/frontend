@@ -1,7 +1,9 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Crown, Lock, Mail, Eye, EyeOff, Shield, Zap, Globe, ArrowRight, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { log } from 'node:console';
 
 export default function Admin() {
     const [email, setEmail] = useState('');
@@ -11,6 +13,8 @@ export default function Admin() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
+
+    const data = { email, password }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
@@ -50,7 +54,40 @@ export default function Admin() {
         }, 1500);
 
     };
+
+    const login = async () => {
+        try {
+            const res = await axios.post(
+                "http://localhost:8080/auth/login",
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            const { access_token, user } = res.data;
+
+            console.log(access_token);
+            
+            localStorage.setItem("accessToken", access_token);
+
+            
+            localStorage.setItem("user", JSON.stringify(user));
+
+            console.log("Token saved:", access_token);
+            return res.data;
+        } catch (error: any) {
+            console.error("Login failed:", error.response?.data || error.message);
+        }
+    };
+
+    login();
+
+
     return (
+
         <div className="min-h-screen bg-black text-white relative overflow-hidden">
             {/* Animated Background */}
             <div className="absolute inset-0">

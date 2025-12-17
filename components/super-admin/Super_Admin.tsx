@@ -19,6 +19,8 @@ import {
   BarChart3, AlertTriangle, CheckCircle, XCircle, Copy, RefreshCw,
   Zap, Server, Globe, Crown, Search, Filter
 } from 'lucide-react';
+import { apiClient } from "@/app/lib/api";
+import axios from "axios";
 
 export default function Super_Admin() {
   const router = useRouter();
@@ -26,6 +28,7 @@ export default function Super_Admin() {
 
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [demoRole, setDemoRole] = useState('');
+  const [responseData, setResponseData] = useState('');
   //   const [generatedDemo, setGeneratedDemo] = useState(null);
   const [generatedDemo, setGeneratedDemo] = useState<{ password: string;[key: string]: any } | null>(null);
 
@@ -211,33 +214,42 @@ export default function Super_Admin() {
   ];
 
   // Generate Demo Account
-  const generateDemoAccount = () => {
+  // const generateDemoAccount = async() => {
+  //   if (!demoRole) {
+  //     alert('Please select a role');
+  //     return;
+  //   }
+  const generateDemoAccount = async () => {
     if (!demoRole) {
       alert('Please select a role');
       return;
     }
 
-    const randomId = Math.random().toString(36).substring(2, 8);
-    const email = `${randomId}@axistrademarket.ai`;
-    const password = Math.random().toString(36).substring(2, 12).toUpperCase();
-    const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + 5);
+    try {
+      const superAdminToken = localStorage.getItem('accessToken')
 
-    const newDemo = {
-      id: demoAccounts.length + 1,
-      email: email,
-      password: password,
-      role: demoRole,
-      created: new Date().toISOString().split('T')[0],
-      expires: expiryDate.toISOString().split('T')[0],
-      status: 'active',
-      lastLogin: 'Never',
-      loginCount: 0
-    };
+      const res = await axios.post(
+        'http://localhost:8080/demo/create',
+        { email: 'axis@gmail.com', role: demoRole },
+        {
+          headers: {
+            Authorization: `Bearer ${superAdminToken}`,
+          },
+        }
+      );
 
-    setGeneratedDemo(newDemo as any);
-    setDemoAccounts([newDemo, ...demoAccounts]);
+      console.log('Demo account created:', res.data);
+      setResponseData(res.data)
+      
+    } catch (err: any) {
+      console.error(
+        'Error creating demo account:',
+        err.response?.data || err
+      );
+      throw err;
+    }
   };
+
 
   const copyToClipboard = (text: any) => {
     navigator.clipboard.writeText(text);
@@ -377,6 +389,7 @@ export default function Super_Admin() {
               </div>
               <button
                 onClick={() => setShowDemoModal(true)}
+
                 className="px-6 py-3 bg-[#00D4D4] text-black font-bold rounded-lg hover:bg-[#00BCC9] transition-all flex items-center gap-2"
               >
                 <Key className="w-5 h-5" />
@@ -643,8 +656,12 @@ export default function Super_Admin() {
                     className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white"
                   >
                     <option value="">Choose role...</option>
-                    <option value="Master Admin (Read-Only)">Master Admin (Read-Only)</option>
-                    <option value="Institutional Reviewer">Institutional Reviewer</option>
+                    {/* <option value="">Master Admin (Read-Only)</option> */}
+                    <option value="INSTITUTIONAL">Institutional Reviewer</option>
+                    <option value="BROKERAGE">BROKERAGE</option>
+                    <option value="REALTOR">REALTOR</option>
+                    <option value="CONSUMER">CONSUMER</option>
+                    <option value="DEMO">DEMO</option>
                   </select>
                 </div>
 
@@ -654,10 +671,10 @@ export default function Super_Admin() {
                     <div className="text-sm text-blue-300">
                       <div className="font-medium mb-1">Auto-generated credentials:</div>
                       <ul className="space-y-1 text-blue-200">
-                        <li>• Email: [random]@axistrademarket.ai</li>
-                        <li>• Password: Auto-generated secure password</li>
+                        <li>• Email: {responseData.email}</li>
+                        <li>• Password: {responseData.password}</li>
+                        <li>• Role: {responseData.role}</li>
                         <li>• Expiry: 5 days from creation</li>
-                        <li>• Access: All dashboards with role permissions</li>
                       </ul>
                     </div>
                   </div>

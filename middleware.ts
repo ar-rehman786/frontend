@@ -4,65 +4,70 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const authCookies = [
-    'sessionid',
-    'csrftoken',
-    'auth_session',
-    'auth-token',
-    'adminToken',
-    'access_token',
-  ];
-
-  const hasAuthCookie = authCookies.some(c => request.cookies.get(c));
-
+  const hasToken = Boolean(request.cookies.get('access_token'));
   const userRole =
     request.cookies.get('user_role')?.value ||
     request.cookies.get('user-role')?.value;
 
-  const isPublicRoute =
+  /* =================================================
+     👑 SUPER_ADMIN → ABSOLUTELY NO RESTRICTIONS
+     (after login or even without token)
+  ================================================== */
+  if (userRole === 'MASTER_ADMIN') {
+    return NextResponse.next();
+  }
+
+  /* =========================
+     🌍 PUBLIC ROUTES
+  ========================== */
+  if (
+    pathname === '/' ||
+    pathname === '/admin' ||          // ✅ landing page
     pathname.startsWith('/login') ||
     pathname.startsWith('/auth') ||
     pathname.startsWith('/_next') ||
-    pathname.startsWith('/api') ||
-    pathname === '/'; // Allow access to root page for everyone
-
-  // Require auth for protected routes (excluding root)
-  if (!hasAuthCookie && !isPublicRoute && pathname !== '/') {
-    return NextResponse.redirect(new URL('/login', request.url));
+    pathname.startsWith('/api')
+  ) {
+    return NextResponse.next();
   }
 
-  // Handle root page '/' logic - ALLOW ACCESS TO EVERYONE
-  if (pathname === '/') {
-    return NextResponse.next(); // Allow all users (logged in or not) to access root page
-  }
-
-  /* =========================================
-     MASTER_ADMIN / SUPER_ADMIN → FULL ACCESS
-     NO RESTRICTIONS AT ALL
-  ========================================== */
-  if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
-    return NextResponse.next(); // FULL ACCESS
-  }
-
-  /* =====================
-     /dashboard → ADMIN ONLY
-     (super admins already bypassed)
-  ====================== */
+  /* =========================
+     🔐 DASHBOARD PROTECTION
+     (NON–SUPER-ADMIN USERS)
+  ========================== */
   if (pathname.startsWith('/dashboard')) {
-    if (userRole !== 'ADMIN' && userRole !== 'SUPER_ADMIN' && userRole !== 'MASTER_ADMIN') {
-      return NextResponse.redirect(new URL('/', request.url));
+    // Not logged in → send to /admin (NOT /login)
+    if (!hasToken) {
+      return NextResponse.redirect(new URL('/admin', request.url));
     }
-  }
 
-  // Redirect logged-in users from login page
-  if (hasAuthCookie && (pathname === '/login' || pathname.startsWith('/auth/login'))) {
-    if (userRole === 'SUPER_ADMIN' || userRole === 'MASTER_ADMIN') {
-      return NextResponse.redirect(new URL('/super-admin', request.url));
-    } else if (userRole === 'ADMIN') {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+    // ADMIN → access all dashboards
+    if (userRole === 'ADMIN') {
+      return NextResponse.next();
     }
-    // For other roles, redirect to home
-    return NextResponse.redirect(new URL('/', request.url));
+
+    // Role-based dashboard access
+    const match = pathname.match(/^\/dashboard\/([^\/]+)/);
+    const dashboardType = match?.[1]?.toLowerCase();
+
+    const roleDashboardMap: Record<string, string[]> = {
+      consumer: ['consumer'],
+      lender: ['lender'],
+      broker: ['BROKERAGE'],
+      sales: ['sales'],
+      realtor: ['realtor'],
+      institutional: ['institutional'],
+      firm: ['firm'],
+    };
+
+    const allowed = roleDashboardMap[userRole?.toLowerCase() || ''];
+
+    if (dashboardType && allowed?.includes(dashboardType)) {
+      return NextResponse.next();
+    }
+
+    // Wrong dashboard → back to /admin
+    return NextResponse.redirect(new URL('/admin', request.url));
   }
 
   return NextResponse.next();
