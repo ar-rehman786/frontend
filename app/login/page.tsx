@@ -224,6 +224,7 @@ import { Globe, Lock, Mail, Eye, EyeOff, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks/reducerHooks';
 import { clearError, loginUser } from '@/utils/store/Slices/authSlice';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -372,6 +373,7 @@ export default function LoginPage() {
             </div>
 
             {/* Submit Button */}
+            <Link href="/dashboard">
             <button
               type="submit"
               disabled={loading}
@@ -380,6 +382,7 @@ export default function LoginPage() {
               <Lock className="w-5 h-5" />
               {loading ? 'Logging in...' : 'Login to Platform'}
             </button>
+            </Link>
           </form>
 
           {/* Divider */}
