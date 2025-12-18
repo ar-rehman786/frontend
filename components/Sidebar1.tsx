@@ -79,7 +79,7 @@ const DASHBOARDS: DashboardInfo[] = [
         iconBg: 'bg-gray-800'
     },
     {
-        id: 'reports',
+        id: 'Reports',
         title: 'Analytics PDF Viewer',
         description: 'Generated reports & client delivery',
         icon: FileText,
